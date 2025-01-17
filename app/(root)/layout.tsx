@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/provider/theme-provider";
 import { AppSidebar } from "@/components/app-sidebar";
 import { NavUser } from "@/components/nav-user";
 import ThemeToggle from "@/components/sidebar/ThemeToggle";
+import { Nunito } from "next/font/google";
 
 import { Separator } from "@/components/ui/separator";
 import {
@@ -13,15 +14,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Settings } from "lucide-react";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Event Management",
@@ -35,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${nunito.className}  antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
