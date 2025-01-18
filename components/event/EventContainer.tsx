@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -19,6 +20,7 @@ import {
 } from "../ui/dropdown-menu";
 import AddEvent from "./AddEvent";
 import EventTable from "./EventTable";
+import TablePagination from "../common/TablePagination";
 
 const EventContainer = () => {
   return (
@@ -75,6 +77,16 @@ const EventContainer = () => {
           <EventTable />
         </div>
       </CardContent>
+      <CardFooter>
+        <TablePagination
+          limit={10}
+          page={1}
+          isPreviousPage={false}
+          isNextPage={false}
+          totalCount={10}
+          search={"search"}
+        />
+      </CardFooter>
     </Card>
   );
 };
