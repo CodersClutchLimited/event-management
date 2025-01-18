@@ -20,6 +20,7 @@ const UserTable = () => {
             <TableCell>
             <ProfileComponent firstName={item.firstName} lastName= {item.lastName} middleName={item.initial} email= {"sannabsjammeh54@gmail.com"} />
             </TableCell>
+            <TableCell>
             <Badge
                 className={ 
                   item.status === "blocked"
@@ -31,6 +32,8 @@ const UserTable = () => {
               >
                 {item.status}
               </Badge>
+
+            </TableCell>
               <TableCell>{item.telNum}</TableCell>
               <TableCell>{formatReadableDate(item.lastLogin)}</TableCell>
               <TableCell>{formatReadableDate(item.registeredAt)}</TableCell>
