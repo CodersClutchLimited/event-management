@@ -18,7 +18,7 @@ const UserTable = () => {
           <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>
-            <ProfileComponent firstName={item.firstName} lastName= {item.lastName} middleName={item.initial} email= {"sannabsjammeh54@gmail.com"} />
+            <ProfileComponent firstName={item.firstName} lastName= {item.lastName} middleName={item.initial} email= {item.email} />
             </TableCell>
             <TableCell>
             <Badge
