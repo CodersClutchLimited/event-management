@@ -23,11 +23,11 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus } from "lucide-react"
+import { Edit, Plus } from "lucide-react"
 
 // Define your Zod schema for validation
 
-const AddUser = () => {
+const EditUser = () => {
   // Use react-hook-form with Zod validation
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
@@ -61,17 +61,20 @@ const AddUser = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          Add User <Plus className="h-3.5 w-3.5" />
+      <Button
+            variant={"outline"}
+            className="w-full flex items-center justify-between mt-1"
+          >
+            Edit <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogHeader>
-              <DialogTitle>Add User</DialogTitle>
+              <DialogTitle>Edit User</DialogTitle>
               <DialogDescription>
-                Fill in the details below and click save to add a new user.
+                Edit below and click save to update user info.
               </DialogDescription>
             </DialogHeader>
 
@@ -183,7 +186,7 @@ const AddUser = () => {
 
 
             <DialogFooter>
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit">Update</Button>
             </DialogFooter>
           </form>
         </Form>
@@ -192,4 +195,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default EditUser;
