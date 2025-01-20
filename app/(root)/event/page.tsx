@@ -4,7 +4,7 @@ import React from "react";
 const Event = () => {
   return (
     <div>
-      <EventContainer />
+      <EventContainer />  
     </div>
   );
 };
