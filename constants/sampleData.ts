@@ -1,6 +1,6 @@
 export const EventData = [
   {
-    _id: "65a2f8d9c72e4c8b3a2b1001",
+    _id: "65a2f8d9c72e4c8b3a1b1001",
     title: "AI & Future Tech Summit 2025",
     description:
       "A summit discussing AI advancements, ethics, and future applications.",
@@ -19,7 +19,7 @@ export const EventData = [
     maxParticipants: 200,
     registeredUsers: [
       {
-        _id: "65a4e678c72e4c8b3a2b3001",
+        _id: "65a4e678c72e4c8e3a2b3001",
         name: "Alice Johnson",
         email: "alicej@example.com",
         registeredAt: "2025-06-20T14:30:00.000Z",
@@ -172,7 +172,7 @@ export const EventData = [
     createdAt: "2025-08-01T08:00:00.000Z",
   },
   {
-    _id: "65a2f8d9c72e4c8b3a2b1002",
+    _id: "65a2f8d9c72e4c8b4a2b1002",
     title: "Cybersecurity Conference 2025",
     description: "A deep dive into modern cybersecurity threats and solutions.",
     location: "New York Convention Center",
@@ -209,7 +209,7 @@ export const EventData = [
     createdAt: "2025-07-05T08:00:00.000Z",
   },
   {
-    _id: "65a2f8d9c72e4c8b3a2b1002",
+    _id: "65a2f8d9c72e4c823a2b1002",
     title: "Cybersecurity Conference 2025",
     description: "A deep dive into modern cybersecurity threats and solutions.",
     location: "New York Convention Center",

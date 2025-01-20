@@ -36,7 +36,7 @@ const EventTable = () => {
             </TableCell>
             <TableCell>{item.registeredUsers.length}</TableCell>
             <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
-            <TableCell>{<EventAction />}</TableCell>
+            <TableCell>{<EventAction event={item} />}</TableCell>
           </TableRow>
         ))}
       </TableBody>
