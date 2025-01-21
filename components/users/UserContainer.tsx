@@ -27,7 +27,7 @@ import {
 } from "../ui/dropdown-menu";
 import TablePagination from "../common/TablePagination";
 import UserTable from './UserTable';
-
+import AddUser from "./AddUser"
 const UserContainer = () => {
   return (
     <Card>
@@ -70,6 +70,7 @@ const UserContainer = () => {
                 </span>
                 <CloudUpload className="h-5 w-5 ml-3 " />
               </Button>
+              <AddUser/>
             </div>
 
             {/* <DatePickerWithRange
