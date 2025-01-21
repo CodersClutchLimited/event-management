@@ -12,7 +12,7 @@ import { Edit, Ellipsis, LucideView } from "lucide-react";
 import DeleteUser from "./deleteUsers";
 import Link from "next/link";
 import EditUser from "./EditUser";
-const EventAction = ({item}) => {
+const userAction = ({item}) => {
 
   return (
     <DropdownMenu>
@@ -42,4 +42,4 @@ const EventAction = ({item}) => {
   );
 };
 
-export default EventAction;
+export default userAction;
