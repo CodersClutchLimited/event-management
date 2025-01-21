@@ -5,6 +5,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const fetcher = async (
+  url: string,
+  options: RequestInit = {}
+): Promise<any> => {
+  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  try {
+    return await response.json();
+  } catch (error) {
+    return null;
+  }
+};
 export function formatReadableDate(dateString: string): string | undefined {
   const date = new Date(dateString);
 

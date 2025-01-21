@@ -12,7 +12,7 @@ import {
 import { Edit, Ellipsis, LucideView } from "lucide-react";
 import DeleteEvent from "./DeleteEvent";
 import Link from "next/link";
-const EventAction = () => {
+const EventAction = ({ event }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,12 +30,14 @@ const EventAction = () => {
           >
             Edit <Edit />
           </Button>
-          <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1 mb-1"
-          >
-            <Link href={"#"}>View</Link> <LucideView />
-          </Button>
+          <Link href={`/event/${event._id}`}>
+            <Button
+              variant={"outline"}
+              className="w-full flex items-center justify-between mt-1 mb-1"
+            >
+              View <LucideView />
+            </Button>
+          </Link>
           <DeleteEvent event={{}} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
