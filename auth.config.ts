@@ -19,7 +19,7 @@ export default {
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
   pages: {
-    signIn: "/auth", // app/signin
+    signIn: "/signin", // app/signin
     error: "/error", // app/error
   },
   providers: [
@@ -30,13 +30,13 @@ export default {
     Credentials({
       async authorize(credentials) {
         const validatedFields = SignInValidation.safeParse(credentials);
+        console.log(validatedFields);
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          let existingUser = await fetchUserByEmail(email);
-          // console.log({existingUser})
-
+          const existingUser = await fetchUserByEmail(email);
+          // console.log({ existingUser });
           if (!existingUser || !existingUser.password) return null;
 
           const passwordsMatch = await bcrypt.compare(
@@ -66,21 +66,21 @@ export default {
         return await signInWithOauth({ account, profile });
       }
 
-      if (account?.provider === UserProvider.CREDENTIALS && user._id) {
-        const existingUser = await fetchUserById(user._id);
-        // console.log({existingUser})
+      // if (account?.provider === UserProvider.CREDENTIALS && user._id) {
+      //   // const existingUser = await fetchUserById(user._id);
 
-        if (!existingUser?.emailVerified) return false;
+      //   // if (!existingUser?.emailVerified) return false;
+      //   // console.log("hello", { existingUser });
 
-        if (existingUser?.isTwoFactorEnabled) {
-          const twoFactorConfirmation = await fetchConfirmationByUserId(
-            existingUser._id
-          );
-          if (!twoFactorConfirmation) return false;
+      //   // if (existingUser?.isTwoFactorEnabled) {
+      //   //   const twoFactorConfirmation = await fetchConfirmationByUserId(
+      //   //     existingUser._id
+      //   //   );
+      //   //   if (!twoFactorConfirmation) return false;
 
-          await deleteConfirmationById(twoFactorConfirmation._id);
-        }
-      }
+      //   //   await deleteConfirmationById(twoFactorConfirmation._id);
+      //   // }
+      // }
 
       return true;
     },
@@ -98,7 +98,7 @@ export default {
       token.email = existingUser.email;
       token.role = existingUser.role;
       token.provider = existingUser.provider;
-      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+      // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },
@@ -110,7 +110,7 @@ export default {
         session.user.email = token.email as string;
         session.user.role = token.role as UserRole;
         session.user.provider = token.provider as string;
-        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+        // session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
 
       return session;
