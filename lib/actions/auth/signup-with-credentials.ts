@@ -23,7 +23,7 @@ export const signUpWithCredentials = async (
     return { error: "Invalid fields!" };
   }
 
-  const { email, password, name } = validatedFields.data;
+  const { email, password, fullName } = validatedFields.data;
 
   await connectDB();
 
@@ -39,7 +39,7 @@ export const signUpWithCredentials = async (
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const user = new User({ name, email, password: hashedPassword });
+  const user = new User({ fullName, email, password: hashedPassword });
   await user.save();
 
   // const verificationToken = await generateToken({ email });

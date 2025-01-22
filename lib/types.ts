@@ -16,7 +16,7 @@ export enum UserProvider {
 }
 
 export interface IUser extends Document {
-  name: string;
+  fullName: string;
   email: string;
   password?: string;
   image?: string;

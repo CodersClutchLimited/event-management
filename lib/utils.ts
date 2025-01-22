@@ -43,3 +43,7 @@ export function formatReadableDate(dateString: string): string | undefined {
     hour12: true, // This will display the time in 12-hour format with AM/PM
   });
 }
+
+export const deepConvertToPlainObject = (obj: any): Record<string, any> => {
+  return JSON.parse(JSON.stringify(obj));
+};
