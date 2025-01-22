@@ -1,3 +1,4 @@
+
 export const EventTableHeaderData = [
   "Event Number",
   "Event Title",
@@ -20,3 +21,14 @@ export const UserTableHeaderData = [
   "Registered At",   // Account creation or registration date
   "Action",          // Actions that can be taken (e.g., view, edit, delete)
 ];
+
+
+export const RegisteredEv = [
+    "Event Number",
+    "Event Title",
+    "Event Status",
+    "Start Date",
+    "End Date",
+    "No. Users",
+    "Create At",
+  ]

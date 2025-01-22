@@ -10,7 +10,7 @@ const DynamicTableHeaders: React.FC<TableHeaderProps> = ({ headers }) => {
     <TableHeader>
       <TableRow>
         {headers.map((header, index) => (
-          <TableHead key={index}>{header}</TableHead>
+          <TableHead className="whitespace-nowrap" key={index}>{header}</TableHead>
         ))}
       </TableRow>
     </TableHeader>
