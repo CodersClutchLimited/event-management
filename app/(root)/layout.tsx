@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Settings } from "lucide-react";
 import { auth } from "@/auth";
+import { Toaster } from "sonner";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -65,6 +66,7 @@ export default async function RootLayout({
                 <div className="p-5 overflow-hidden">{children}</div>
               </SidebarInset>
             </SidebarProvider>
+            <Toaster richColors />
           </ThemeProvider>
         </body>
       </html>
