@@ -31,12 +31,12 @@ export const SignInValidation = z.object({
     .string()
     .min(1, "Password is required")
     .min(8, "Password must be 8+ characters"),
-  code: z.optional(z.string()),
+  // code: z.optional(z.string()),
 });
 
 export const SignUpValidation = z
   .object({
-    name: z
+    fullName: z
       .string()
       .min(1, "Username is required")
       .max(50, "Username must be less than 50 characters"),
