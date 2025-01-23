@@ -21,6 +21,7 @@ import {
 import AddEvent from "./AddEvent";
 import EventTable from "./EventTable";
 import TablePagination from "../common/TablePagination";
+import { EventInterfaceType } from "@/lib/types";
 
 interface EvenContainerProps {
   page: number;
@@ -28,7 +29,7 @@ interface EvenContainerProps {
   isNextPage: boolean | undefined;
   totalCount: number | undefined;
   search: string | undefined;
-  events: any;
+  events: EventInterfaceType;
 }
 
 const EventContainer: React.FC<EvenContainerProps> = ({
@@ -90,16 +91,16 @@ const EventContainer: React.FC<EvenContainerProps> = ({
             /> */}
           </div>
 
-          <EventTable />
+          <EventTable events={events} />
         </div>
       </CardContent>
       <CardFooter>
         <TablePagination
           limit={10}
-          page={1}
-          isPreviousPage={false}
-          isNextPage={false}
-          totalCount={10}
+          page={page}
+          isPreviousPage={isPreviousPage}
+          isNextPage={isNextPage}
+          totalCount={totalCount}
           search={search}
         />
       </CardFooter>

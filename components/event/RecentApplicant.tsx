@@ -15,7 +15,7 @@ const RecentApplicant = ({ event }) => {
       <CardHeader>
         <CardTitle> Applicants</CardTitle>
         <CardDescription>
-          View all applicants ({event?.registeredUsers.length})
+          View all applicants ({event?.registeredUsers?.length})
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">

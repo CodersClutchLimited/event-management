@@ -37,3 +37,24 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
     html: `<p>Your 2FA code: ${token}.</p>`,
   });
 };
+
+export const SendEmailWhenEventDateUpdate = async (
+  recipients: string[],
+  subject: string,
+  body: string
+) => {
+  try {
+    if (!recipients.length) return;
+
+    await resend.emails.send({
+      from: "noreply@yourapp.com",
+      to: recipients,
+      subject: subject,
+      text: body,
+    });
+
+    console.log("Email notification sent successfully");
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+};

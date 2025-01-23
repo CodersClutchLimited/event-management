@@ -1,5 +1,6 @@
 "use server";
 import Event from "@/lib/models/event.model";
+import { EventInterfaceType } from "@/lib/types";
 import { deepConvertToPlainObject } from "@/lib/utils";
 
 export const GetAllEvent = async ({
@@ -28,6 +29,8 @@ export const GetAllEvent = async ({
       //   },
       { $skip: skip },
       { $limit: limit },
+      // sort by latest
+      { $sort: { createdAt: -1 } },
       {
         $lookup: {
           from: "users",
@@ -71,7 +74,7 @@ export const GetAllEvent = async ({
     if (query) {
       pipeline.unshift({
         $search: {
-          index: "search",
+          index: "event",
           text: {
             query,
             fuzzy: { maxEdits: 1, prefixLength: 3, maxExpansions: 50 },
@@ -87,12 +90,35 @@ export const GetAllEvent = async ({
 
     return {
       status: 200,
-      data: Events,
+      data: Events as EventInterfaceType,
       isPreviousPage: page > 1,
       isNextPage: totalCount > skip + EventData.length,
       totalCount,
     };
   } catch (error) {
     return { status: 500, message: "Failed to get events" };
+  }
+};
+
+// get single event by id
+export const GetSingleEvent = async (eventId: string) => {
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return { status: 404, message: "Event not found" };
+    }
+    return { status: 200, data: deepConvertToPlainObject(event) };
+  } catch {
+    return { status: 500, message: "Error getting event" };
+  }
+};
+
+// know the total number of upcomming event
+export const GetTotalUpcomingEvent = async () => {
+  try {
+    const total = await Event.countDocuments({ status: "upcoming" });
+    return { status: 200, data: total };
+  } catch {
+    return { status: 500, message: "Error getting total upcoming event" };
   }
 };

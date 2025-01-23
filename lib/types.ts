@@ -28,3 +28,33 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+interface EventSchedule {
+  start: string; // ISO date string
+  end: string; // ISO date string
+}
+
+interface EventNotifications {
+  sendReminders: boolean;
+  reminderTimes: string[]; // Array of ISO date strings
+}
+
+export interface EventInterfaceType {
+  map(
+    arg0: (item: any, index: any) => import("react").JSX.Element
+  ): import("react").ReactNode;
+  _id: string;
+  title: string;
+  description: string;
+  location: string;
+  schedule: EventSchedule;
+  registrationDeadline: string; // ISO date string
+  maxParticipants: number;
+  status: "upcoming" | "ongoing" | "completed" | "cancelled";
+  isPublished: boolean;
+  notifications: EventNotifications;
+  registeredUsers: any[]; // Define a specific type if available
+  waitlist: any[]; // Define a specific type if available
+  createdAt: string; // ISO date string
+  eventId: string;
+}
