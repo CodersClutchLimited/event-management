@@ -29,6 +29,5 @@ export const RegisteredEv = [
     "Event Status",
     "Start Date",
     "End Date",
-    "No. Users",
     "Create At",
   ]

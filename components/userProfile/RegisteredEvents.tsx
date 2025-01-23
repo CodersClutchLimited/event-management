@@ -34,7 +34,6 @@ const RegisteredEvents = () => {
               </TableCell>
               <TableCell>{formatReadableDate(item.schedule.start)}</TableCell>
               <TableCell>{formatReadableDate(item.schedule.end)}</TableCell>
-              <TableCell>{item.registeredUsers.length}</TableCell>
               <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
             </TableRow>
           ))}

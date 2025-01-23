@@ -46,9 +46,72 @@ const ProfileContainer = () => {
     <Tabs defaultValue="details" className="">
     <TabsList className="grid w-full grid-cols-3 bg-">
       <TabsTrigger value="details" className='uppercase font-bold'>employee details</TabsTrigger>
-      <TabsTrigger value="events" className='uppercase font-bold'>Registered events</TabsTrigger>
-      <TabsTrigger value="waitlists" className='uppercase font-bold'>Waitlisted events</TabsTrigger>
+          {
+      user.role === 'user' ? (
+        <>
+          <TabsTrigger value="events" className="uppercase font-bold">Registered events</TabsTrigger>
+          <TabsTrigger value="waitlists" className="uppercase font-bold">Waitlisted events</TabsTrigger>
+        </>
+      ) : (
+          <TabsTrigger value="audit" className="uppercase font-bold">Audit Log</TabsTrigger>
+      )
+    }
     </TabsList>
+
+    <TabsContent value='audit'>
+    <Card>
+      <CardContent>
+        <div>
+          <div className="  items-center  justify-between gap-5  flex mt-5  max-md:flex-wrap  ">
+            <SearchComponent
+              page={1}
+              placeholder="Search Employee by date, status, checkIn and checkOut date"
+            />
+            <div className="flex items-center gap-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className=" gap-1">
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Status
+                    </span>
+                    <ListFilter className="h-3.5 w-3.5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem>Present</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem>Absent</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem>Late</DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button variant="outline" size="sm">
+                {" "}
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Export csv
+                </span>
+                <CloudUpload className="h-5 w-5 ml-3 " />
+              </Button>
+            </div>
+
+          </div>
+          {/* SOMETHING IS GOING HERE */}
+        </div>
+      </CardContent>
+      <CardFooter>
+        <TablePagination
+          limit={10}
+          page={1}
+          isPreviousPage={false}
+          isNextPage={false}
+          totalCount={10}
+          search={"search"}
+        />
+      </CardFooter>
+    </Card>
+
+    </TabsContent>
+
 
     <TabsContent value="details">
       <Card className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 shadow-lg rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 transition-all">
@@ -152,7 +215,6 @@ const ProfileContainer = () => {
     </Card>
 
     </TabsContent>
-
 
     <TabsContent value='waitlists'>
     <Card>
