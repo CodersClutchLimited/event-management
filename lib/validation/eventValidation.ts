@@ -76,3 +76,8 @@ export const eventSchema = z
   });
 
 export type EventInput = z.infer<typeof eventSchema>;
+
+// deleting event reason schema
+export const deleteEventSchemaMessage = z.object({
+  reason: z.string().min(10, "Reason must be at least 10 characters long"),
+});
