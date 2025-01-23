@@ -7,7 +7,7 @@ export const addEventServerAction = async (eventData: any) => {
     // Ensure schedule has start and end dates
     if (!eventData.schedule.start || !eventData.schedule.end) {
       return {
-        ststus: 404,
+        status: 404,
         message: "Schedule must have both start and end dates",
       };
     }
