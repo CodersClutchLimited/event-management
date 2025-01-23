@@ -70,7 +70,7 @@ const data = {
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
     },
   ],
