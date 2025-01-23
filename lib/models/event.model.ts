@@ -68,5 +68,5 @@ EventSchema.pre("validate", async function (next) {
   next();
 });
 
-const Event = mongoose.models?.Event || mongoose.model("Event", EventSchema);
+const     Event = mongoose.models?.Event || mongoose.model("Event", EventSchema);
 export default Event;
