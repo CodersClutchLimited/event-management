@@ -2,19 +2,20 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { UserTableHeaderData } from "@/constants/tablesData";
+import {userData} from "@/constants/sampleData"
 import { Badge } from "../ui/badge";
 import { formatReadableDate } from "@/lib/utils";
-import UserAction from './UserActions'
 import ProfileComponent from "@/components/common/ProfileComponent"
-import { IUser } from '@/lib/types';
-const UserTable = ({users}: {users: IUser}) => {
+import StaffAction from './StaffAction';
+const StaffTable = () => {
   return (
     <div>
           <Table className="mt-5">
       <DynamicTableHeaders headers={UserTableHeaderData} />
 
       <TableBody>
-        {users?.map((item: IUser, index) => (
+        {userData.map((item, index) => item.role !== 'user' && (
+            
           <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>
@@ -34,12 +35,13 @@ const UserTable = ({users}: {users: IUser}) => {
               </Badge>
 
             </TableCell>
-              <TableCell>{item.phoneNumber}</TableCell>
-              <TableCell>{item?.lastLogin === null || item?.lastLogin === undefined ? "No date" : formatReadableDate(item?.lastLogin)}</TableCell>
-              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
-              <TableCell>{<UserAction item={item}/>}</TableCell>
+              <TableCell>{item.telNum}</TableCell>
+              <TableCell>{formatReadableDate(item.lastLogin)}</TableCell>
+              <TableCell>{formatReadableDate(item.registeredAt)}</TableCell>
+              <TableCell>{<StaffAction item={item}/>}</TableCell>
           </TableRow>
-        ))}
+        )
+    )}
       </TableBody>
     </Table>
 
@@ -47,4 +49,4 @@ const UserTable = ({users}: {users: IUser}) => {
   )
 }
 
-export default UserTable
+export default StaffTable

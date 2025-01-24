@@ -2,8 +2,8 @@
 import {userSchema} from '@/lib/validation/userValidation'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import { UserHook } from '@/hooks/UserHook'
 import {
   Form,
   FormControl,
@@ -22,54 +22,58 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Loader } from "lucide-react"
-import { useState } from 'react'
-
+import { Edit } from "lucide-react"
 
 // Define your Zod schema for validation
-const AddUser = () => {
 
-  const [open, setOpen] = useState<boolean>(false); 
-  const { HandleAddUser, isLoading } = UserHook();
-  
-  const form = useForm({
+const EditStaff = () => {
+  // Use react-hook-form with Zod validation
+  const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-      phoneNumber: '',
+      telNum: '',
       role: '',
-      
+      address: {
+        street: '',
+        city: '',
+        country: ''
+      }
     }
   });
 
-
-  console.log("checking for errors", form.formState.errors)
-
-  const onSubmit = async () => {
-    const status = await HandleAddUser(form.getValues());
-    if (status?.status === 200) {
-      setOpen(false);
+  // Handle form submission
+  const onSubmit = async (data: any) => {
+    try {
+      // Perform API call or any action with the data
+      console.log(data);
+      // You can reset the form after successful submission
       form.reset();
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
- };
- 
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          Add User <Plus className="h-3.5 w-3.5" />
+      <Button
+            variant={"outline"}
+            className="w-full flex items-center justify-between mt-1"
+          >
+            Edit <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogHeader>
-              <DialogTitle>Add User</DialogTitle>
+              <DialogTitle>Edit Staff</DialogTitle>
               <DialogDescription>
-                Fill in the details below and click save to add a new user.
+                Edit below and click save to update staff info.
               </DialogDescription>
             </DialogHeader>
 
@@ -143,7 +147,7 @@ const AddUser = () => {
             {/* Phone Number Field (Optional) */}
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="telNum"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
@@ -170,7 +174,7 @@ const AddUser = () => {
                         <SelectContent>
                           <SelectItem value="admin">Admin</SelectItem>
                           <SelectItem value="user">User</SelectItem>
-                          <SelectItem value="staff">Staff</SelectItem>
+                          <SelectItem value="moderator">Moderator</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -181,14 +185,7 @@ const AddUser = () => {
 
 
             <DialogFooter>
-              <Button disabled={isLoading} type="submit">
-              {isLoading ? "Saving  users" : "Save user"}
-                {isLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  <Plus className="h-3.5 w-3.5 ml-2 " />
-                )}
-              </Button>
+              <Button type="submit">Update</Button>
             </DialogFooter>
           </form>
         </Form>
@@ -197,5 +194,4 @@ const AddUser = () => {
   );
 };
 
-
-export default AddUser;
+export default EditStaff;

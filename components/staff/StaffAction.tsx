@@ -9,10 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis, LucideView } from "lucide-react";
-import DeleteUser from "./deleteUsers";
 import Link from "next/link";
-import EditUser from "./EditUser";
-const userAction = ({item}) => {
+import DeleteStaff from "./DeleteStaff";
+import EditStaff from "./EditStaff";
+const StaffAction = ({item}) => {
 
   return (
     <DropdownMenu>
@@ -25,7 +25,7 @@ const userAction = ({item}) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <EditUser/>
+          <EditStaff/>
           <Link href={`/users/${item.id}`}>
           <Button
             variant={"outline"}
@@ -34,7 +34,7 @@ const userAction = ({item}) => {
            View <LucideView />
           </Button>
           </Link>
-          <DeleteUser user={{}} />
+          <DeleteStaff user={{}} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>
@@ -42,4 +42,4 @@ const userAction = ({item}) => {
   );
 };
 
-export default userAction;
+export default StaffAction;

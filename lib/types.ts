@@ -7,7 +7,7 @@ import { Document } from "mongoose";
 export enum UserRole {
   ADMIN = "admin",
   USER = "user",
-  SUBAdmin = "sub-admin",
+  SUBAdmin = "staff",
 }
 
 export enum UserProvider {
@@ -16,17 +16,46 @@ export enum UserProvider {
 }
 
 export interface IUser extends Document {
-  fullName: string;
+  firstName: string;
+  initial?: string;
+  lastName: string;
   email: string;
   password?: string;
-  image?: string;
+  phoneNumber?: string;
+  avatar?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    country?: string;
+  };
   role: UserRole;
-  provider: UserProvider;
-  emailVerified: Date;
-  isTwoFactorEnabled: boolean;
-  emailPendingVerification?: string;
-  createdAt: Date;
+  status: "active" | "suspended" | "blocked";
+  isVerified: boolean;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
+  verificationToken?: string;
+  verificationTokenExpires?: Date;
+  registeredEvents: {
+    eventId: string; // ObjectId reference
+    registeredAt: Date;
+  }[];
+  waitlistedEvents: {
+    eventId: string; // ObjectId reference
+    joinedAt: Date;
+  }[];
+  loginHistory: {
+    ipAddress?: string;
+    device?: string;
+    timestamp: Date;
+  }[];
+  lastLogin?: string;
   updatedAt: Date;
+  provider: UserProvider;
+  attendedEvents: {
+    eventId: string; // ObjectId reference
+    attendedAt?: Date;
+  }[];
+  createdAt: string;
 }
 
 interface EventSchedule {

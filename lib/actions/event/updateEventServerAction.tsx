@@ -12,7 +12,7 @@ export async function updateEventServerAction(
   try {
     // Fetch the existing event
     const existingEvent = await Event.findById(eventId);
-    if (!existingEvent) return { ststus: 404, message: "Event not found" };
+    if (!existingEvent) return { status: 404, message: "Event not found" };
 
     // Check if start or end date changed
     const startChanged =
@@ -46,6 +46,6 @@ export async function updateEventServerAction(
       message: "Event updated successfully",
     };
   } catch (error) {
-    return { status: 200, message: "Error updating event", error };
+    return { status: 500, message: "Error updating event", error };
   }
 }

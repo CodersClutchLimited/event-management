@@ -20,45 +20,25 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import TablePagination from "../common/TablePagination";
-import UserTable from './UserTable';
-import AddUser from "./AddUser"
-import {IUser} from '@/lib/types';
-
-
-interface UserContanerProps {
-  page: number;
-  isPreviousPage: boolean | undefined;
-  isNextPage: boolean | undefined;
-  totalCount: number | undefined;
-  search: string | undefined;
-  users: IUser;
-}
-
-const UserContainer: React.FC<UserContanerProps> = ({
-  page,
-  isPreviousPage,
-  isNextPage,
-  totalCount,
-  search,
-  users,
-
-}) => {
-  console.log(users)
+// import AddUser from "./AddUser"
+import InviteStaff from './InviteStaff';
+import StaffTable from './StaffTable';
+const StaffContainer = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>User Management</CardTitle>
+        <CardTitle>Manage Staffs</CardTitle>
         <CardDescription>
-         Manage Users View, Create or Block users
+         Manage staffs, View, Invite or Block Staffs
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         <div>
           <div className="  items-center  justify-between gap-5  flex mt-5  max-md:flex-wrap  ">
-            <SearchComponent
+            <SearchComponent  
               page={1}
-              placeholder="Search Users by name, email or phone number"
+              placeholder="Search staffs by name, email, or role"
             />
             <div className="flex items-center gap-3">
               <DropdownMenu>
@@ -85,26 +65,26 @@ const UserContainer: React.FC<UserContanerProps> = ({
                 </span>
                 <CloudUpload className="h-5 w-5 ml-3 " />
               </Button>
-              <AddUser/>
+              <InviteStaff/>
             </div>
-
+              
           </div>
-              <UserTable users ={users} />
+              <StaffTable/>
         </div>
       </CardContent>
       <CardFooter>
         <TablePagination
           limit={10}
-          page={page}
-          isPreviousPage={isPreviousPage}
-          isNextPage={isNextPage}
-          totalCount={totalCount}
-          search={search}
+          page={1}
+          isPreviousPage={false}
+          isNextPage={false}
+          totalCount={10}
+          search={"search"}
         />
       </CardFooter>
     </Card>
   );
 };
 
-export default UserContainer;
+export default StaffContainer;
 
