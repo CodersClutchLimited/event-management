@@ -1,6 +1,7 @@
 "use server";
 
-import User from "@/lib/models/user.model";
+import { User } from "@/lib/models/user.model";
+
 import { deepConvertToPlainObject } from "@/lib/utils";
 
 export const getAllUsers = async ({
@@ -20,11 +21,11 @@ export const getAllUsers = async ({
         ? [
             {
               $search: {
-                index: "user", 
+                index: "user",
                 text: {
                   query,
                   path: {
-                    wildcard: "*", 
+                    wildcard: "*",
                   },
                   fuzzy: { maxEdits: 1, prefixLength: 2 },
                 },
@@ -55,21 +56,23 @@ export const getAllUsers = async ({
 
     const users = await User.aggregate(pipeline);
     const totalCount = query
-      ? (await User.aggregate([
-          {
-            $search: {
-              index: "user",
-              text: {
-                query,
-                path: {
-                  wildcard: "*",
+      ? (
+          await User.aggregate([
+            {
+              $search: {
+                index: "user",
+                text: {
+                  query,
+                  path: {
+                    wildcard: "*",
+                  },
+                  fuzzy: { maxEdits: 1, prefixLength: 2 },
                 },
-                fuzzy: { maxEdits: 1, prefixLength: 2 },
               },
             },
-          },
-          { $count: "count" },
-        ]))[0]?.count || 0
+            { $count: "count" },
+          ])
+        )[0]?.count || 0
       : await User.countDocuments();
 
     return {
@@ -84,17 +87,14 @@ export const getAllUsers = async ({
   }
 };
 
-
-
 export const GetSingleUser = async (userId: string) => {
-    try {
-      const user = await User.findById(userId);
-      if (!user) {
-        return { status: 404, message: "User not found" };
-      }
-      return { status: 200, data: deepConvertToPlainObject(user) };
-    } catch {
-      return { status: 500, message: "Error getting user" };
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return { status: 404, message: "User not found" };
     }
-  };
-  
+    return { status: 200, data: deepConvertToPlainObject(user) };
+  } catch {
+    return { status: 500, message: "Error getting user" };
+  }
+};

@@ -58,6 +58,8 @@ const AddEvent = () => {
 
   // 2. Define a submit handler.
   async function onSubmit() {
+    console.log(form.getValues());
+
     const status = await HandleAddEvent(form.getValues());
     console.log("sesso", session?.user?.id);
     // close the dialog when the status is 200
@@ -271,7 +273,7 @@ const AddEvent = () => {
                     <FormLabel>Event Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about yourself"
+                        placeholder="Enter description about this event "
                         className="resize-none"
                         {...field}
                       />

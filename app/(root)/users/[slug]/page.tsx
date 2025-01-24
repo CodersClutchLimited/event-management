@@ -1,41 +1,49 @@
-'use client'
-import React from 'react';
-import { Button } from "@/components/ui/button"
-import { useParams } from 'next/navigation';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import ProfileContainer from '@/components/userProfile/profileContainer';
-import { userData } from '@/constants/sampleData';
-import {formatDate} from '@/lib/utils'
-const Page = () => {
-  const { slug } = useParams(); 
-  const user = userData.find((item) => item.id.toString() === slug);
-  if (!user) {
-    return <div>User not found</div>;
-  }
+import UserContainer from "@/components/users/UserContainer";
+import React from "react";
+import { getAllUsers } from "@/lib/actions/user/getAllUser";
+
+const page = async ({
+  searchParams,
+}: {
+  searchParams: { page: string; limit: string; search: string };
+}) => {
+  const searchParamsData = await searchParams;
+  console.log(searchParamsData);
+
+  const page =
+    typeof searchParamsData.page === "string"
+      ? Number(searchParamsData.page)
+      : 1;
+  const limit =
+    typeof searchParamsData.limit === "string"
+      ? Number(searchParamsData.limit)
+      : 10;
+
+  // Extract search term
+  const search =
+    typeof searchParamsData.search === "string"
+      ? searchParamsData.search
+      : undefined;
+
+  // get the events
+  const { isNextPage, totalCount, isPreviousPage, data } = await getAllUsers({
+    page: page,
+    limit: limit,
+    query: search,
+  });
 
   return (
     <div>
-      <div className="w-full border-b flex flex-row mb-3 pb-4 items-center justify-between">
-        {/* Left Section */}
-        <div className="flex flex-col space-y-3 items-center">
-          <Avatar className=' h-36 w-36'>
-            <AvatarImage src="/profile.jpeg" alt={`${user.firstName}'s profile`} />
-          </Avatar>
-          <h3 className="text-xl font-bold">
-            {user.firstName} {user.lastName}
-          </h3>
-          <span>Joined {formatDate(user.registeredAt)}</span>
-        </div>
-        {/*Right Section*/}
-        <div className='flex flex-col space-y-2'>
-        <Button className='bg-blue-700 font-bold'>Delete</Button>
-        <Button className='font-bold bg-blue-700'>Suspend</Button>
-        </div>
-      </div>
-      
-      <ProfileContainer />
+      <UserContainer
+        page={page}
+        isPreviousPage={isPreviousPage}
+        isNextPage={isNextPage}
+        totalCount={totalCount}
+        search={search}
+        users={data}
+      />
     </div>
   );
-  };
+};
 
-export default Page;
+export default page;

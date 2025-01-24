@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export default function SettingLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       {/* bread crim */}
       {/* <h2 className="text-center text-2xl mt-2">System Settings</h2> */}
       <div className="flex flex-1 mt-10">

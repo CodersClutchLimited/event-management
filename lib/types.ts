@@ -7,7 +7,7 @@ import { Document } from "mongoose";
 export enum UserRole {
   ADMIN = "admin",
   USER = "user",
-  SUBAdmin = "sub-admin",
+  SUBAdmin = "staff",
 }
 
 export enum UserProvider {
@@ -88,5 +88,35 @@ export interface EventInterfaceType {
   eventId: string;
 }
 
-
-
+export interface SystemSettingsTypes {
+  general: {
+    systemName: string;
+    logo: string;
+    contactEmail: string;
+    contactPhone: string;
+  };
+  userManagement: {
+    allowUserRegistration: boolean;
+    maxFailedLogins: number;
+  };
+  eventManagement: {
+    allowWaitlist: boolean;
+  };
+  notifications: {
+    enableEmailNotifications: boolean;
+    enableSMSNotifications: boolean;
+    enableAppNotifications: boolean;
+    eventReminderSchedule: number; // Hours before event
+  };
+  paymentSettings: {
+    enablePaidEvents: boolean;
+    supportedCurrencies: string[];
+    paymentGateway: {
+      provider: "Stripe" | "PayPal" | "None";
+      apiKey: string;
+    };
+  };
+  _id: string;
+  updatedAt: string;
+  __v: number;
+}

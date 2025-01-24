@@ -15,54 +15,51 @@ import {
 } from "@/components/ui/collapsible";
 import { ChevronsUpDown } from "lucide-react";
 import Link from "next/link";
+import { getRoleByNameServerAction } from "@/lib/actions/role/roleServerAction";
 import PermissionCollaps from "@/components/setting/PermissionCollaps";
-import { roles } from "@/constansts"; // Ensure this contains the role data
 
 const Page = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = await params; // Extracting the role name part from the URL
-  const passedData = decodeURIComponent(slug.split("-")[2]); // Decode the role name
+  const { slug } = await params; // Decode role name directly
 
-  // Filter role by name
-  const data = roles.filter((r) => r.name === passedData); // Ensure `roles` is properly defined and contains role data
+  const roleName = decodeURIComponent(slug.replace("edit-permission-", "")); // Decode the slug for readability
 
-  if (data.length === 0) {
-    // Handle case where no role is found
+
+  // Fetch role by name
+  const { data, status } = await getRoleByNameServerAction(roleName);
+
+  if (!data || Object.keys(data).length === 0) {
     return (
       <Card>
-        <CardTitle>Role Not Found</CardTitle>
-        <CardDescription>
-          The role you are looking for does not exist. Please make sure to spell
-          the role correctly and try again.
-        </CardDescription>
+        <CardHeader>
+          <CardTitle>Role Not Found</CardTitle>
+          <CardDescription>
+            The role {roleName} does not exist. Please check the name and try
+            again.
+          </CardDescription>
+        </CardHeader>
         <CardFooter>
           <Link href={`/settings/roles-permissions`}>
-            <Button variant="link">Go Back to Role</Button>
+            <Button variant="link">Go Back</Button>
           </Link>
         </CardFooter>
       </Card>
     );
   }
 
-  const role = data[0]; // Get the first matched role
-
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{passedData.toUpperCase()}</CardTitle>
+        <CardTitle>{roleName.toUpperCase()}</CardTitle>
         <CardDescription>
-          Below are the available permissions. To edit, click on the permission
-          to either give full access, view-only access, or no access at all.
+          Click on a permission to edit access levels.
         </CardDescription>
       </CardHeader>
 
       <CardContent>
-        {Object.entries(role.permissions).map(
+        {Object.entries(data.permissions).map(
           ([permissionKey, permissionValue]) => (
-            <Collapsible
-              key={permissionKey}
-              className="w-full space-y-2 transition-all border "
-            >
-              <div className="flex items-center justify-between space-x-4 px-4">
+            <Collapsible key={permissionKey} className="w-full border">
+              <div className="flex items-center justify-between px-4">
                 <p className="text-sm text-muted-foreground">
                   {permissionKey.replace(/_/g, " ")}
                 </p>
@@ -74,9 +71,9 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                 </CollapsibleTrigger>
               </div>
 
-              <CollapsibleContent className="transition-all px-6 mb-5">
+              <CollapsibleContent className="px-6 mb-5">
                 <PermissionCollaps
-                  roleName={passedData}
+                  roleName={roleName}
                   permissionKey={permissionKey}
                   permission={permissionValue} // Pass the specific permission value here
                 />
@@ -86,19 +83,15 @@ const Page = async ({ params }: { params: { slug: string } }) => {
         )}
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between gap-5">
-        <div>
-          <Link href={`/settings/roles-permissions`}>
-            <Button variant="link">Go Back to Role</Button>
-          </Link>
-        </div>
-        <div className="flex items-center gap-3 flex-wrap">
-          <Link
-            href={`/settings/roles-permissions/${passedData}/edit-permission-${passedData}`}
-          >
-            <Button variant="link">Edit Permissions</Button>
-          </Link>
-        </div>
+      <CardFooter className="flex items-center justify-between">
+        <Link href={`/settings/roles-permissions`}>
+          <Button variant="link">Go Back</Button>
+        </Link>
+        <Link
+          href={`/settings/roles-permissions/${roleName}/edit-permission-${roleName}`}
+        >
+          <Button variant="link">Edit Permissions</Button>
+        </Link>
       </CardFooter>
     </Card>
   );

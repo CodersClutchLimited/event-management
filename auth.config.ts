@@ -5,23 +5,15 @@ import Google from "next-auth/providers/google";
 
 import { UserRole, UserProvider } from "@/lib/types";
 import { SignInValidation } from "./lib/validation/auth";
-import {
-  fetchUserByEmail,
-  fetchUserById,
-  signInWithOauth,
-} from "@/lib/api-handler/user";
-import {
-  fetchConfirmationByUserId,
-  deleteConfirmationById,
-} from "@/lib/api-handler/twofac";
+import { fetchUserByEmail, signInWithOauth } from "@/lib/api-handler/user";
 
 export default {
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
-  pages: {
-    signIn: "/signin", // app/signin
-    error: "/error", // app/error
-  },
+  // pages: {
+  //   signIn: "/signin", // app/signin
+  //   error: "/error", // app/error
+  // },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,

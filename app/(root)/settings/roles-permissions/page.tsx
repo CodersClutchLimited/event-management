@@ -5,12 +5,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { roles } from "@/constansts";
+import { roles } from "@/constants/dummydata";
+import {
+  addRoleServerAction,
+  fetchRolesServerAction,
+} from "@/lib/actions/role/roleServerAction";
+// import { roles } from "@/constansts";
 import { User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const RoleAndPermissions = () => {
+const RoleAndPermissions = async () => {
+  const { data, status } = await fetchRolesServerAction();
   return (
     <Card>
       <CardHeader>
@@ -22,7 +28,7 @@ const RoleAndPermissions = () => {
       </CardHeader>
       {/* Card content */}
       <CardContent>
-        {roles.map((role, index) => (
+        {data?.map((role, index) => (
           <Link
             href={`/settings/roles-permissions/${encodeURIComponent(
               role.name
