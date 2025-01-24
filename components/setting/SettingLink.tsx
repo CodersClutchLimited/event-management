@@ -15,22 +15,6 @@ export const settingSidebarData = [
     title: "Role & Permissions",
     href: "/settings/roles-permissions",
   },
-
-  {
-    id: 7,
-    title: "Notification Settings",
-    href: "/settings/notifications",
-  },
-  {
-    id: 8,
-    title: "Security Setting",
-    href: "settings/security",
-  },
-  {
-    id: 9,
-    title: "Account Management",
-    href: "settings/account-management",
-  },
 ];
 const SettingLink = () => {
   const pathname = usePathname(); // Get the current pathname
