@@ -4,7 +4,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -12,7 +11,9 @@ import {
 import { Edit, Ellipsis, LucideView } from "lucide-react";
 import DeleteEvent from "./DeleteEvent";
 import Link from "next/link";
-const EventAction = ({ event }) => {
+import { EventInterfaceType } from "@/lib/types";
+import EditEvent from "./EditEvent";
+const EventAction = ({ event }: { event: EventInterfaceType }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,12 +25,8 @@ const EventAction = ({ event }) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1"
-          >
-            Edit <Edit />
-          </Button>
+          <EditEvent event={event} />
+
           <Link href={`/event/${event._id}`}>
             <Button
               variant={"outline"}
@@ -38,7 +35,7 @@ const EventAction = ({ event }) => {
               View <LucideView />
             </Button>
           </Link>
-          <DeleteEvent event={{}} />
+          <DeleteEvent event={event} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>

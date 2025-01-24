@@ -8,10 +8,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, Ellipsis, LucideView } from "lucide-react";
+import { Ellipsis, LucideView } from "lucide-react";
 import DeleteUser from "./deleteUsers";
 import Link from "next/link";
-const EventAction = ({item}) => {
+import EditUser from "./EditUser";
+const userAction = ({item}) => {
 
   return (
     <DropdownMenu>
@@ -24,12 +25,7 @@ const EventAction = ({item}) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1"
-          >
-            Edit <Edit />
-          </Button>
+          <EditUser/>
           <Link href={`/users/${item.id}`}>
           <Button
             variant={"outline"}
@@ -46,4 +42,4 @@ const EventAction = ({item}) => {
   );
 };
 
-export default EventAction;
+export default userAction;

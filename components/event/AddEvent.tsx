@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { CalendarIcon, Plus } from "lucide-react";
+import { CalendarIcon, Loader, Plus } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -33,12 +33,18 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Textarea } from "../ui/textarea";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { EventHook } from "@/hooks/EventHook";
+import { useSession } from "next-auth/react";
 
 const AddEvent = () => {
+  const { HandleAddEvent, isLoading } = EventHook();
+  const [open, setOpen] = useState<boolean>();
+  const { data: session } = useSession({ required: true });
   const form = useForm({
     resolver: zodResolver(eventSchema),
     defaultValues: {
       title: "",
+      createdBy: session?.user?.id,
       schedule: {
         start: new Date(),
         end: new Date(),
@@ -51,10 +57,20 @@ const AddEvent = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit() {}
+  async function onSubmit() {
+    console.log(form.getValues());
+
+    const status = await HandleAddEvent(form.getValues());
+    console.log("sesso", session?.user?.id);
+    // close the dialog when the status is 200
+    if (status?.status === 200) {
+      setOpen(false);
+      form.reset();
+    }
+  }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
           Add Event <Plus className="h-3.5 w-3.5" />
@@ -257,7 +273,7 @@ const AddEvent = () => {
                     <FormLabel>Event Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about yourself"
+                        placeholder="Enter description about this event "
                         className="resize-none"
                         {...field}
                       />
@@ -276,7 +292,14 @@ const AddEvent = () => {
                 </Button>
               </DialogClose>
 
-              <Button type="submit">Save changes</Button>
+              <Button disabled={isLoading} type="submit">
+                {isLoading ? "Saving  events" : "Save event"}
+                {isLoading ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  <Plus className="h-3.5 w-3.5 ml-2 " />
+                )}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

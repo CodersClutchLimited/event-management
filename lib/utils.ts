@@ -5,6 +5,26 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const fetcher = async (
+  url: string,
+  options: RequestInit = {}
+): Promise<any> => {
+  const headers = {
+    "Content-Type": "application/json",
+    ...options.headers,
+  };
+
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  try {
+    return await response.json();
+  } catch (error) {
+    return null;
+  }
+};
 export function formatReadableDate(dateString: string): string | undefined {
   const date = new Date(dateString);
 
@@ -23,3 +43,7 @@ export function formatReadableDate(dateString: string): string | undefined {
     hour12: true, // This will display the time in 12-hour format with AM/PM
   });
 }
+
+export const deepConvertToPlainObject = (obj: any): Record<string, any> => {
+  return JSON.parse(JSON.stringify(obj));
+};

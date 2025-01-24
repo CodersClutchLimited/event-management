@@ -31,7 +31,10 @@ export const eventSchema = z
 
     registrationDeadline: z.date(),
 
-    createdBy: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid Admin ID"), // MongoDB ObjectId validation
+    createdBy: z
+      .string()
+      .regex(/^[0-9a-fA-F]{24}$/, "Invalid Admin ID")
+      .optional(), // MongoDB ObjectId validation
 
     maxParticipants: z
       .string()
@@ -42,7 +45,7 @@ export const eventSchema = z
       .enum(["upcoming", "ongoing", "completed", "canceled"])
       .default("upcoming"),
 
-    isPublished: z.boolean().default(false),
+    isPublished: z.boolean().default(false).optional(),
     canceledReason: z.string().nullable().optional(),
 
     notifications: z
@@ -50,9 +53,8 @@ export const eventSchema = z
         sendReminders: z.boolean().default(true),
         reminderTimes: z.array(z.date()).optional(),
       })
-      .default({ sendReminders: true }),
-
-    createdAt: z.date().default(() => new Date()), // Ensure default date is generated dynamically
+      .default({ sendReminders: true })
+      .optional(),
   })
   .superRefine((data, ctx) => {
     if (!data.schedule?.start) {
@@ -74,3 +76,8 @@ export const eventSchema = z
   });
 
 export type EventInput = z.infer<typeof eventSchema>;
+
+// deleting event reason schema
+export const deleteEventSchemaMessage = z.object({
+  reason: z.string().min(10, "Reason must be at least 10 characters long"),
+});

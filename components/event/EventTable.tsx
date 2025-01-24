@@ -2,27 +2,28 @@ import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { EventTableHeaderData } from "@/constants/tablesData";
-import { EventData } from "@/constants/sampleData";
+// import { EventData } from "@/constants/sampleData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import EventAction from "./EventAction";
+import { EventInterfaceType } from "@/lib/types";
 
-const EventTable = () => {
+const EventTable = ({ events }: { events: EventInterfaceType }) => {
   return (
     <Table className="mt-5">
       <DynamicTableHeaders headers={EventTableHeaderData} />
 
       <TableBody>
-        {EventData.map((item, index) => (
+        {events?.map((item: EventInterfaceType) => (
           <TableRow key={item._id}>
-            <TableCell>{index + 1}</TableCell>
+            <TableCell>{item.eventId}</TableCell>
             <TableCell>{item.title}</TableCell>
             <TableCell>{formatReadableDate(item.schedule.start)}</TableCell>
             <TableCell>{formatReadableDate(item.schedule.end)}</TableCell>
             <TableCell>
               <Badge
                 className={
-                  item.status === "canceled"
+                  item.status === "cancelled"
                     ? "bg-red-600"
                     : item.status === "upcoming"
                     ? "bg-yellow-600"
@@ -35,6 +36,8 @@ const EventTable = () => {
               </Badge>
             </TableCell>
             <TableCell>{item.registeredUsers.length}</TableCell>
+            <TableCell>{item.maxParticipants}</TableCell>
+
             <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
             <TableCell>{<EventAction event={item} />}</TableCell>
           </TableRow>
