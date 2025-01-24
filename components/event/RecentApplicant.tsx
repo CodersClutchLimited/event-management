@@ -9,6 +9,7 @@ import ProfileComponent from "../common/ProfileComponent";
 // import { DeleteIcon } from "lucide-react";
 import RevomeFromEvent from "./RevomeFromEvent";
 import Link from "next/link";
+import { formatReadableDate } from "@/lib/utils";
 
 const RecentApplicant = ({ event }) => {
   return (
@@ -24,7 +25,7 @@ const RecentApplicant = ({ event }) => {
           <Link
             href={`/users/${item?._id}`}
             key={item?._id}
-            className="flex items-center justify-between"
+            className="flex items-center justify-between border rounded-md p-2  hover:border-red-700"
           >
             <ProfileComponent
               firstName="kebba"
@@ -32,7 +33,7 @@ const RecentApplicant = ({ event }) => {
               email="kebbawaiga@gmail.com"
               middleName=""
             />
-            <p>2 munit ago</p>
+            <p>{formatReadableDate(item?.registeredAt)}</p>
             <RevomeFromEvent item={{}} />
           </Link>
         ))}

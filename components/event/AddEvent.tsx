@@ -273,7 +273,7 @@ const AddEvent = () => {
                     <FormLabel>Event Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Tell us a little bit about yourself"
+                        placeholder="Enter description about this event "
                         className="resize-none"
                         {...field}
                       />

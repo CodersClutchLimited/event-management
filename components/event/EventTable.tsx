@@ -36,6 +36,8 @@ const EventTable = ({ events }: { events: EventInterfaceType }) => {
               </Badge>
             </TableCell>
             <TableCell>{item.registeredUsers.length}</TableCell>
+            <TableCell>{item.maxParticipants}</TableCell>
+
             <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
             <TableCell>{<EventAction event={item} />}</TableCell>
           </TableRow>
