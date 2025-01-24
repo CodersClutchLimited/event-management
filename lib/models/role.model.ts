@@ -1,41 +1,41 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-/**
- * Schema for representing a role within the organization.
- * This schema includes the role's name, description, and associated permissions.
- */
-const roleSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      unique: true,
-      default: "Administrator",
+interface Permission {
+  level: "full" | "edit" | "view"; // Permission levels
+}
+
+interface Role extends Document {
+  name: string;
+  description: string;
+  permissions: {
+    view_dashboard?: Permission;
+    manage_users?: Permission;
+    manage_staffs?: Permission;
+    manage_events?: Permission;
+    manage_settings?: Permission;
+  };
+}
+
+const RoleSchema = new Schema<Role>({
+  name: { type: String, required: true, unique: true },
+  description: { type: String, required: true },
+  permissions: {
+    view_dashboard: {
+      level: { type: String, enum: ["full", "off", "view"], default: "view" },
     },
-    description: {
-      type: String,
+    manage_users: {
+      level: { type: String, enum: ["full", "off", "view"], default: "view" },
     },
-    permissions: {
-      type: Map,
-      of: {
-        level: { type: String, enum: ["full", "view", "off"], default: "off" }, // Default value set to 'off'
-      },
-      default: {
-        view_dashboard: { level: "full" },
-        manage_customers: { level: "full" },
-        manage_transactions: { level: "full" },
-        manage_staffs: { level: "full" },
-        manage_marketplace: { level: "full" },
-        manage_orders: { level: "full" },
-        track_orders: { level: "full" },
-        manage_settings: { level: "full" },
-      },
+    manage_staffs: {
+      level: { type: String, enum: ["full", "off", "view"], default: "view" },
+    },
+    manage_events: {
+      level: { type: String, enum: ["full", "off", "view"], default: "view" },
+    },
+    manage_settings: {
+      level: { type: String, enum: ["full", "off", "view"], default: "view" },
     },
   },
-  {
-    timestamps: true,
-  }
-);
-
-const Role = mongoose.models.Role || mongoose.model("Role", roleSchema);
+});
+const Role = mongoose.models.Role || mongoose.model<Role>("Role", RoleSchema);
 export default Role;

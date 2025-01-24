@@ -8,6 +8,7 @@ import {
 import ProfileComponent from "../common/ProfileComponent";
 // import { DeleteIcon } from "lucide-react";
 import RevomeFromEvent from "./RevomeFromEvent";
+import Link from "next/link";
 
 const RecentApplicant = ({ event }) => {
   return (
@@ -20,7 +21,11 @@ const RecentApplicant = ({ event }) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {event?.registeredUsers?.map((item) => (
-          <div key={item?._id} className="flex items-center justify-between">
+          <Link
+            href={`/users/${item?._id}`}
+            key={item?._id}
+            className="flex items-center justify-between"
+          >
             <ProfileComponent
               firstName="kebba"
               lastName="Waiga"
@@ -29,7 +34,7 @@ const RecentApplicant = ({ event }) => {
             />
             <p>2 munit ago</p>
             <RevomeFromEvent item={{}} />
-          </div>
+          </Link>
         ))}
       </CardContent>
     </Card>
