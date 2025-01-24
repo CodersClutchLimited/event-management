@@ -2,12 +2,11 @@
 import {userSchema} from '@/lib/validation/userValidation'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import { UserHook } from '@/hooks/UserHook'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,43 +22,42 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus } from "lucide-react"
+import { Plus, Loader } from "lucide-react"
+import { useState } from 'react'
+
 
 // Define your Zod schema for validation
-
 const AddUser = () => {
-  // Use react-hook-form with Zod validation
-  const form = useForm<z.infer<typeof userSchema>>({
+
+  const [open, setOpen] = useState<boolean>(false); 
+  const { HandleAddUser, isLoading } = UserHook();
+  
+  const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-      telNum: '',
+      phoneNumber: '',
       role: '',
-      address: {
-        street: '',
-        city: '',
-        country: ''
-      }
+      
     }
   });
 
-  // Handle form submission
-  const onSubmit = async (data: any) => {
-    try {
-      // Perform API call or any action with the data
-      console.log(data);
-      // You can reset the form after successful submission
-      form.reset();
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  };
 
+  console.log("checking for errors", form.formState.errors)
+
+  const onSubmit = async () => {
+    const status = await HandleAddUser(form.getValues());
+    if (status?.status === 200) {
+      setOpen(false);
+      form.reset();
+    }
+ };
+ 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
           Add User <Plus className="h-3.5 w-3.5" />
@@ -145,7 +143,7 @@ const AddUser = () => {
             {/* Phone Number Field (Optional) */}
             <FormField
               control={form.control}
-              name="telNum"
+              name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
@@ -172,7 +170,7 @@ const AddUser = () => {
                         <SelectContent>
                           <SelectItem value="admin">Admin</SelectItem>
                           <SelectItem value="user">User</SelectItem>
-                          <SelectItem value="moderator">Moderator</SelectItem>
+                          <SelectItem value="staff">Staff</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -183,7 +181,14 @@ const AddUser = () => {
 
 
             <DialogFooter>
-              <Button type="submit">Save Changes</Button>
+              <Button disabled={isLoading} type="submit">
+              {isLoading ? "Saving  users" : "Save user"}
+                {isLoading ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  <Plus className="h-3.5 w-3.5 ml-2 " />
+                )}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
@@ -191,5 +196,6 @@ const AddUser = () => {
     </Dialog>
   );
 };
+
 
 export default AddUser;

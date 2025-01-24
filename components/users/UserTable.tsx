@@ -2,19 +2,19 @@ import React from 'react'
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { UserTableHeaderData } from "@/constants/tablesData";
-import {userData} from "@/constants/sampleData"
 import { Badge } from "../ui/badge";
 import { formatReadableDate } from "@/lib/utils";
 import UserAction from './UserActions'
 import ProfileComponent from "@/components/common/ProfileComponent"
-const UserTable = () => {
+import { IUser } from '@/lib/types';
+const UserTable = ({users}: {users: IUser}) => {
   return (
     <div>
           <Table className="mt-5">
       <DynamicTableHeaders headers={UserTableHeaderData} />
 
       <TableBody>
-        {userData.map((item, index) => (
+        {users?.map((item: IUser, index) => (
           <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>
@@ -34,9 +34,9 @@ const UserTable = () => {
               </Badge>
 
             </TableCell>
-              <TableCell>{item.telNum}</TableCell>
-              <TableCell>{formatReadableDate(item.lastLogin)}</TableCell>
-              <TableCell>{formatReadableDate(item.registeredAt)}</TableCell>
+              <TableCell>{item.phoneNumber}</TableCell>
+              <TableCell>{item?.lastLogin === null || item?.lastLogin === undefined ? "No date" : formatReadableDate(item?.lastLogin)}</TableCell>
+              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
               <TableCell>{<UserAction item={item}/>}</TableCell>
           </TableRow>
         ))}

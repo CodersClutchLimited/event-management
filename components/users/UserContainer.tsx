@@ -1,11 +1,5 @@
 import React from 'react'
 
-
-
-
-
-
-
 import {
   Card,
   CardContent,
@@ -28,7 +22,28 @@ import {
 import TablePagination from "../common/TablePagination";
 import UserTable from './UserTable';
 import AddUser from "./AddUser"
-const UserContainer = () => {
+import {IUser} from '@/lib/types';
+
+
+interface UserContanerProps {
+  page: number;
+  isPreviousPage: boolean | undefined;
+  isNextPage: boolean | undefined;
+  totalCount: number | undefined;
+  search: string | undefined;
+  users: IUser;
+}
+
+const UserContainer: React.FC<UserContanerProps> = ({
+  page,
+  isPreviousPage,
+  isNextPage,
+  totalCount,
+  search,
+  users,
+
+}) => {
+  console.log(users)
   return (
     <Card>
       <CardHeader>
@@ -73,26 +88,18 @@ const UserContainer = () => {
               <AddUser/>
             </div>
 
-            {/* <DatePickerWithRange
-              datefrom={datefrom}
-              dateto={dateto}
-              page={page}
-            /> */}
-
-          
-              
           </div>
-              <UserTable/>
+              <UserTable users ={users} />
         </div>
       </CardContent>
       <CardFooter>
         <TablePagination
           limit={10}
-          page={1}
-          isPreviousPage={false}
-          isNextPage={false}
-          totalCount={10}
-          search={"search"}
+          page={page}
+          isPreviousPage={isPreviousPage}
+          isNextPage={isNextPage}
+          totalCount={totalCount}
+          search={search}
         />
       </CardFooter>
     </Card>
