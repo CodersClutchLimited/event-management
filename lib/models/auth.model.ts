@@ -1,89 +1,77 @@
 import mongoose from "mongoose";
 import { UserProvider, UserRole } from "./types";
 
-const UserSchema = new mongoose.Schema({
-  fullName: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true, minlength: 6 },
-
-  phoneNumber: { type: String, unique: true, sparse: true },
-  avatar: { type: String, default: "default-avatar.png" }, // URL to profile picture
-  bio: { type: String, maxlength: 500 },
-  address: {
-    street: { type: String },
-    city: { type: String },
-    country: { type: String },
-  },
-
-  role: {
-    type: String,
-    enum: [UserRole.USER, UserRole.ADMIN],
-    default: UserRole.USER,
-  },
-
-  provider: {
-    type: String,
-    enum: [UserProvider.CREDENTIALS, UserProvider.GOOGLE],
-    default: UserProvider.CREDENTIALS,
-  },
-  emailVerified: {
-    type: Date,
-  },
-  emailPendingVerification: {
-    type: String,
-  },
-  status: {
-    type: String,
-    enum: ["active", "suspended", "blocked"],
-    default: "active",
-  },
-
-  authentication: {
-    isEmailVerified: { type: Boolean, default: false },
-    isPhoneVerified: { type: Boolean, default: false },
-    twoFactorEnabled: { type: Boolean, default: false },
-  },
-
-  registeredEvents: [
-    {
-      eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
-      registeredAt: { type: Date, default: Date.now },
-      checkedIn: { type: Boolean, default: false },
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: { type: String, required: true, trim: true },
+    initial: { type: String, trim: true },
+    lastName: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, minlength: 6 },
+    phoneNumber: { type: String, unique: true, sparse: true },
+    avatar: { type: String, default: "default-avatar.png" }, // URL to profile picture
+    address: {
+      street: { type: String },
+      city: { type: String },
+      country: { type: String },
     },
-  ],
 
-  waitlistedEvents: [
-    {
-      eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
-      joinedAt: { type: Date, default: Date.now },
+    role: {
+      type: String,
+      enum: [UserRole.USER, UserRole.ADMIN],
+      default: UserRole.USER,
     },
-  ],
-
-  attendedEvents: [
-    {
-      eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
-      attendedAt: { type: Date },
+    status: {
+      type: String,
+      enum: ["active", "suspended", "blocked"],
+      default: "active",
     },
-  ],
+    isVerified: { type: Boolean, default: false },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+    verificationToken: { type: String },
+    verificationTokenExpires: { type: Date },
+    registeredEvents: [
+      {
+        eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
+        registeredAt: { type: Date, default: Date.now },
+      },
+    ],
 
-  notifications: {
-    emailNotifications: { type: Boolean, default: true },
-    smsNotifications: { type: Boolean, default: false },
-    appNotifications: { type: Boolean, default: true },
+    waitlistedEvents: [
+      {
+        eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
+        joinedAt: { type: Date, default: Date.now },
+      },
+    ],
+
+    loginHistory: [
+      {
+        ipAddress: { type: String },
+        device: { type: String },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
+    lastLogin: { type: Date },
+    updatedAt: { type: Date, default: Date.now },
+
+    provider: {
+      type: String,
+      enum: [UserProvider.CREDENTIALS, UserProvider.GOOGLE],
+      default: UserProvider.CREDENTIALS,
+    },
+
+    attendedEvents: [
+      {
+        eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
+        attendedAt: { type: Date },
+      },
+    ],
   },
-
-  loginHistory: [
-    {
-      ipAddress: { type: String },
-      device: { type: String },
-      timestamp: { type: Date, default: Date.now },
-    },
-  ],
-
-  lastLogin: { type: Date },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const passwordResetTokenSchema = new mongoose.Schema({
   email: {

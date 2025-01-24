@@ -36,7 +36,7 @@ export const SignInValidation = z.object({
 
 export const SignUpValidation = z
   .object({
-    fullName: z
+    firstName: z
       .string()
       .min(1, "Username is required")
       .max(50, "Username must be less than 50 characters"),
