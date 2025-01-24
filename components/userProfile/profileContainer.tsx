@@ -7,7 +7,7 @@ import {
     TabsTrigger,
   } from "@/components/ui/tabs"
 
-  import { User, Mail, Phone, Globe, MapPin, Home, BadgeRussianRuble, CloudUpload, ListFilter } from 'lucide-react';
+  import { User, Mail, Phone, Globe, MapPin, Home, BadgeRussianRuble, Key, CloudUpload, ListFilter } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import TablePagination from '../common/TablePagination';
 import {
@@ -28,8 +28,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-// import RegisteredEvents from './RegisteredEvents';
-// import WaitlistedEvent from './WaitlistedEvent';
+import RegisteredEvents from './RegisteredEvents';
+import WaitlistedEvent from './WaitlistedEvent';
 import { IUser } from '@/lib/types';
 
 
@@ -197,7 +197,7 @@ const ProfileContainer = ({user}: {user: IUser}) => {
             </div>
 
           </div>
-              {/* <RegisteredEvents/> */}
+              <RegisteredEvents/>
         </div>
       </CardContent>
       <CardFooter>
@@ -255,7 +255,7 @@ const ProfileContainer = ({user}: {user: IUser}) => {
             </div>
 
           </div>
-              {/* <WaitlistedEvent/> */}
+              <WaitlistedEvent/>
         </div>
       </CardContent>
       <CardFooter>
