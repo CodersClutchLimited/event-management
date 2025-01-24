@@ -13,7 +13,7 @@ import DeleteUser from "./deleteUsers";
 import Link from "next/link";
 import EditUser from "./EditUser";
 import { IUser } from "@/lib/types";
-const userAction = ({user} : {user: IUser}) => {
+const UserAction = ({user} : {user: IUser}) => {
 
   return (
     <DropdownMenu>
@@ -23,10 +23,11 @@ const userAction = ({user} : {user: IUser}) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>User Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <EditUser user={user}/>
+
           <Link href={`/users/${user._id}`}>
           <Button
             variant={"outline"}
@@ -35,7 +36,7 @@ const userAction = ({user} : {user: IUser}) => {
            View <LucideView />
           </Button>
           </Link>
-          <DeleteUser user={{}} />
+          <DeleteUser user={user} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>
@@ -43,4 +44,4 @@ const userAction = ({user} : {user: IUser}) => {
   );
 };
 
-export default userAction;
+export default UserAction;

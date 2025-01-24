@@ -15,3 +15,7 @@ export const userSchema = z.object({
     country: z.string().min(1)
   }).optional()
 });
+
+export const deleteUserSchemaMessage = z.object({
+  reason: z.string().min(10, "Reason must be at least 10 characters long"),
+});

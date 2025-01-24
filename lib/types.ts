@@ -16,6 +16,10 @@ export enum UserProvider {
 }
 
 export interface IUser extends Document {
+  map(
+    arg0: (item: any, index: any) => import("react").JSX.Element
+  ): import("react").ReactNode;
+  _id: string;
   firstName: string;
   initial?: string;
   lastName: string;

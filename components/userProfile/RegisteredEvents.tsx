@@ -2,7 +2,6 @@ import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { RegisteredEv } from "@/constants/tablesData";
-import { EventData } from "@/constants/sampleData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 
@@ -32,9 +31,9 @@ const RegisteredEvents = () => {
                 {item.status}
               </Badge>
               </TableCell>
-              <TableCell>{formatReadableDate(item.schedule.start)}</TableCell>
-              <TableCell>{formatReadableDate(item.schedule.end)}</TableCell>
-              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
+              <TableCell>{formatReadableDate(item.schedule.start?? "No Date")}</TableCell>
+              <TableCell>{formatReadableDate(item.schedule.end?? "No Date")}</TableCell>
+              <TableCell>{formatReadableDate(item.createdAt?? "No Date")}</TableCell>
             </TableRow>
           ))}
         </TableBody>

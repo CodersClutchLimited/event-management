@@ -23,12 +23,11 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Edit, Loader, Plus, Save } from "lucide-react"
+import { Edit, Loader, Save } from "lucide-react"
 import { IUser } from '@/lib/types'
 import {UserHook} from "@/hooks/UserHook"
 import { useSession } from "next-auth/react";
-
-// Define your Zod schema for validation
+import { useState } from 'react'
 
 const EditUser = ({user} : {user: IUser}) => {
 

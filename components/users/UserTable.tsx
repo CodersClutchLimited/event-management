@@ -18,7 +18,12 @@ const UserTable = ({users}: {users: IUser}) => {
           <TableRow key={index}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>
-            <ProfileComponent firstName={item.firstName} lastName= {item.lastName} middleName={item.initial} email= {item.email} />
+            <ProfileComponent
+              firstName={item.firstName ?? ""}
+              lastName={item.lastName ?? ""}
+              middleName={item.initial ?? ""}
+              email={item.email ?? ""}
+            />
             </TableCell>
             <TableCell>
             <Badge
@@ -35,9 +40,13 @@ const UserTable = ({users}: {users: IUser}) => {
 
             </TableCell>
               <TableCell>{item.phoneNumber}</TableCell>
-              <TableCell>{item?.lastLogin === null || item?.lastLogin === undefined ? "No date" : formatReadableDate(item?.lastLogin)}</TableCell>
-              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
-              <TableCell>{<UserAction item={item}/>}</TableCell>
+              <TableCell>
+                  {item?.lastLogin === null || item?.lastLogin === undefined
+                    ? "No date"
+                    : formatReadableDate(item.lastLogin)}
+                </TableCell>
+                <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
+              <TableCell>{<UserAction user={item}/>}</TableCell>
           </TableRow>
         ))}
       </TableBody>
