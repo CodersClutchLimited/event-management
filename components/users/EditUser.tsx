@@ -22,44 +22,45 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Edit, Plus } from "lucide-react"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Edit, Loader, Plus, Save } from "lucide-react"
+import { IUser } from '@/lib/types'
+import {UserHook} from "@/hooks/UserHook"
+import { useSession } from "next-auth/react";
 
 // Define your Zod schema for validation
 
-const EditUser = () => {
+const EditUser = ({user} : {user: IUser}) => {
+
+    const { handleUpdateUser, isLoading } = UserHook();
+    const [open, setOpen] = useState<boolean>(false);
+    const { data: session } = useSession({ required: true });
+  
+
   // Use react-hook-form with Zod validation
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      telNum: '',
-      role: '',
-      address: {
-        street: '',
-        city: '',
-        country: ''
-      }
-    }
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      email: user?.email || '',
+      password: '', // Password is typically not pre-filled for security reasons
+      phoneNumber: user?.phoneNumber || '',
+      role: user?.role || ''
+    },
   });
-
+  
   // Handle form submission
-  const onSubmit = async (data: any) => {
-    try {
-      // Perform API call or any action with the data
-      console.log(data);
-      // You can reset the form after successful submission
+  async function onSubmit() {
+    const status = await handleUpdateUser(user._id, form.getValues());
+    if (status?.status === 200) {
+      setOpen(false);
       form.reset();
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
-  };
+    }    
+  }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
       <Button
             variant={"outline"}
@@ -148,7 +149,7 @@ const EditUser = () => {
             {/* Phone Number Field (Optional) */}
             <FormField
               control={form.control}
-              name="telNum"
+              name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>
@@ -186,7 +187,18 @@ const EditUser = () => {
 
 
             <DialogFooter>
-              <Button type="submit">Update</Button>
+            <DialogClose type="button">
+                <Button variant="outline">Cancel</Button>
+            </DialogClose>
+
+              <Button disabled={isLoading} type="submit">
+              {isLoading ? "Saving changes..." : "Save changes"}
+                {isLoading ? (
+                  <Loader className="animate-spin ml-2" />
+                ) : (
+                  <Save className="ml-2" />
+                )}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

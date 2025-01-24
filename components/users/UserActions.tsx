@@ -12,7 +12,8 @@ import { Ellipsis, LucideView } from "lucide-react";
 import DeleteUser from "./deleteUsers";
 import Link from "next/link";
 import EditUser from "./EditUser";
-const userAction = ({item}) => {
+import { IUser } from "@/lib/types";
+const userAction = ({user} : {user: IUser}) => {
 
   return (
     <DropdownMenu>
@@ -25,8 +26,8 @@ const userAction = ({item}) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <EditUser/>
-          <Link href={`/users/${item.id}`}>
+          <EditUser user={user}/>
+          <Link href={`/users/${user._id}`}>
           <Button
             variant={"outline"}
             className="w-full flex items-center justify-between mt-1 mb-1"
