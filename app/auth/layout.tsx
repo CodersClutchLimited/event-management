@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { Nunito } from "next/font/google";
+import { Toaster } from "sonner";
 // import { Toaster } from "@/components/ui/sonner";
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function AuthLayout({
           disableTransitionOnChange
         >
           {children}
-          {/* <Toaster richColors /> */}
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>

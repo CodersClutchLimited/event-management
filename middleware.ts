@@ -33,6 +33,7 @@ export default withAuthMiddleware((req) => {
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     return Response.redirect(
       new URL(`/auth?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+      // new URL(`/auth/`, nextUrl)
     );
   }
 

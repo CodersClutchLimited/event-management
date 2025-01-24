@@ -53,10 +53,6 @@ const SignInForm = () => {
           } else if (data?.url) {
             window.location.assign(data?.url);
           }
-
-          if (data?.twoFactor) {
-            setShowTwoFactor(true);
-          }
         })
         .catch(() => setError("Something went wrong"));
     });
@@ -72,25 +68,6 @@ const SignInForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-4">
-            {showTwoFactor && (
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Two Factor Code</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isPending}
-                        placeholder="123456"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
             {!showTwoFactor && (
               <>
                 <FormField
@@ -130,7 +107,7 @@ const SignInForm = () => {
                         asChild
                         className="px-0 font-normal"
                       >
-                        <Link href="/reset">Forgot password?</Link>
+                        <Link href="/auth/reset">Forgot password?</Link>
                       </Button>
                       <FormMessage />
                     </FormItem>
