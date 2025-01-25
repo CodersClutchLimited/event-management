@@ -56,7 +56,7 @@ const EditUser = () => {
   });
 
   // Handle form submission
-  const onSubmit = async (data: IUser) => {
+  const onSubmit = async (data: z.infer<typeof userSchema>) => {
     try {
       // Perform API call or any action with the data
       console.log(data);
