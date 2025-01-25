@@ -1,7 +1,7 @@
 import jwt, { JwtPayload, TokenExpiredError, SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "./db";
 import { TwoFactorToken } from "@/lib/models/auth.model";
 
 export interface IPayload extends JwtPayload {

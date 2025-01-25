@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { User } from "@/lib/models/auth.model";
 import { IUser } from "@/lib/models/types";
 

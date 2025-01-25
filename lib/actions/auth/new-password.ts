@@ -3,7 +3,7 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { verifyToken, isTokenError } from "@/lib/jwt-token";
 import { User } from "@/lib/models/auth.model";
 import { NewPasswordValidation } from "@/lib/validation/auth";

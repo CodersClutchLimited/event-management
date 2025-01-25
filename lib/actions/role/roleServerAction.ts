@@ -1,4 +1,5 @@
 "use server";
+import { connectDB } from "@/lib/db";
 import Role from "@/lib/models/role.model";
 import { deepConvertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
@@ -52,7 +53,9 @@ export const addRoleServerAction = async (roleData: RoleData) => {
 
 export const fetchRolesServerAction = async () => {
   try {
-    const roles = await Role.find({});
+    await connectDB();
+
+    const roles = await Role.find();
     return {
       status: 200,
       message: "Roles fetched successfully",
@@ -66,7 +69,6 @@ export const fetchRolesServerAction = async () => {
     };
   }
 };
-
 export const getRoleByNameServerAction = async (roleName: string) => {
   try {
     if (!roleName) {
@@ -98,7 +100,6 @@ export const getRoleByNameServerAction = async (roleName: string) => {
     };
   }
 };
-
 export const UpdatePermissionLevel = async (
   roleName: string,
   permissionKey: string,
@@ -115,7 +116,6 @@ export const UpdatePermissionLevel = async (
 
     console.log("Existing permissions:", role.permissions);
     console.log("Permission key:", permissionKey);
-
     // Ensure permissions is an object and not undefined
     if (!role.permissions || typeof role.permissions !== "object") {
       return { status: 400, message: "Invalid permissions format" };
@@ -131,13 +131,10 @@ export const UpdatePermissionLevel = async (
       );
       return { status: 404, message: "Permission not found" };
     }
-
     // Update the permission level
     permission.level = newLevel;
-
     // Save the updated role
     await role.save();
-
     // Revalidate the paths
     revalidatePath(
       `/settings/roles-permissions/${roleName}/edit-permission-${roleName}`,

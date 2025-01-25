@@ -12,8 +12,10 @@ import { SystemSettingsTypes } from "@/lib/types";
 // import { addSystemSettingsServerAction } from "@/lib/actions/systemSetting/SystemSettingServerAction";
 
 const GeneralSettings = async () => {
-  const { data } = await await getSystemSettings();
+  const { data } = await getSystemSettings();
   // console.log("data", data);
+
+  const settingsData = data as unknown as SystemSettingsTypes;
 
   return (
     <Card className="">
@@ -22,11 +24,11 @@ const GeneralSettings = async () => {
       </CardHeader>
       <CardContent className=" flex gap-5 flex-col">
         {/* <CurrencyConfig /> */}
-        <General data={data as unknown as SystemSettingsTypes} />
-        <UserManagement data={data as unknown as SystemSettingsTypes} />
-        <EventManagement data={data as unknown as SystemSettingsTypes} />
-        <Notifications data={data as unknown as SystemSettingsTypes} />
-        <PaymentSettings data={data as unknown as SystemSettingsTypes} />
+        <General data={settingsData} />
+        <UserManagement data={settingsData} />
+        <EventManagement data={settingsData} />
+        <Notifications data={settingsData} />
+        <PaymentSettings data={settingsData} />
       </CardContent>
     </Card>
   );

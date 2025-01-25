@@ -3,7 +3,7 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { User } from "@/lib/models/auth.model";
 import { UserProvider } from "@/lib/models/types";
 import { SignUpValidation } from "@/lib/validation/auth";

@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
 import { routes } from "@/routes";
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import {
   User,
   // TwoFactorToken,
