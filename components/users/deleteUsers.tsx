@@ -14,8 +14,9 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
+import { IUser } from "@/lib/types";
 
-const DeleteUser = ({user}) => {
+const DeleteUser = ({ user }: { user: IUser }) => {
   return (
     <div>
       <AlertDialog>
@@ -38,7 +39,7 @@ const DeleteUser = ({user}) => {
             <AlertDialogDescription>
               <p className="mb-2">
                 Are you sure you want to delete this user{" "}
-                <span className="font-bold">{user?.fullName}</span>?
+                <span className="font-bold">{user?.firstName}</span>?
                 <br />
                 This action will permanently remove this event with the it
                 realated data
