@@ -54,7 +54,7 @@ export const addSystemSettingsServerAction = async () => {
   }
 };
 
-export const updateSystemSettings = async (updatedSettings) => {
+export const updateSystemSettings = async (updatedSettings: any) => {
   try {
     // Ensure at least one field is provided for update
     if (!updatedSettings || Object.keys(updatedSettings).length === 0) {

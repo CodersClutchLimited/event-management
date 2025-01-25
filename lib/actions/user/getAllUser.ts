@@ -14,6 +14,7 @@ export const getAllUsers = async ({
   limit?: number;
 }) => {
   try {
+    // skip number of rows
     const skip = (page - 1) * limit;
 
     const pipeline = [
@@ -35,7 +36,7 @@ export const getAllUsers = async ({
         : []),
       { $skip: skip },
       { $limit: limit },
-      { $sort: { createdAt: -1 } },
+      { $sort: { createdAt: -1 as -1 } },
       {
         $project: {
           firstName: 1,
@@ -54,9 +55,12 @@ export const getAllUsers = async ({
       },
     ];
 
+    // user aggrigatio pipline to fetch user info
+
     const users = await User.aggregate(pipeline);
     const totalCount = query
-      ? (
+      ? // if query then search
+        (
           await User.aggregate([
             {
               $search: {
@@ -73,7 +77,8 @@ export const getAllUsers = async ({
             { $count: "count" },
           ])
         )[0]?.count || 0
-      : await User.countDocuments();
+      : // else start counting document
+        await User.countDocuments();
 
     return {
       status: 200,

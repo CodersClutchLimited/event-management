@@ -34,7 +34,7 @@ const userAction = ({ item }: { item: IUser }) => {
               View <LucideView />
             </Button>
           </Link>
-          <DeleteUser user={item} />
+          <DeleteUser user={item as IUser} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>

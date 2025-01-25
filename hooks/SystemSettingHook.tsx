@@ -6,7 +6,7 @@ export const SystemSettingHook = () => {
   const [isPending, setIsPending] = useState(false);
 
   // Handle system settings update
-  const handleUpdateSystemSettings = async (updatedSettings) => {
+  const handleUpdateSystemSettings = async (updatedSettings: any) => {
     setIsPending(true);
     const loadingToaster = toast.loading("Updating system settings...");
 

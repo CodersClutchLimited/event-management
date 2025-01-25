@@ -93,7 +93,7 @@ const UserContainer: React.FC<UserContanerProps> = ({
         <TablePagination
           limit={10}
           page={page}
-          isPreviousPage={isPreviousPage}
+          // isPreviousPage={isPreviousPage}
           isNextPage={isNextPage}
           totalCount={totalCount}
           search={search}
