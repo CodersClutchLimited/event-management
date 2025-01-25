@@ -1,12 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+
 import { Badge } from "../ui/badge";
 import { formatReadableDate } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -39,8 +33,8 @@ const EventDetails = ({ event }: { event: EventInterfaceType }) => {
             Images
           </h1>
           <div className="flex flex-wrap gap-4">
-            <EventImages className="w-full lg:w-1/2" />
-            <AuthomaticalyCarasole className="w-full lg:w-1/2" />
+            <EventImages />
+            <AuthomaticalyCarasole />
           </div>
         </div>
 
@@ -67,7 +61,7 @@ const EventDetails = ({ event }: { event: EventInterfaceType }) => {
             <span className="font-medium">Status:</span>
             <Badge
               className={`text-white ${
-                event?.status === "canceled"
+                event?.status === "cancelled"
                   ? "bg-red-600"
                   : event?.status === "upcoming"
                   ? "bg-yellow-600"

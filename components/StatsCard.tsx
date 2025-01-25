@@ -2,9 +2,20 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Timer, TimerResetIcon } from "lucide-react";
 
-const StatsCard = ({ icon, title, value, percentage }) => {
+interface StatsCardProps {
+  icon: React.ReactNode;
+  title: string;
+  value: number | string;
+  percentage: string;
+}
+
+const StatsCard: React.FC<StatsCardProps> = ({
+  icon,
+  title,
+  value,
+  percentage,
+}) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

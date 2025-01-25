@@ -38,8 +38,8 @@ const CountDown: React.FC<CountDownProps> = ({
         return;
       }
 
-      let targetDate = now < registrationDate ? registrationDate : eventDate;
-      let label =
+      const targetDate = now < registrationDate ? registrationDate : eventDate;
+      const label =
         now < registrationDate
           ? "Registration closes in: "
           : "Event starts in: ";

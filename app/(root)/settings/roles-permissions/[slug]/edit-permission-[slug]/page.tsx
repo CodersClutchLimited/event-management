@@ -23,9 +23,8 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   const roleName = decodeURIComponent(slug.replace("edit-permission-", "")); // Decode the slug for readability
 
-
   // Fetch role by name
-  const { data, status } = await getRoleByNameServerAction(roleName);
+  const { data } = await getRoleByNameServerAction(roleName);
 
   if (!data || Object.keys(data).length === 0) {
     return (

@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Trash, TriangleAlert } from "lucide-react";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { EventInterfaceType } from "@/lib/types";
 
-const RevomeFromEvent = ({ item }) => {
+const RevomeFromEvent = ({ item }: { item: EventInterfaceType }) => {
   return (
     <div>
       <AlertDialog>

@@ -47,7 +47,7 @@ export default {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ account, profile }) {
       // console.log({user})
       // console.log({account, profile})
       if (

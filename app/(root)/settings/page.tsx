@@ -12,7 +12,7 @@ import { SystemSettingsTypes } from "@/lib/types";
 // import { addSystemSettingsServerAction } from "@/lib/actions/systemSetting/SystemSettingServerAction";
 
 const GeneralSettings = async () => {
-  const { data, status } = await await getSystemSettings();
+  const { data } = await await getSystemSettings();
   // console.log("data", data);
 
   return (

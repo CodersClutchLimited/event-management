@@ -49,7 +49,7 @@ const SignInForm = () => {
           if (data?.error) {
             setError(data.error);
           } else if (data?.success) {
-            setSuccess(data.success);
+            setSuccess(data?.success);
           } else if (data?.url) {
             window.location.assign(data?.url);
           }

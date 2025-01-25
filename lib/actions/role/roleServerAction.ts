@@ -3,7 +3,13 @@ import Role from "@/lib/models/role.model";
 import { deepConvertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 
-export const addRoleServerAction = async (roleData: any) => {
+interface RoleData {
+  name: string;
+  description?: string;
+  permissions: string[];
+}
+
+export const addRoleServerAction = async (roleData: RoleData) => {
   try {
     // Ensure name and permissions are provided
     if (!roleData.name || !roleData.permissions) {
@@ -40,7 +46,6 @@ export const addRoleServerAction = async (roleData: any) => {
     return {
       status: 500,
       message: "Failed to add role",
-      error: error.message,
     };
   }
 };

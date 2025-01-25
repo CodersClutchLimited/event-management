@@ -26,8 +26,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FormError } from "@/components/common/form-error";
-import { FormSuccess } from "@/components/common/form-success";
+// import { FormError } from "@/components/common/form-error";
+// import { FormSuccess } from "@/components/common/form-success";
 import { newPassword } from "@/lib/actions/auth/new-password";
 
 const NewPasswordForm = () => {

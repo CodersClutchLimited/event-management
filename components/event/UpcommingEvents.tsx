@@ -5,7 +5,6 @@ import { Separator } from "../ui/separator";
 import { Timer } from "lucide-react";
 import { EventData } from "@/constants/sampleData";
 import { Label } from "../ui/label";
-import { Badge } from "../ui/badge";
 import CountDown from "../common/CountDown";
 
 const UpcommingEvents = () => {

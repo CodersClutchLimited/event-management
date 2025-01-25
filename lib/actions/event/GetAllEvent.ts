@@ -2,6 +2,7 @@
 import Event from "@/lib/models/event.model";
 import { EventInterfaceType } from "@/lib/types";
 import { deepConvertToPlainObject } from "@/lib/utils";
+import { PipelineStage } from "mongoose";
 
 export const GetAllEvent = async ({
   query,
@@ -15,7 +16,7 @@ export const GetAllEvent = async ({
   try {
     const skip = (page - 1) * limit;
 
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       //   {
       //     $match: {
       //       ...(startDate &&
@@ -90,12 +91,12 @@ export const GetAllEvent = async ({
 
     return {
       status: 200,
-      data: Events as EventInterfaceType,
+      data: Events as unknown as EventInterfaceType,
       isPreviousPage: page > 1,
       isNextPage: totalCount > skip + EventData.length,
       totalCount,
     };
-  } catch (error) {
+  } catch {
     return { status: 500, message: "Failed to get events" };
   }
 };

@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, Ellipsis, LucideView } from "lucide-react";
+import { Ellipsis, LucideView } from "lucide-react";
 import DeleteEvent from "./DeleteEvent";
 import Link from "next/link";
 import { EventInterfaceType } from "@/lib/types";
