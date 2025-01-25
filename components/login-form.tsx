@@ -23,10 +23,10 @@ import { FormError } from "./common/form-error";
 import { FormSuccess } from "./common/form-success";
 import { FormWrapper } from "./common/form-wrapper";
 const SignInForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams.get("callbackUrl");
   const [error, setError] = useState<string | undefined | null>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined | null>("");
   // const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -42,9 +42,8 @@ const SignInForm = () => {
     // console.log(values)
     setError("");
     setSuccess("");
-
     startTransition(() => {
-      signInWithCredentials(values, callbackUrl)
+      signInWithCredentials(values)
         .then((data) => {
           if (data?.error) {
             setError(data.error);

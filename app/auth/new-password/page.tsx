@@ -31,8 +31,8 @@ import {
 import { newPassword } from "@/lib/actions/auth/new-password";
 
 const NewPasswordForm = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  // const searchParams = useSearchParams();
+  // const token = searchParams.get("token");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -49,7 +49,7 @@ const NewPasswordForm = () => {
       "🚀 Hold tight! while we reset your passwor"
     );
     startTransition(() => {
-      newPassword(values, token)
+      newPassword(values)
         .then((data) => {
           if (data?.error) {
             toast.error(data.error);
