@@ -27,7 +27,7 @@ const SignInForm = () => {
   const callbackUrl = searchParams.get("callbackUrl");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [showTwoFactor, setShowTwoFactor] = useState(false);
+  // const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof SignInValidation>>({
@@ -68,53 +68,51 @@ const SignInForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <div className="space-y-4">
-            {!showTwoFactor && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isPending}
-                          placeholder="mail@example.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isPending}
-                          type="password"
-                          placeholder="your password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <Button
-                        size="sm"
-                        variant="link"
-                        asChild
-                        className="px-0 font-normal"
-                      >
-                        <Link href="/auth/reset">Forgot password?</Link>
-                      </Button>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        placeholder="mail@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        type="password"
+                        placeholder="your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      asChild
+                      className="px-0 font-normal"
+                    >
+                      <Link href="/auth/reset">Forgot password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
@@ -124,11 +122,7 @@ const SignInForm = () => {
             type="submit"
             disabled={isPending}
           >
-            {isPending
-              ? "Submitting..."
-              : showTwoFactor
-              ? "Confirm"
-              : "Sign In"}
+            {isPending ? "Submitting..." : "Sign In"}
           </Button>
         </form>
       </Form>

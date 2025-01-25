@@ -43,8 +43,8 @@ const NewPasswordForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof NewPasswordValidation>) {
-    console.log(values);
+  async function onSubmit() {
+    const values = form.getValues();
     const loadingtoastId = toast.loading(
       "🚀 Hold tight! while we reset your passwor"
     );

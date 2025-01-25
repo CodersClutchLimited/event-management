@@ -1,10 +1,11 @@
 import EventContainer from "@/components/event/EventContainer";
 import { GetAllEvent } from "@/lib/actions/event/GetAllEvent";
+import { EventInterfaceType } from "@/lib/types";
 import React from "react";
 const Event = async ({
   searchParams,
 }: {
-  searchParams: { page: string; limit: string; search: string };
+  searchParams: Promise<{ page: string; limit: string; search: string }>;
 }) => {
   const searchParamsData = await searchParams;
   console.log(searchParamsData);
@@ -41,7 +42,7 @@ const Event = async ({
         isNextPage={isNextPage}
         totalCount={totalCount}
         search={search}
-        events={data}
+        events={data as EventInterfaceType}
       />
     </div>
   );

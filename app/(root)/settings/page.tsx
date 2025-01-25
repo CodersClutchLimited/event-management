@@ -22,11 +22,11 @@ const GeneralSettings = async () => {
       </CardHeader>
       <CardContent className=" flex gap-5 flex-col">
         {/* <CurrencyConfig /> */}
-        <General data={data as SystemSettingsTypes} />
-        <UserManagement data={data as SystemSettingsTypes} />
-        <EventManagement data={data as SystemSettingsTypes} />
-        <Notifications data={data as SystemSettingsTypes} />
-        <PaymentSettings data={data as SystemSettingsTypes} />
+        <General data={data as unknown as SystemSettingsTypes} />
+        <UserManagement data={data as unknown as SystemSettingsTypes} />
+        <EventManagement data={data as unknown as SystemSettingsTypes} />
+        <Notifications data={data as unknown as SystemSettingsTypes} />
+        <PaymentSettings data={data as unknown as SystemSettingsTypes} />
       </CardContent>
     </Card>
   );

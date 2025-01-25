@@ -31,7 +31,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit } from "lucide-react";
-import { IUser } from "@/lib/models/types";
 
 // Define your Zod schema for validation
 

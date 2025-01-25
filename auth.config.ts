@@ -20,7 +20,7 @@ export default {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         const validatedFields = SignInValidation.safeParse(credentials);
         console.log(validatedFields);
 
@@ -29,11 +29,11 @@ export default {
 
           const existingUser = await fetchUserByEmail(email);
           // console.log({ existingUser });
-          if (!existingUser || !existingUser.password) return null;
+          if (!existingUser || !existingUser?.password) return null;
 
           const passwordsMatch = await bcrypt.compare(
             password,
-            existingUser.password
+            existingUser?.password
           );
 
           existingUser.password = "";

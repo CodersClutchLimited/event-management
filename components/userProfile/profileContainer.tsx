@@ -149,7 +149,7 @@ const ProfileContainer = () => {
               Authentication Method(s):
             </span>
             {Object.entries(user.authMethod)
-              .filter(([_, value]) => value)
+              .filter(([, value]) => value)
               .map(([key]) => (
                 <span key={key} className="text-base font-semibold capitalize">
                   {key.replace(/([A-Z])/g, " $1")}

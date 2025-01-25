@@ -12,7 +12,7 @@ import { getRoleByNameServerAction } from "@/lib/actions/role/roleServerAction";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-const page = async ({ params }: { params: { slug: string } }) => {
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await await params; // No need to use `await` with params
   const roleName = decodeURI(slug); // Decode the slug for readability
 
@@ -44,23 +44,23 @@ const page = async ({ params }: { params: { slug: string } }) => {
 
             {/* Render Permissions */}
             <div className="flex items-center gap-3 flex-wrap">
-              {Object.entries(data.permissions).map(
-                ([permissionKey, permissionValue]) => (
-                  <div key={permissionKey} className="flex items-center gap-2">
-                    <Button
-                      variant={
-                        permissionValue.level === "full"
-                          ? "default"
-                          : permissionValue.level === "view"
-                          ? "secondary"
-                          : "destructive"
-                      }
-                    >
-                      {permissionKey.replace(/_/g, " ")}
-                    </Button>
-                  </div>
-                )
-              )}
+              {Object.entries(
+                data?.permissions as { [key: string]: { level: string } }
+              ).map(([permissionKey, permissionValue]) => (
+                <div key={permissionKey} className="flex items-center gap-2">
+                  <Button
+                    variant={
+                      permissionValue.level === "full"
+                        ? "default"
+                        : permissionValue.level === "view"
+                        ? "secondary"
+                        : "destructive"
+                    }
+                  >
+                    {permissionKey.replace(/_/g, " ")}
+                  </Button>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Suspense>
