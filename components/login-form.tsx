@@ -25,7 +25,7 @@ import { FormWrapper } from "./common/form-wrapper";
 const SignInForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const [error, setError] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined | null>("");
   const [success, setSuccess] = useState<string | undefined>("");
   // const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -48,8 +48,9 @@ const SignInForm = () => {
         .then((data) => {
           if (data?.error) {
             setError(data.error);
-          } else if (data?.success) {
-            setSuccess(data?.success);
+          } else if (data?.url) {
+            setSuccess("Login successful");
+            window.location.assign(data?.url);
           } else if (data?.url) {
             window.location.assign(data?.url);
           }
@@ -114,8 +115,8 @@ const SignInForm = () => {
               />
             </>
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+          <FormError message={error ?? undefined} />
+          <FormSuccess message={success ?? undefined} />
           <Button
             size="lg"
             className="w-full mt-6"

@@ -1,19 +1,38 @@
 import { Account, Profile } from "next-auth";
 import { fetcher } from "@/lib/utils";
-import { IUser } from "../models/types";
+import { IUser } from "../types";
 
-export const fetchUserByEmail = async (email: string) => {
+// export const fetchUserByEmail = async (email: string) => {
+//   try {
+//     const user = await fetcher(
+//       `${process.env.NEXT_PUBLIC_APP_URL}/api/user/fetch-by-email`,
+//       {
+//         method: "POST",
+//         body: JSON.stringify({ email }),
+//       }
+//     );
+//     // console.log({user})
+
+//     if (user) return !user;
+
+//     return null;
+//   } catch {
+//     return null;
+//   }
+// };
+export const fetchUserByEmail = async (
+  email: string
+): Promise<IUser | null> => {
   try {
-    const user = await fetcher(
+    const user: IUser | null = (await fetcher(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/user/fetch-by-email`,
       {
         method: "POST",
         body: JSON.stringify({ email }),
       }
-    );
-    // console.log({user})
+    )) as IUser | null;
 
-    if (user) return !user;
+    if (user) return user; // ✅ Return the user object instead of `!user`
 
     return null;
   } catch {

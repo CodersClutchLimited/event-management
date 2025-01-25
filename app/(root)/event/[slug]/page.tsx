@@ -15,8 +15,8 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
       {/* Event details */}
       <EventDetails event={data as unknown as EventInterfaceType} />
       <div className="grid grid-cols-2 gap-4">
-        <RecentApplicant event={data} />
-        <WaitlistUsers event={data} />
+        <RecentApplicant item={data as unknown as EventInterfaceType} />
+        <WaitlistUsers item={data as unknown as EventInterfaceType} />
       </div>
     </div>
   );

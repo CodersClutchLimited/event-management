@@ -42,7 +42,7 @@ const Event = async ({
         isNextPage={isNextPage}
         totalCount={totalCount}
         search={search}
-        events={data as EventInterfaceType}
+        events={data as unknown as EventInterfaceType[]}
       />
     </div>
   );

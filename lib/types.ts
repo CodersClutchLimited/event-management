@@ -24,6 +24,7 @@ export interface IUser extends Document {
   password?: string;
   phoneNumber?: string;
   avatar?: string;
+  registeredAt?: string;
   address?: {
     street?: string;
     city?: string;
@@ -80,7 +81,7 @@ export interface EventInterfaceType {
   schedule: EventSchedule;
   registrationDeadline: string; // ISO date string
   maxParticipants: number;
-  status: "upcoming" | "ongoing" | "completed" | "canceled";
+  status: "upcoming" | "ongoing" | "completed" | "cancelled";
   isPublished: boolean;
   notifications: EventNotifications;
   registeredUsers: IUser[]; // Array of IUser references

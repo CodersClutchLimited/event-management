@@ -36,7 +36,17 @@ const UpcommingEvents = () => {
               </div>
               <div>
                 <Label className="text-sm font-thin mr-2">Time Left</Label>
-                <CountDown date={item.registrationDeadline} />
+                <CountDown
+                  registrationDeadline={item.registrationDeadline}
+                  status={
+                    item.status as
+                      | "upcoming"
+                      | "ongoing"
+                      | "completed"
+                      | "cancelled"
+                  }
+                  eventStart={item.schedule.start}
+                />
               </div>
             </div>
           ))}

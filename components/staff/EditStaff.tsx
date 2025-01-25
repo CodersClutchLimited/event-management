@@ -31,6 +31,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Edit } from "lucide-react";
+import { IUser } from "@/lib/types";
 
 // Define your Zod schema for validation
 
@@ -54,7 +55,7 @@ const EditStaff = () => {
   });
 
   // Handle form submission
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: z.infer<typeof userSchema>) => {
     try {
       // Perform API call or any action with the data
       console.log(data);

@@ -13,7 +13,7 @@ import {
   BadgeRussianRuble,
   Key,
 } from "lucide-react";
-import { formatDate } from "@/lib/utils";
+
 import TablePagination from "../common/TablePagination";
 import {
   Card,
@@ -36,6 +36,7 @@ import {
 } from "../ui/dropdown-menu";
 import RegisteredEvents from "./RegisteredEvents";
 import WaitlistedEvent from "./WaitlistedEvent";
+import { formatReadableDate } from "@/lib/utils";
 
 const ProfileContainer = () => {
   const { slug } = useParams();
@@ -163,7 +164,7 @@ const ProfileContainer = () => {
               Last Logged In
             </span>
             <span className="text-base font-semibold">
-              {formatDate(user.lastLogin)}
+              {formatReadableDate(user.lastLogin)}
             </span>
           </div>
         </Card>
