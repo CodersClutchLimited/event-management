@@ -18,10 +18,10 @@ import Link from "next/link";
 import { getRoleByNameServerAction } from "@/lib/actions/role/roleServerAction";
 import PermissionCollaps from "@/components/setting/PermissionCollaps";
 
-const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const { slug } = await params; // Decode role name directly
+const Page = async ({ params }: { params: Promise<{ subslug: string }> }) => {
+  const { subslug } = await params; // Decode role name directly
 
-  const roleName = decodeURIComponent(slug.replace("edit-permission-", "")); // Decode the slug for readability
+  const roleName = decodeURIComponent(subslug.replace("edit-permission-", "")); // Decode the slug for readability
 
   // Fetch role by name
   const { data } = await getRoleByNameServerAction(roleName);
