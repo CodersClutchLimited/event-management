@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { SystemSettingsTypes } from "@/lib/types";
 import { SystemSettingHook } from "@/hooks/SystemSettingHook";
 import { Loader } from "lucide-react";

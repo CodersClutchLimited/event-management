@@ -9,8 +9,9 @@ import {
 import ProfileComponent from "../common/ProfileComponent";
 // import { formatReadableDate } from "@/lib/utils";
 import Link from "next/link";
+import { EventInterfaceType, IUser } from "@/lib/types";
 
-const WaitlistUsers = ({ event }) => {
+const WaitlistUsers = ({ item: event }: { item: EventInterfaceType }) => {
   return (
     <Card>
       <CardHeader>
@@ -26,7 +27,7 @@ const WaitlistUsers = ({ event }) => {
         {event?.waitlist?.length === 0 && (
           <p className="text-center">Waitlist is empty </p>
         )}
-        {event?.waitlist?.map((item) => (
+        {event?.waitlist?.map((item: IUser) => (
           <Link
             href={`/users/${item?._id}`}
             key={item?._id}

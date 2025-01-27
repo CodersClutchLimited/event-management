@@ -11,7 +11,7 @@ export const EventHook = () => {
 
   // handle add event
   //   addingnew account
-  const HandleAddEvent = async (formData) => {
+  const HandleAddEvent = async (formData: any) => {
     setIsLoading(true);
     // const loadingToastId = toast.loading("🧍🧍🧍🧍🧍 Adding new event...");
 

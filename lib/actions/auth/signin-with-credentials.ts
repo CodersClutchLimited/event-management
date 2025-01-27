@@ -5,16 +5,16 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
 import { routes } from "@/routes";
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import {
   User,
-  TwoFactorToken,
-  TwoFactorConfirmation,
+  // TwoFactorToken,
+  // TwoFactorConfirmation,
 } from "@/lib/models/auth.model";
 import { SignInValidation } from "@/lib/validation/auth";
-import { generateToken, generateCode } from "@/lib/jwt-token";
+// import { generateToken, generateCode } from "@/lib/jwt-token";
 // import { generateVerificationToken, generateTwoFactorToken } from "@/lib/token"
-import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mail";
+// import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mail";
 // import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mail"
 
 type SignInInput = z.infer<typeof SignInValidation>;

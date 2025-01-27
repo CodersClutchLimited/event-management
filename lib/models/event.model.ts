@@ -62,11 +62,13 @@ EventSchema.pre("validate", async function (next) {
 
       this.eventId = nextEventId;
     } catch (error) {
-      return next(new Error("Error generating event ID: " + error.message));
+      return next(
+        new Error("Error generating event ID: " + (error as Error).message)
+      );
     }
   }
   next();
 });
 
-const     Event = mongoose.models?.Event || mongoose.model("Event", EventSchema);
+const Event = mongoose.models?.Event || mongoose.model("Event", EventSchema);
 export default Event;

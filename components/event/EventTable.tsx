@@ -8,7 +8,7 @@ import { Badge } from "../ui/badge";
 import EventAction from "./EventAction";
 import { EventInterfaceType } from "@/lib/types";
 
-const EventTable = ({ events }: { events: EventInterfaceType }) => {
+const EventTable = ({ events }: { events: EventInterfaceType[] }) => {
   return (
     <Table className="mt-5">
       <DynamicTableHeaders headers={EventTableHeaderData} />

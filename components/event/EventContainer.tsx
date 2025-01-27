@@ -29,7 +29,7 @@ interface EvenContainerProps {
   isNextPage: boolean | undefined;
   totalCount: number | undefined;
   search: string | undefined;
-  events: EventInterfaceType;
+  events: EventInterfaceType[];
 }
 
 const EventContainer: React.FC<EvenContainerProps> = ({
@@ -98,7 +98,7 @@ const EventContainer: React.FC<EvenContainerProps> = ({
         <TablePagination
           limit={10}
           page={page}
-          isPreviousPage={isPreviousPage}
+          // isPreviousPage={isPreviousPage}
           isNextPage={isNextPage}
           totalCount={totalCount}
           search={search}

@@ -1,5 +1,6 @@
 "use server";
 
+import { connectDB } from "@/lib/db";
 import SystemSetting from "@/lib/models/systemsetting.model";
 import { deepConvertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
@@ -54,7 +55,7 @@ export const addSystemSettingsServerAction = async () => {
   }
 };
 
-export const updateSystemSettings = async (updatedSettings) => {
+export const updateSystemSettings = async (updatedSettings: any) => {
   try {
     // Ensure at least one field is provided for update
     if (!updatedSettings || Object.keys(updatedSettings).length === 0) {
@@ -87,8 +88,10 @@ export const updateSystemSettings = async (updatedSettings) => {
 
 export const getSystemSettings = async () => {
   try {
+    await connectDB();
+
     // Retrieve the first system settings document
-    const systemSettings = await SystemSetting.findOne({});
+    const systemSettings = await SystemSetting.findOne();
 
     if (!systemSettings) {
       return {

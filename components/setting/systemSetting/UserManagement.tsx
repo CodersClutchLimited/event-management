@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -13,26 +13,21 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import SystemSetting from "@/lib/models/systemsetting.model";
-import { SystemSettingsTypes } from "@/lib/types";
 import { SystemSettingHook } from "@/hooks/SystemSettingHook";
 import { Loader } from "lucide-react";
+import { SystemSettingsTypes } from "@/lib/types";
 
 const UserManagementSchema = z.object({
   allowUserRegistration: z.boolean(),
 });
 
 const UserManagement = ({ data }: { data: SystemSettingsTypes }) => {
-  const [loading, setLoading] = useState(false);
   const { isPending, handleUpdateSystemSettings } = SystemSettingHook();
 
   const form = useForm({

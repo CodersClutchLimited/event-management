@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
   CalendarSync,
-  Command,
   GalleryVerticalEnd,
   LayoutGrid,
   Settings2,

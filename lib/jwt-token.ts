@@ -1,7 +1,7 @@
-import jwt, { JwtPayload, TokenExpiredError } from "jsonwebtoken";
+import jwt, { JwtPayload, TokenExpiredError, SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "./db";
 import { TwoFactorToken } from "@/lib/models/auth.model";
 
 export interface IPayload extends JwtPayload {
@@ -18,9 +18,12 @@ export const isTokenError = (res: IPayload | IError): res is IError => {
 
 export const generateToken = async (
   payload: { email: string },
-  expiresIn: string = "1h"
+  expiresIn: string | number = "1h"
 ) => {
-  return jwt.sign(payload, process.env.TOKEN_SECRET!, { expiresIn }); // jwt.io
+  const options: SignOptions = {
+    expiresIn: expiresIn as SignOptions["expiresIn"],
+  };
+  return jwt.sign(payload, process.env.TOKEN_SECRET!, options); // jwt.io
 };
 
 export const verifyToken = async (

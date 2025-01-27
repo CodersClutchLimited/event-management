@@ -7,7 +7,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function TeamSwitcher({
@@ -19,8 +18,15 @@ export function TeamSwitcher({
     plan: string;
   }[];
 }) {
-  const { isMobile } = useSidebar();
   const [activeTeam, setActiveTeam] = React.useState(teams[0]);
+
+  const handleTeamChange = (team: {
+    name: string;
+    logo: React.ElementType;
+    plan: string;
+  }) => {
+    setActiveTeam(team);
+  };
 
   return (
     <SidebarMenu>
@@ -28,6 +34,7 @@ export function TeamSwitcher({
         <SidebarMenuButton
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          onClick={() => handleTeamChange(activeTeam)}
         >
           <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
             <activeTeam.logo className="size-4" />

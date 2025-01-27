@@ -26,13 +26,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FormError } from "@/components/common/form-error";
-import { FormSuccess } from "@/components/common/form-success";
+// import { FormError } from "@/components/common/form-error";
+// import { FormSuccess } from "@/components/common/form-success";
 import { newPassword } from "@/lib/actions/auth/new-password";
 
 const NewPasswordForm = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  // const searchParams = useSearchParams();
+  // const token = searchParams.get("token");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -43,13 +43,13 @@ const NewPasswordForm = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof NewPasswordValidation>) {
-    console.log(values);
+  async function onSubmit() {
+    const values = form.getValues();
     const loadingtoastId = toast.loading(
       "🚀 Hold tight! while we reset your passwor"
     );
     startTransition(() => {
-      newPassword(values, token)
+      newPassword(values)
         .then((data) => {
           if (data?.error) {
             toast.error(data.error);

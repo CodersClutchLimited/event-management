@@ -12,8 +12,8 @@ import { Ellipsis, LucideView } from "lucide-react";
 import DeleteUser from "./deleteUsers";
 import Link from "next/link";
 import EditUser from "./EditUser";
-const userAction = ({item}) => {
-
+import { IUser } from "@/lib/types";
+const userAction = ({ item }: { item: IUser }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,16 +25,16 @@ const userAction = ({item}) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <EditUser/>
+          <EditUser />
           <Link href={`/users/${item.id}`}>
-          <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1 mb-1"
-          >
-           View <LucideView />
-          </Button>
+            <Button
+              variant={"outline"}
+              className="w-full flex items-center justify-between mt-1 mb-1"
+            >
+              View <LucideView />
+            </Button>
           </Link>
-          <DeleteUser user={{}} />
+          <DeleteUser user={item as IUser} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>

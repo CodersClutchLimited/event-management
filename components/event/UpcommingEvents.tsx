@@ -5,7 +5,6 @@ import { Separator } from "../ui/separator";
 import { Timer } from "lucide-react";
 import { EventData } from "@/constants/sampleData";
 import { Label } from "../ui/label";
-import { Badge } from "../ui/badge";
 import CountDown from "../common/CountDown";
 
 const UpcommingEvents = () => {
@@ -37,7 +36,17 @@ const UpcommingEvents = () => {
               </div>
               <div>
                 <Label className="text-sm font-thin mr-2">Time Left</Label>
-                <CountDown date={item.registrationDeadline} />
+                <CountDown
+                  registrationDeadline={item.registrationDeadline}
+                  status={
+                    item.status as
+                      | "upcoming"
+                      | "ongoing"
+                      | "completed"
+                      | "cancelled"
+                  }
+                  eventStart={item.schedule.start}
+                />
               </div>
             </div>
           ))}

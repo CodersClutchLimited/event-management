@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import {
   Card,
@@ -15,15 +15,14 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,  
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import TablePagination from "../common/TablePagination";
-import UserTable from './UserTable';
-import AddUser from "./AddUser"
-import {IUser} from '@/lib/types';
-
+import UserTable from "./UserTable";
+import AddUser from "./AddUser";
+import { IUser } from "@/lib/types";
 
 interface UserContanerProps {
   page: number;
@@ -31,7 +30,7 @@ interface UserContanerProps {
   isNextPage: boolean | undefined;
   totalCount: number | undefined;
   search: string | undefined;
-  users: IUser;
+  users: IUser[];
 }
 
 const UserContainer: React.FC<UserContanerProps> = ({
@@ -41,15 +40,14 @@ const UserContainer: React.FC<UserContanerProps> = ({
   totalCount,
   search,
   users,
-
 }) => {
-  console.log(users)
+  console.log(users);
   return (
     <Card>
       <CardHeader>
         <CardTitle>User Management</CardTitle>
         <CardDescription>
-         Manage Users View, Create or Block users
+          Manage Users View, Create or Block users
         </CardDescription>
       </CardHeader>
 
@@ -85,18 +83,17 @@ const UserContainer: React.FC<UserContanerProps> = ({
                 </span>
                 <CloudUpload className="h-5 w-5 ml-3 " />
               </Button>
-              <AddUser/>
+              <AddUser />
             </div>
-
           </div>
-              <UserTable users ={users} />
+          <UserTable users={users} />
         </div>
       </CardContent>
       <CardFooter>
         <TablePagination
           limit={10}
           page={page}
-          isPreviousPage={isPreviousPage}
+          // isPreviousPage={isPreviousPage}
           isNextPage={isNextPage}
           totalCount={totalCount}
           search={search}
@@ -107,4 +104,3 @@ const UserContainer: React.FC<UserContanerProps> = ({
 };
 
 export default UserContainer;
-

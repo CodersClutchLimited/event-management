@@ -3,16 +3,13 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { verifyToken, isTokenError } from "@/lib/jwt-token";
 import { User } from "@/lib/models/auth.model";
-import {
-  NewPasswordValidation,
-  ResetPasswordValidation,
-} from "@/lib/validation/auth";
+import { NewPasswordValidation } from "@/lib/validation/auth";
 // import { User, PasswordResetToken } from "@/lib/models/auth.model"
 
-type NewPasswordInput = z.infer<typeof ResetPasswordValidation>;
+type NewPasswordInput = z.infer<typeof NewPasswordValidation>;
 
 export const newPassword = async (
   values: NewPasswordInput,

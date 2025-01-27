@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { User } from "@/lib/models/user.model";
 import { ResetPasswordValidation } from "@/lib/validation/auth";
 import { generateToken } from "@/lib/jwt-token";

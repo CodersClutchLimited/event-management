@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   Pagination,
   PaginationContent,
@@ -11,14 +11,11 @@ import {
 import { usePathname, useSearchParams } from "next/navigation";
 
 const TablePagination = ({
-  isPreviousPage,
   totalCount,
   page,
-  isNextPage,
   search,
   limit,
 }: {
-  isPreviousPage: boolean | undefined;
   totalCount: number | undefined;
   page: number | undefined;
   isNextPage: boolean | undefined;
@@ -29,7 +26,7 @@ const TablePagination = ({
   const searchParams = useSearchParams();
 
   // Calculate total pages
-  const totalPages = Math.ceil(totalCount / limit);
+  const totalPages = Math.ceil((totalCount || 0) / limit);
   // Get the date parameter from the query string or handle it if it's null
   const searchParamsDateFrom = searchParams.get("dateFrom");
   const searchParamsDateTo = searchParams.get("dateTo");

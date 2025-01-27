@@ -16,6 +16,7 @@ export enum UserProvider {
 }
 
 export interface IUser extends Document {
+  _id: string;
   firstName: string;
   initial?: string;
   lastName: string;
@@ -23,6 +24,7 @@ export interface IUser extends Document {
   password?: string;
   phoneNumber?: string;
   avatar?: string;
+  registeredAt?: string;
   address?: {
     street?: string;
     city?: string;
@@ -70,7 +72,7 @@ interface EventNotifications {
 
 export interface EventInterfaceType {
   map(
-    arg0: (item: any, index: any) => import("react").JSX.Element
+    arg0: (item: IUser, index: number) => import("react").JSX.Element
   ): import("react").ReactNode;
   _id: string;
   title: string;
@@ -82,8 +84,8 @@ export interface EventInterfaceType {
   status: "upcoming" | "ongoing" | "completed" | "cancelled";
   isPublished: boolean;
   notifications: EventNotifications;
-  registeredUsers: any[]; // Define a specific type if available
-  waitlist: any[]; // Define a specific type if available
+  registeredUsers: IUser[]; // Array of IUser references
+  waitlist: IUser[]; // Array of IUser references
   createdAt: string; // ISO date string
   eventId: string;
 }

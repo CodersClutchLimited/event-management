@@ -17,8 +17,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { UploadButton } from "@/components/ui/upload"; // Example for a custom upload component
@@ -36,7 +35,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
     resolver: zodResolver(SettingGeneral),
     defaultValues: {
       systemName: data?.general?.systemName,
-      // logo: data?.general?.logo,
+      logo: "",
       contactEmail: data?.general?.contactEmail,
       contactPhone: data?.general?.contactPhone,
     },

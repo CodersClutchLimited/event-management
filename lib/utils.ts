@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export const fetcher = async (
   url: string,
   options: RequestInit = {}
-): Promise<any> => {
+): Promise<unknown> => {
   const headers = {
     "Content-Type": "application/json",
     ...options.headers,
@@ -21,7 +21,7 @@ export const fetcher = async (
 
   try {
     return await response.json();
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -44,6 +44,8 @@ export function formatReadableDate(dateString: string): string | undefined {
   });
 }
 
-export const deepConvertToPlainObject = (obj: any): Record<string, any> => {
+export const deepConvertToPlainObject = (
+  obj: unknown
+): Record<string, unknown> => {
   return JSON.parse(JSON.stringify(obj));
 };

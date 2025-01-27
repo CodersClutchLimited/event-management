@@ -32,7 +32,7 @@ const SignUpForm = () => {
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
     defaultValues: {
-      name: "",
+      firstName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -69,7 +69,7 @@ const SignUpForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="fullName"
+              name="firstName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>

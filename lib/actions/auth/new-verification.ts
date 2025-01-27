@@ -1,32 +1,32 @@
-"use server"
+"use server";
 
-import connectDB from "@/lib/db"
-import { verifyToken, isTokenError } from "@/lib/jwt-token"
-import { User } from "@/lib/models/auth.model"
+import { connectDB } from "@/lib/db";
+import { verifyToken, isTokenError } from "@/lib/jwt-token";
+import { User } from "@/lib/models/auth.model";
 // import { User, VerificationToken } from "@/lib/models/auth.model"
 
 export const newVerification = async (token: string) => {
-  const res = await verifyToken(token)
+  const res = await verifyToken(token);
   // console.log({res})
 
   if (isTokenError(res)) {
-    return { error: res.error }
+    return { error: res.error };
   }
-  
-  await connectDB()
 
-  const existingUser =await User.findOne({email: res.email})
+  await connectDB();
+
+  const existingUser = await User.findOne({ email: res.email });
 
   if (!existingUser) {
-    return { error: "Email does not exist!" }
+    return { error: "Email does not exist!" };
   }
 
   await User.findByIdAndUpdate(existingUser._id, {
     emailVerified: new Date(),
-    email: res.email
-  })
+    email: res.email,
+  });
 
-  return { success: "Email verified!" }
+  return { success: "Email verified!" };
 
   // await connectDB()
 
@@ -56,4 +56,4 @@ export const newVerification = async (token: string) => {
   // await VerificationToken.findByIdAndDelete(existingToken._id)
 
   // return { success: "Email verified!" }
-}
+};

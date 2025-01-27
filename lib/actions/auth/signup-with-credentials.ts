@@ -3,7 +3,7 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 
-import connectDB from "@/lib/db";
+import { connectDB } from "@/lib/db";
 import { User } from "@/lib/models/auth.model";
 import { UserProvider } from "@/lib/models/types";
 import { SignUpValidation } from "@/lib/validation/auth";
@@ -23,7 +23,7 @@ export const signUpWithCredentials = async (
     return { error: "Invalid fields!" };
   }
 
-  const { email, password, fullName } = validatedFields.data;
+  const { email, password, firstName } = validatedFields.data;
 
   await connectDB();
 
@@ -39,7 +39,7 @@ export const signUpWithCredentials = async (
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const user = new User({ fullName, email, password: hashedPassword });
+  const user = new User({ firstName, email, password: hashedPassword });
   await user.save();
 
   // const verificationToken = await generateToken({ email });
