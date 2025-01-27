@@ -10,7 +10,12 @@ import { EventInterfaceType } from "@/lib/types";
 import Link from "next/link";
 
 const UpcommingEvents = async () => {
-  const { data, status } = await GetLatestUpcomingEvent();
+  const response = await GetLatestUpcomingEvent();
+  if (response.status !== 200 || !Array.isArray(response.data)) {
+    console.error("Failed to fetch events", response);
+    return null;
+  }
+  const data: EventInterfaceType[] = response.data;
   console.log("data", data);
 
   return (

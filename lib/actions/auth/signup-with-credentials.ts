@@ -39,7 +39,12 @@ export const signUpWithCredentials = async (
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const user = new User({ firstName, email, password: hashedPassword });
+  const user = new User({
+    lastName: firstName,
+    firstName,
+    email,
+    password: hashedPassword,
+  });
   await user.save();
 
   // const verificationToken = await generateToken({ email });
