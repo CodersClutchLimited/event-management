@@ -25,7 +25,11 @@ export const fetchUserByEmail = async (
 ): Promise<IUser | null> => {
   try {
     const user: IUser | null = (await fetcher(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/user/fetch-by-email`,
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.NEXT_PUBLIC_APP_URL_PRODUCTION_URL
+          : process.env.NEXT_PUBLIC_APP_UR
+      }/api/user/fetch-by-email`,
       {
         method: "POST",
         body: JSON.stringify({ email }),
@@ -43,7 +47,11 @@ export const fetchUserByEmail = async (
 export const fetchUserById = async (id: string) => {
   try {
     const user = await fetcher(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/user/fetch-by-id`,
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.NEXT_PUBLIC_APP_URL_PRODUCTION_URL
+          : process.env.NEXT_PUBLIC_APP_UR
+      }/api/user/fetch-by-id`,
       {
         method: "POST",
         body: JSON.stringify({ id }),
@@ -69,7 +77,11 @@ export const signInWithOauth = async (values: SignInWithOauthInput) => {
   // console.log({account, profile})
 
   const user = await fetcher(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/user/signIn-with-oauth`,
+    `${
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_APP_URL_PRODUCTION_URL
+        : process.env.NEXT_PUBLIC_APP_UR
+    }/api/user/signIn-with-oauth`,
     {
       method: "POST",
       body: JSON.stringify({ account, profile }),
