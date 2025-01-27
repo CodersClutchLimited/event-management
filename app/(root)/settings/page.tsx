@@ -15,6 +15,8 @@ const GeneralSettings = async () => {
   const { data } = await getSystemSettings();
   // console.log("data", data);
 
+  // console.log(data);
+
   const settingsData = data as unknown as SystemSettingsTypes;
 
   return (

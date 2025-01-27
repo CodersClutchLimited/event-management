@@ -24,7 +24,9 @@ import { Loader } from "lucide-react";
 import { SystemSettingsTypes } from "@/lib/types";
 
 const UserManagementSchema = z.object({
-  allowUserRegistration: z.boolean(),
+  userManagement: z.object({
+    allowUserRegistration: z.boolean(),
+  }),
 });
 
 const UserManagement = ({ data }: { data: SystemSettingsTypes }) => {
@@ -33,13 +35,19 @@ const UserManagement = ({ data }: { data: SystemSettingsTypes }) => {
   const form = useForm({
     resolver: zodResolver(UserManagementSchema),
     defaultValues: {
-      allowUserRegistration: data?.eventManagement.allowWaitlist,
+      userManagement: {
+        allowUserRegistration: data?.eventManagement.allowWaitlist,
+      },
       // maxFailedLogins: 5,
     },
   });
 
   function onSubmit() {
-    handleUpdateSystemSettings(form.getValues());
+    const updatedSettings = {
+      ...form.getValues(),
+      id: data._id,
+    };
+    handleUpdateSystemSettings(updatedSettings);
   }
 
   return (
@@ -58,7 +66,7 @@ const UserManagement = ({ data }: { data: SystemSettingsTypes }) => {
           >
             <FormField
               control={form.control}
-              name="allowUserRegistration"
+              name="userManagement.allowUserRegistration"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between">
                   <FormLabel>Allow User Registration</FormLabel>

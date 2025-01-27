@@ -10,4 +10,5 @@ export const SettingGeneral = z.object({
   //  contact email
   contactEmail: z.string().email("Invalid email address").default(""),
   contactPhone: z.string().min(7, "Invalid phone number").default(""),
+  general: z.object({}),
 });

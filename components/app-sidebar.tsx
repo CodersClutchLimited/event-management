@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CalendarSync,
-  GalleryVerticalEnd,
-  LayoutGrid,
-  Settings2,
-  Users,
-} from "lucide-react";
+import { CalendarSync, LayoutGrid, Settings2, Users } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -30,7 +24,7 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: GalleryVerticalEnd,
+      // logo: "/4kiddos-LOGO.png",
       plan: "Enterprise",
     },
   ],

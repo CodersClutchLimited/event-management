@@ -26,7 +26,9 @@ import { SystemSettingHook } from "@/hooks/SystemSettingHook";
 import { SystemSettingsTypes } from "@/lib/types";
 
 const EventManagementSchema = z.object({
-  allowWaitlist: z.boolean().default(true),
+  eventManagement: z.object({
+    allowWaitlist: z.boolean().default(true),
+  }),
 });
 
 const EventManagement = ({ data }: { data: SystemSettingsTypes }) => {
@@ -35,12 +37,18 @@ const EventManagement = ({ data }: { data: SystemSettingsTypes }) => {
   const form = useForm({
     resolver: zodResolver(EventManagementSchema),
     defaultValues: {
-      allowWaitlist: data?.eventManagement.allowWaitlist,
+      eventManagement: {
+        allowWaitlist: data?.eventManagement.allowWaitlist,
+      },
     },
   });
 
   function onSubmit() {
-    handleUpdateSystemSettings(form.getValues());
+    const updatedSettings = {
+      ...form.getValues(),
+      id: data._id,
+    };
+    handleUpdateSystemSettings(updatedSettings);
   }
 
   return (
@@ -56,7 +64,7 @@ const EventManagement = ({ data }: { data: SystemSettingsTypes }) => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="allowWaitlist"
+              name="eventManagement.allowWaitlist"
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between">
                   <FormLabel>Allow Waitlist</FormLabel>
