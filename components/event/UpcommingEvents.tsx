@@ -16,7 +16,6 @@ const UpcommingEvents = async () => {
     return null;
   }
   const data: EventInterfaceType[] = response.data;
-  console.log("data", data);
 
   return (
     <div>
