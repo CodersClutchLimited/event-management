@@ -92,15 +92,14 @@ export const getAllUsers = async ({
   }
 };
 
-
-
 export const GetSingleUser = async (userId: string) => {
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+      .populate("registeredEvents.eventId");  // Populate the event data
     if (!user) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, data: deepConvertToPlainObject(user) as unknown as IUser };
+    return { status: 200, data: deepConvertToPlainObject(user) };
   } catch {
     return { status: 500, message: "Error getting user" };
   }

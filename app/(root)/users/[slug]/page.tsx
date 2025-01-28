@@ -4,7 +4,6 @@ import { GetSingleUser } from '@/lib/actions/user/getAllUser'
 import { IUser } from '@/lib/types';
 const page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = await params;
-  console.log(slug)
   const { status, data } = await GetSingleUser(slug);
 
   return (
