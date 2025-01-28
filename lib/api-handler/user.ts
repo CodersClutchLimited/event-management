@@ -27,8 +27,8 @@ export const fetchUserByEmail = async (
     const user: IUser | null = (await fetcher(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_APP_URL_PRODUCTION_URL
-          : process.env.NEXT_PUBLIC_APP_UR
+          ? "https://event-management-nine-tau.vercel.app"
+          : "http://localhost:3000"
       }/api/user/fetch-by-email`,
       {
         method: "POST",
@@ -39,7 +39,9 @@ export const fetchUserByEmail = async (
     if (user) return user; // ✅ Return the user object instead of `!user`
 
     return null;
-  } catch {
+  } catch (error) {
+    console.log(error);
+
     return null;
   }
 };

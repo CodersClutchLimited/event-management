@@ -7,7 +7,6 @@ import { UserProvider, IUser } from "@/lib/types";
 import { UserRole } from "@/lib/models/types";
 import { SignInValidation } from "./lib/validation/auth";
 import { fetchUserByEmail, signInWithOauth } from "@/lib/api-handler/user";
-
 export default {
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
@@ -38,7 +37,6 @@ export default {
           );
 
           existingUser.password = "";
-
           // console.log({user})
           if (passwordsMatch) return existingUser;
         }
@@ -50,7 +48,7 @@ export default {
   callbacks: {
     async signIn({ account, profile }) {
       // console.log({user})
-      // console.log({account, profile})
+      console.log({ account, profile });
       if (
         account &&
         account?.provider !== UserProvider.CREDENTIALS &&
@@ -58,22 +56,6 @@ export default {
       ) {
         return await signInWithOauth({ account, profile });
       }
-
-      // if (account?.provider === UserProvider.CREDENTIALS && user._id) {
-      //   // const existingUser = await fetchUserById(user._id);
-
-      //   // if (!existingUser?.emailVerified) return false;
-      //   // console.log("hello", { existingUser });
-
-      //   // if (existingUser?.isTwoFactorEnabled) {
-      //   //   const twoFactorConfirmation = await fetchConfirmationByUserId(
-      //   //     existingUser._id
-      //   //   );
-      //   //   if (!twoFactorConfirmation) return false;
-
-      //   //   await deleteConfirmationById(twoFactorConfirmation._id);
-      //   // }
-      // }
 
       return true;
     },
@@ -102,7 +84,7 @@ export default {
         session.user._id = token._id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
-        // session.user.role = token.role as UserRole;
+        session.user.role = token.role as UserRole;
         session.user.provider = token.provider as string;
         // session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
