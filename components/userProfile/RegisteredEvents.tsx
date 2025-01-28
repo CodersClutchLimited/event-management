@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { RegisteredEv } from "@/constants/tablesData";
+import { EventData } from "@/constants/sampleData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
+import { IUser } from "@/lib/types";
 
-const RegisteredEvents = ({ userId }: { userId: string }) => {
-  const [userData, setUserData] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const response = await fetch(`/api/user/${userId}`);  // Adjust the API endpoint to fetch user data
-      const data = await response.json();
-      if (data.status === 200) {
-        setUserData(data.data);
-      }
-    };
-
-    fetchUserData();
-  }, [userId]);
-
-  if (!userData) {
-    return <div>Loading...</div>;
-  }
-
+const RegisteredEvents = ({user} : {user: IUser}) => {
   return (
     <div className="mt-5 overflow-x-auto">
       <Table className="w-full table-auto text-sm sm:text-base">
@@ -32,33 +16,33 @@ const RegisteredEvents = ({ userId }: { userId: string }) => {
         />
 
         <TableBody>
-          {userData.registeredEvents.map((item: any, index: number) => (
+          {user.registeredEvents.eventId.map((item, index) => (
             <TableRow key={item._id} className="whitespace-nowrap">
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{item.eventId.title}</TableCell>  {/* Assuming the event has a `title` field */}
+              <TableCell>{item.title}</TableCell>
               <TableCell>
                 <Badge
                   className={
-                    item.eventId.status === "canceled"
+                    item.status === "canceled"
                       ? "bg-red-600"
-                      : item.eventId.status === "upcoming"
+                      : item.status === "upcoming"
                       ? "bg-yellow-600"
-                      : item.eventId.status === "ongoing"
+                      : item.status === "ongoing"
                       ? "bg-lime-500"
                       : "bg-green-600"
                   }
                 >
-                  {item.eventId.status}
+                  {item.status}
                 </Badge>
               </TableCell>
               <TableCell>
-                {item.eventId.schedule?.start == null ||
-                item.eventId.schedule?.start === undefined
+                {item.schedule.start === null ||
+                item.schedule.start == undefined
                   ? "no date"
-                  : formatReadableDate(item.eventId.schedule.start)}
+                  : formatReadableDate(item.schedule.start)}
               </TableCell>
-              <TableCell>{formatReadableDate(item.eventId.schedule.end)}</TableCell>
-              <TableCell>{formatReadableDate(item.eventId.createdAt)}</TableCell>
+              <TableCell>{formatReadableDate(item.schedule.end)}</TableCell>
+              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

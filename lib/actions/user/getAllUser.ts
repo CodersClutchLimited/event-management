@@ -92,15 +92,20 @@ export const getAllUsers = async ({
   }
 };
 
-export const GetSingleUser = async (userId: string) => {
+const GetSingleUser = async (userId: string) => {
   try {
     const user = await User.findById(userId)
-      .populate("registeredEvents.eventId");  // Populate the event data
+      .populate({
+        path: "registeredEvents.eventId",
+        model: "Event", // Ensure "Event" matches your Event model name
+      });
+      console.log(user.registeredEvents);
     if (!user) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, data: deepConvertToPlainObject(user) };
-  } catch {
-    return { status: 500, message: "Error getting user" };
+    return { status: 200, data: user.toObject() }; // Safely convert to plain object
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return { status: 500, message: "Error getting user", error };
   }
 };

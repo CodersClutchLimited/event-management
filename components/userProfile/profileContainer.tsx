@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -37,7 +38,6 @@ import { formatReadableDate } from "@/lib/utils";
 import { IUser } from "@/lib/types";
 
 const ProfileContainer = ({user}: {user: IUser}) => {
-
   return (
     <Tabs defaultValue="details" className="">
       <TabsList className="grid w-full grid-cols-3 bg-">
@@ -125,14 +125,14 @@ const ProfileContainer = ({user}: {user: IUser}) => {
         <Card className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 shadow-lg rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 transition-all">
 
           {[
-            { label: "First Name", value: user.firstName, Icon: User },
-            { label: "Last Name", value: user.lastName, Icon: User },
-            { label: "Email Address", value: user.email, Icon: Mail },
-            { label: "Phone Number", value: user.phoneNumber, Icon: Phone },
-            { label: "Country", value: user.address?.country, Icon: Globe },
-            { label: "City", value: user.address?.city, Icon: MapPin },
-            { label: "Street", value: user.address?.street, Icon: Home },
-            { label: "Status", value: user.status, Icon: BadgeRussianRuble },
+            { label: "First Name", value: user?.firstName, Icon: User },
+            { label: "Last Name", value: user?.lastName, Icon: User },
+            { label: "Email Address", value: user?.email, Icon: Mail },
+            { label: "Phone Number", value: user?.phoneNumber, Icon: Phone },
+            { label: "Country", value: user?.address?.country, Icon: Globe },
+            { label: "City", value: user?.address?.city, Icon: MapPin },
+            { label: "Street", value: user?.address?.street, Icon: Home },
+            { label: "Status", value: user?.status, Icon: BadgeRussianRuble },
           ].map(({ label, value, Icon }) => (
             <div key={label} className="flex flex-col items-start">
               <span className="flex items-center text-gray-500 dark:text-gray-400 font-medium text-lg">
@@ -149,7 +149,7 @@ const ProfileContainer = ({user}: {user: IUser}) => {
               Last Logged In
             </span>
             <span className="text-base font-semibold">
-                {user.lastLogin ? formatReadableDate(user.lastLogin) : "No data available"}
+                {user?.lastLogin ? formatReadableDate(user?.lastLogin) : "No data"}
             </span>
           </div>
         </Card>
@@ -201,8 +201,8 @@ const ProfileContainer = ({user}: {user: IUser}) => {
                   </Button>
                 </div>
               </div>
-              <RegisteredEvents />
-            </div>
+              <RegisteredEvents user={user} />
+              </div>
           </CardContent>
           <CardFooter>
             <TablePagination
