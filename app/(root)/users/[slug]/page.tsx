@@ -1,50 +1,17 @@
-import UserContainer from "@/components/users/UserContainer";
-import React from "react";
-import { getAllUsers } from "@/lib/actions/user/getAllUser";
-import { IUser } from "@/lib/types";
-
-const page = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ page: string; limit: string; search: string }>;
-}) => {
-  const searchParamsData = await searchParams;
-  console.log(searchParamsData);
-
-  const page =
-    typeof searchParamsData.page === "string"
-      ? Number(searchParamsData.page)
-      : 1;
-  const limit =
-    typeof searchParamsData.limit === "string"
-      ? Number(searchParamsData.limit)
-      : 10;
-
-  // Extract search term
-  const search =
-    typeof searchParamsData.search === "string"
-      ? searchParamsData.search
-      : undefined;
-
-  // get the events
-  const { isNextPage, totalCount, isPreviousPage, data } = await getAllUsers({
-    page: page,
-    limit: limit,
-    query: search,
-  });
+import React from 'react'
+import ProfileContainer from '@/components/userProfile/profileContainer'
+import { GetSingleUser } from '@/lib/actions/user/getAllUser'
+import { IUser } from '@/lib/types';
+const page = async ({ params }: { params: { slug: string } }) => {
+  const { slug } = await params;
+  console.log(slug)
+  const { status, data } = await GetSingleUser(slug);
 
   return (
     <div>
-      <UserContainer
-        page={page}
-        isPreviousPage={isPreviousPage}
-        isNextPage={isNextPage}
-        totalCount={totalCount}
-        search={search}
-        users={data as IUser[]}
-      />
+      <ProfileContainer user={data as unknown as IUser} />
     </div>
   );
 };
 
-export default page;
+export default page

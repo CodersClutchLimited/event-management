@@ -92,13 +92,15 @@ export const getAllUsers = async ({
   }
 };
 
+
+
 export const GetSingleUser = async (userId: string) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, data: deepConvertToPlainObject(user) };
+    return { status: 200, data: deepConvertToPlainObject(user) as unknown as IUser };
   } catch {
     return { status: 500, message: "Error getting user" };
   }

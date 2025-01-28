@@ -19,10 +19,10 @@ const UserTable = ({ users }: { users: IUser[] }) => {
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <ProfileComponent
-                  firstName={!item?.firstName ? "no data" : item.firstName}
-                  lastName={!item?.lastName ? "no data" : item.lastName}
-                  middleName={!item.initial ? "no data" : item.initial}
-                  email={!item.email ? "no data" : item.email}
+                  firstName={!item?.firstName ? "" : item.firstName}
+                  lastName={!item?.lastName ? "" : item.lastName}
+                  middleName={!item.initial ? "" : item.initial}
+                  email={!item.email ? "" : item.email}
                 />
               </TableCell>
               <TableCell>
@@ -49,7 +49,7 @@ const UserTable = ({ users }: { users: IUser[] }) => {
                   ? "no date"
                   : formatReadableDate(item.createdAt)}
               </TableCell>
-              <TableCell>{<UserAction item={item} />}</TableCell>
+              <TableCell>{<UserAction user={item} />}</TableCell>
             </TableRow>
           ))}
         </TableBody>
