@@ -92,7 +92,7 @@ export const getAllUsers = async ({
   }
 };
 
-const GetSingleUser = async (userId: string) => {
+export const GetSingleUser = async (userId: string) => {
   try {
     const user = await User.findById(userId)
       .populate({
