@@ -3,6 +3,7 @@ import { GetAllEvent } from "@/lib/actions/event/GetAllEvent";
 import { EventInterfaceType } from "@/lib/types";
 import React from "react";
 const Event = async ({
+
   searchParams,
 }: {
   searchParams: Promise<{ page: string; limit: string; search: string }>;
@@ -32,7 +33,7 @@ const Event = async ({
     query: search,
   });
 
-  // console.log(data);
+  
 
   return (
     <div>

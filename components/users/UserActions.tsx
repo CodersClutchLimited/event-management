@@ -26,7 +26,7 @@ const userAction = ({ item }: { item: IUser }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <EditUser />
-          <Link href={`/users/${item.id}`}>
+          <Link href={`/users/${item._id}`}>
             <Button
               variant={"outline"}
               className="w-full flex items-center justify-between mt-1 mb-1"

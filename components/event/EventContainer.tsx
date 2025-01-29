@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import React from "react";
 import {
   Card,
@@ -40,6 +47,8 @@ const EventContainer: React.FC<EvenContainerProps> = ({
   search,
   events,
 }) => {
+
+  
   return (
     <Card>
       <CardHeader>
