@@ -7,7 +7,6 @@ export const roles = [
       manage_users: { level: "full" },
       manage_staffs: { level: "full" },
       manage_events: { level: "full" },
-
       manage_settings: { level: "full" },
     },
   },

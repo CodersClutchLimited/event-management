@@ -10,9 +10,25 @@ import { fetchRolesServerAction } from "@/lib/actions/role/roleServerAction";
 import { User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { addRoleServerAction } from "@/lib/actions/role/roleServerAction";
+
+const roleData = {
+  name: "Attendees",
+  description:
+    "Users with this role can fully manage events, including creating, updating, and deleting them. However, they do not have access to dashboard insights, user management, staff controls, settings, or host management.",
+  permissions: {
+    view_dashboard: { level: "off" },
+    manage_users: { level: "off" },
+    manage_staffs: { level: "off" },
+    manage_events: { level: "full" },
+    manage_settings: { level: "off" },
+    manage_host: { level: "off" },
+  },
+};
 
 const RoleAndPermissions = async () => {
-  const { data } = await fetchRolesServerAction();
+  await addRoleServerAction(roleData);
+  const { data: rolesData } = await fetchRolesServerAction();
   return (
     <Card>
       <CardHeader>
@@ -24,7 +40,7 @@ const RoleAndPermissions = async () => {
       </CardHeader>
       {/* Card content */}
       <CardContent>
-        {data?.map((role, index) => (
+        {rolesData?.map((role, index) => (
           <Link
             href={`/settings/roles-permissions/${encodeURIComponent(
               role.name
