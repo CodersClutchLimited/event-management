@@ -1,16 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-
+  experimental: {
+    // serverExternalPackages: ["mongoose"], // Correct key
+  },
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        // port: "",
-        // pathname: "/account123/**",
-        //search: "",
       },
     ],
   },

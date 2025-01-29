@@ -60,6 +60,16 @@ export interface IUser extends Document {
   createdAt: string;
 }
 
+export interface UserDataInterfaceProps {
+  page: number;
+  isPreviousPage: boolean | undefined;
+  isNextPage: boolean | undefined;
+  totalCount: number | undefined;
+  search: string | undefined;
+  users: IUser[];
+  userType: string;
+  // events: EventInterfaceType[];
+}
 interface EventSchedule {
   start: string; // ISO date string
   end: string; // ISO date string

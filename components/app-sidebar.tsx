@@ -35,15 +35,21 @@ const data = {
       icon: LayoutGrid,
       isActive: true,
     },
+
+    {
+      title: "Attendies",
+      url: "users",
+      icon: Users,
+    },
+    {
+      title: "Host",
+      url: "hosts",
+      icon: Users,
+    },
     {
       title: "Events",
       url: "/event",
       icon: CalendarSync,
-    },
-    {
-      title: "Users",
-      url: "users",
-      icon: Users,
     },
     {
       title: "Staffs",

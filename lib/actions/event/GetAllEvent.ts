@@ -123,3 +123,27 @@ export const GetTotalUpcomingEvent = async () => {
     return { status: 500, message: "Error getting total upcoming event" };
   }
 };
+
+// get 5 lates upcomming event
+export const GetLatestUpcomingEvent = async () => {
+  try {
+    const events = await Event.find({ status: "upcoming" })
+      .sort({ createdAt: -1 })
+      .limit(6);
+    return { status: 200, data: deepConvertToPlainObject(events) };
+  } catch {
+    return { status: 500, message: "Error getting latest upcoming event" };
+  }
+};
+
+// fetch the total number of ongoingEvent, upcominEvent and compleatedEvent
+export const Eventstatus = async () => {
+  try {
+    const upcommingEventLength = await Event.countDocuments({
+      status: "upcoming",
+    });
+    return { status: 200, upcommingEventLength: upcommingEventLength };
+  } catch (error) {
+    return { status: 500, message: "Error getting data" };
+  }
+};
