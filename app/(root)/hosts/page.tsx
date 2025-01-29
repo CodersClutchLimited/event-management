@@ -1,5 +1,7 @@
 import HostContainer from "@/components/hosts/HostContainer";
 import { GetAllEvent } from "@/lib/actions/event/GetAllEvent";
+import { getAllUsers } from "@/lib/actions/user/getAllUser";
+import { IUser } from "@/lib/models/types";
 import { EventInterfaceType } from "@/lib/types";
 const page = async ({
   searchParams,
@@ -25,11 +27,12 @@ const page = async ({
       : undefined;
 
   // get the events
-  const { isNextPage, totalCount, isPreviousPage, data } = await GetAllEvent({
+  const { isNextPage, totalCount, isPreviousPage, data } = await getAllUsers({
     page: page,
     limit: limit,
     query: search,
   });
+
   return (
     <div>
       <HostContainer
@@ -38,7 +41,7 @@ const page = async ({
         isNextPage={isNextPage}
         totalCount={totalCount}
         search={search}
-        events={data as unknown as EventInterfaceType[]}
+        users={data as unknown as IUser[]}
       />
     </div>
   );

@@ -6,40 +6,48 @@ import { EventTableHeaderData, HostTableData } from "@/constants/tablesData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import EventAction from "./EventAction";
-import { EventInterfaceType } from "@/lib/types";
+import { EventInterfaceType, IUser } from "@/lib/types";
+import ProfileComponent from "../common/ProfileComponent";
 
-const EventTable = ({ events }: { events: EventInterfaceType[] }) => {
+const EventTable = ({ users }: { users: IUser[] }) => {
   return (
     <Table className="mt-5">
       <DynamicTableHeaders headers={HostTableData} />
 
       <TableBody>
-        {events?.map((item: EventInterfaceType) => (
+        {users?.map((item: IUser, index) => (
           <TableRow key={item._id}>
-            <TableCell>{item.eventId}</TableCell>
-            <TableCell>{item.title}</TableCell>
-            <TableCell>{formatReadableDate(item.schedule.start)}</TableCell>
-            <TableCell>{formatReadableDate(item.schedule.end)}</TableCell>
+            <TableCell>{index + 1}</TableCell>
+            <TableCell>
+              {
+                <ProfileComponent
+                  firstName={item?.firstName}
+                  lastName={item?.lastName}
+                  middleName={item.initial}
+                  email={item.email}
+                />
+              }
+            </TableCell>
+            <TableCell>{item?.phoneNumber}</TableCell>
+            {/* <TableCell>{formatReadableDate(item.schedule.end)}</TableCell> */}
             <TableCell>
               <Badge
                 className={
-                  item.status === "cancelled"
+                  item.status === "blocked"
                     ? "bg-red-600"
-                    : item.status === "upcoming"
+                    : item.status === "suspended"
                     ? "bg-yellow-600"
-                    : item.status === "ongoing"
-                    ? "bg-lime-500"
                     : "bg-green-600"
                 }
               >
                 {item.status}
               </Badge>
             </TableCell>
-            <TableCell>{item.registeredUsers.length}</TableCell>
-            <TableCell>{item.maxParticipants}</TableCell>
+            {/* <TableCell>{item.registeredUsers.length}</TableCell> */}
+            {/* <TableCell>{item.maxParticipants}</TableCell> */}
 
-            <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
-            <TableCell>{<EventAction event={item} />}</TableCell>
+            {/* <TableCell>{formatReadableDate(item.createdAt)}</TableCell> */}
+            {/* <TableCell>{<EventAction event={item} />}</TableCell> */}
           </TableRow>
         ))}
       </TableBody>
