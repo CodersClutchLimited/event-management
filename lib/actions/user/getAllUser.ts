@@ -1,6 +1,7 @@
 "use server";
 
 import { User } from "@/lib/models/user.model";
+import { IUser } from "@/lib/types";
 
 import { deepConvertToPlainObject } from "@/lib/utils";
 
@@ -97,13 +98,18 @@ export const GetSingleUser = async (userId: string) => {
     const user = await User.findById(userId)
       .populate({
         path: "registeredEvents.eventId",
-        model: "Event", // Ensure "Event" matches your Event model name
+        model: "Event", 
+      })
+      .populate({
+        path: "waitlistedEvents.eventId",
+        model: "Event", 
       });
-      console.log(user.registeredEvents);
+
     if (!user) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, data: user.toObject() }; // Safely convert to plain object
+
+    return { status: 200, data: deepConvertToPlainObject(user as unknown as IUser) };
   } catch (error) {
     console.error("Error fetching user:", error);
     return { status: 500, message: "Error getting user", error };

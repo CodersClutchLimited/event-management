@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -10,7 +9,9 @@ import {
   MapPin,
   Home,
   BadgeRussianRuble,
-  Key,CloudUpload, ListFilter
+  Key,
+  CloudUpload,
+  ListFilter,
 } from "lucide-react";
 
 import TablePagination from "../common/TablePagination";
@@ -37,20 +38,28 @@ import WaitlistedEvent from "./WaitlistedEvent";
 import { formatReadableDate } from "@/lib/utils";
 import { IUser } from "@/lib/types";
 
-const ProfileContainer = ({user}: {user: IUser}) => {
+interface userProfileEventProps {
+  user: IUser;
+}
+const ProfileContainer: React.FC<userProfileEventProps> = ({
+  user,
+}: {
+  user: IUser;
+}) => {
+  console.log(user);
   return (
     <Tabs defaultValue="details" className="">
-      <TabsList className="grid w-full grid-cols-3 bg-">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="details" className="uppercase font-bold">
-          employee details
+          Employee Details
         </TabsTrigger>
-        {user && user.role === "user" ? (
+        {user && user?.role === "user" ? (
           <>
             <TabsTrigger value="events" className="uppercase font-bold">
-              Registered events
+              Registered Events
             </TabsTrigger>
             <TabsTrigger value="waitlists" className="uppercase font-bold">
-              Waitlisted events
+              Waitlisted Events
             </TabsTrigger>
           </>
         ) : (
@@ -59,6 +68,7 @@ const ProfileContainer = ({user}: {user: IUser}) => {
           </TabsTrigger>
         )}
       </TabsList>
+
       <TabsContent value="audit">
         <Card>
           <CardContent>
@@ -116,14 +126,13 @@ const ProfileContainer = ({user}: {user: IUser}) => {
       </TabsContent>
 
       <TabsContent value="details">
-      <CardHeader>
-            <CardTitle className="text-lg font-semibold text-center">
-              User Details
-            </CardTitle>
-          </CardHeader>
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-center">
+            User Details
+          </CardTitle>
+        </CardHeader>
 
         <Card className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 shadow-lg rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 transition-all">
-
           {[
             { label: "First Name", value: user?.firstName, Icon: User },
             { label: "Last Name", value: user?.lastName, Icon: User },
@@ -139,7 +148,9 @@ const ProfileContainer = ({user}: {user: IUser}) => {
                 <Icon className="mr-2 h-5 w-5" />
                 {label}
               </span>
-              <span className="text-base font-semibold">{value ?? "no data"}</span>
+              <span className="text-base font-semibold">
+                {value ?? "no data"}
+              </span>
             </div>
           ))}
 
@@ -149,7 +160,9 @@ const ProfileContainer = ({user}: {user: IUser}) => {
               Last Logged In
             </span>
             <span className="text-base font-semibold">
-                {user?.lastLogin ? formatReadableDate(user?.lastLogin) : "No data"}
+              {user?.lastLogin
+                ? formatReadableDate(user?.lastLogin)
+                : "No data"}
             </span>
           </div>
         </Card>
@@ -201,8 +214,14 @@ const ProfileContainer = ({user}: {user: IUser}) => {
                   </Button>
                 </div>
               </div>
-              <RegisteredEvents user={user} />
-              </div>
+              {user?.registeredEvents?.length > 0 ? (
+                <RegisteredEvents user={user} />
+              ) : (
+                <p className="text-center text-gray-500">
+                  No registered events.
+                </p>
+              )}{" "}
+            </div>
           </CardContent>
           <CardFooter>
             <TablePagination
@@ -263,8 +282,12 @@ const ProfileContainer = ({user}: {user: IUser}) => {
                   </Button>
                 </div>
               </div>
-              <WaitlistedEvent />
-            </div>
+              {/* {user?.waitlistedEvents?.length > 0 ? (
+              <WaitlistedEvent user={user} />
+            ) : (
+              <p className="text-center text-gray-500">No waitlisted events.</p>
+            )}          */}
+               </div>
           </CardContent>
           <CardFooter>
             <TablePagination
