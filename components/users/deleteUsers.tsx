@@ -1,15 +1,6 @@
 "use client"
 import React from "react";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
@@ -20,35 +11,42 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Loader, Trash, TriangleAlert } from "lucide-react";
 import { Button } from "../ui/button";
 import { IUser } from "@/lib/types";
-import { deleteUserSchemaMessage } from "@/lib/validation/userValidation";
-import { Textarea } from "../ui/textarea";
 import { UserHook } from "@/hooks/UserHook";
+import { deleteUserSchemaMessage } from "@/lib/validation/userValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Textarea } from "../ui/textarea";
+import { Loader, Trash, TriangleAlert } from "lucide-react";
 
-const DeleteUser = ({user}: {user: IUser}) => {
-    const { HandleDeleteUser, isLoading } = UserHook();
-    const [open, setOpen] = React.useState<boolean>(false);
-  
+const DeleteUser = ({ user }: { user: IUser }) => {
 
+  const {HandleDeleteUser, isLoading} = UserHook();
+  const [open, setOpen] = React.useState<boolean>(false);
 
-    const submitDelete = async () => {
-      const status = await HandleDeleteUser(user._id);
-      if (status?.status === 200) {
-        setOpen(false);
-      }
-    };
-  
-      const form = useForm({
-        resolver: zodResolver(deleteUserSchemaMessage),
-        defaultValues: {
-          reason: "",
-        },
-      });
-    
+  const submitDelete = async () => {
+    const status = await HandleDeleteUser(user._id);
+    if (status?.status === 200) {
+      setOpen(false);
+    }
+  };
+
+    const form = useForm({
+      resolver: zodResolver(deleteUserSchemaMessage),
+      defaultValues: {
+        reason: "",
+      },
+    });
   
 
   return (
@@ -69,15 +67,15 @@ const DeleteUser = ({user}: {user: IUser}) => {
                       className="mr-1 inline-block stroke-destructive"
                       size={18}
                     />{" "}
-                    Delete user
+                    Delete Event
                   </span>
                 </AlertDialogTitle>
                 <AlertDialogDescription>
                   <p className="mb-2">
                     Are you sure you want to delete{" "}
-                    <span className="font-bold">{user?.firstName}</span>?
+                    <span className="font-bold">{user.firstName}</span>?
                     <br />
-                    This action will permanently remove this user with the it
+                    This action will permanently remove this event with the it
                     realated data
                     {/* <span className="font-bold">
                 {currentRow.role.toUpperCase()}
@@ -92,9 +90,9 @@ const DeleteUser = ({user}: {user: IUser}) => {
                 name="reason"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reason </FormLabel>
+                    <FormLabel>Reason</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Why do you want to delete this user?" {...field} />
+                      <Textarea placeholder="Enter reason For deleting this user" {...field} />
                     </FormControl>
 
                     <FormMessage />

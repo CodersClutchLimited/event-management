@@ -1,8 +1,10 @@
 "use server";
 
 import Event from "@/lib/models/event.model";
+import { EventInterfaceType } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
-export const addEventServerAction = async (eventData: any) => {
+export const addEventServerAction = async (eventData: EventInterfaceType) => {
   try {
     // Ensure schedule has start and end dates
     if (!eventData.schedule.start || !eventData.schedule.end) {
@@ -45,6 +47,8 @@ export const addEventServerAction = async (eventData: any) => {
     }
 
     // Create and save the event
+    revalidatePath("/event");
+
     const newEvent = new Event(eventData);
     await newEvent.save();
 
@@ -58,7 +62,6 @@ export const addEventServerAction = async (eventData: any) => {
     return {
       status: 500,
       message: "Failed to create event",
-      error: error.message,
     };
   }
 };

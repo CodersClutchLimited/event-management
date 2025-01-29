@@ -30,7 +30,9 @@ export async function updateEventServerAction(
     // Notify registered users if date changed
     if (startChanged || endChanged) {
       const registeredUsers = existingEvent.registeredUsers || []; // Assuming you store registered users
-      const emails = registeredUsers.map((user: any) => user.email);
+      const emails = registeredUsers.map(
+        (user: { email: string }) => user.email
+      );
 
       const subject = "Event Date Updated";
       const body = `The event "${existingEvent.title}" has been rescheduled.\n\nNew Start Date: ${updatedEvent.schedule.start}\nNew End Date: ${updatedEvent.schedule.end}`;

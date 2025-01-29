@@ -1,26 +1,34 @@
+import DynamicTableSkeleton from "@/components/common/DynamicTableSkeleton";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
 import UpcommingEvents from "@/components/event/UpcommingEvents";
 import StatsCard from "@/components/StatsCard"; // import the new StatsCard component
+import { Skeleton } from "@/components/ui/skeleton";
+// import { Eventstatus } from "@/lib/actions/event/GetAllEvent";
 import { Timer, TimerResetIcon } from "lucide-react";
+import { Suspense } from "react";
 
-const Home = () => {
+const Home = async () => {
+  // const { upcommingEventLength } = await Eventstatus();
+
+  // console.log(upcommingEventLength);
+
   const cardData = [
     {
       icon: <Timer className="w-3.5 h-5 text-yellow-600" />,
       title: "Upcoming Events",
-      value: "$45,231.89",
+      value: "45",
       percentage: "+20.1% from last month",
     },
     {
       icon: <Timer className="text-lime-500 w-5 h-5" />,
       title: "Ongoing Events",
-      value: "+2350",
+      value: "50",
       percentage: "+180.1% from last month",
     },
     {
       icon: <TimerResetIcon className="text-green-600 w-5 h-5" />,
       title: "Completed Events",
-      value: "+12,234",
+      value: "+234",
       percentage: "+19% from last month",
     },
   ];
@@ -42,7 +50,13 @@ const Home = () => {
         <DashboardCharts />
       </div>
       <div>
-        <UpcommingEvents />
+        <Suspense
+          fallback={Array.from({ length: 7 }).map((item, index) => (
+            <Skeleton className="w-[300px] p-6 h-10 mt-2" key={index} />
+          ))}
+        >
+          <UpcommingEvents />
+        </Suspense>
       </div>
     </div>
   );

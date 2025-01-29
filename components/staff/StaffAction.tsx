@@ -12,8 +12,8 @@ import { Ellipsis, LucideView } from "lucide-react";
 import Link from "next/link";
 import DeleteStaff from "./DeleteStaff";
 import EditStaff from "./EditStaff";
-const StaffAction = ({item}) => {
-
+import { IUser } from "@/lib/types";
+const StaffAction = ({ item }: { item: IUser }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,16 +25,16 @@ const StaffAction = ({item}) => {
         <DropdownMenuLabel>Events Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <EditStaff/>
+          <EditStaff />
           <Link href={`/users/${item.id}`}>
-          <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1 mb-1"
-          >
-           View <LucideView />
-          </Button>
+            <Button
+              variant={"outline"}
+              className="w-full flex items-center justify-between mt-1 mb-1"
+            >
+              View <LucideView />
+            </Button>
           </Link>
-          <DeleteStaff user={{}} />
+          <DeleteStaff user={item as unknown as IUser} />
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>

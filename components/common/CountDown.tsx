@@ -5,7 +5,7 @@ import { Badge } from "../ui/badge";
 interface CountDownProps {
   registrationDeadline: string;
   eventStart: string;
-  status: "upcoming" | "ongoing" | "completed" | "canceled";
+  status: "upcoming" | "ongoing" | "completed" | "cancelled";
 }
 
 const CountDown: React.FC<CountDownProps> = ({
@@ -18,7 +18,7 @@ const CountDown: React.FC<CountDownProps> = ({
   useEffect(() => {
     if (!registrationDeadline || !eventStart) return;
 
-    if (status === "completed" || status === "canceled") {
+    if (status === "completed" || status === "cancelled") {
       setCountdown("Registration closed");
       return;
     }
@@ -38,8 +38,8 @@ const CountDown: React.FC<CountDownProps> = ({
         return;
       }
 
-      let targetDate = now < registrationDate ? registrationDate : eventDate;
-      let label =
+      const targetDate = now < registrationDate ? registrationDate : eventDate;
+      const label =
         now < registrationDate
           ? "Registration closes in: "
           : "Event starts in: ";

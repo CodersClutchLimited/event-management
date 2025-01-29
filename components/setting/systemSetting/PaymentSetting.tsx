@@ -29,11 +29,13 @@ import { Loader } from "lucide-react";
 import { SystemSettingHook } from "@/hooks/SystemSettingHook";
 
 const PaymentSettingsSchema = z.object({
-  enablePaidEvents: z.boolean(),
-  supportedCurrencies: z.string().min(1, "At least one currency is required"),
-  paymentGateway: z.object({
-    provider: z.enum(["Stripe", "PayPal", "None"]),
-    apiKey: z.string().optional(),
+  paymentSettings: z.object({
+    supportedCurrencies: z.string().min(1, "At least one currency is required"),
+    paymentGateway: z.object({
+      provider: z.enum(["Stripe", "PayPal", "None"]),
+      apiKey: z.string().optional(),
+    }),
+    enablePaidEvents: z.boolean(),
   }),
 });
 
@@ -43,9 +45,11 @@ const PaymentSettings = ({ data }: { data: SystemSettingsTypes }) => {
   const form = useForm({
     resolver: zodResolver(PaymentSettingsSchema),
     defaultValues: {
-      enablePaidEvents: data?.paymentSettings.enablePaidEvents,
-      supportedCurrencies: data?.paymentSettings.supportedCurrencies,
-      paymentGateway: { ...data?.paymentSettings.paymentGateway },
+      paymentSettings: {
+        enablePaidEvents: data?.paymentSettings.enablePaidEvents,
+        supportedCurrencies: data?.paymentSettings.supportedCurrencies,
+        paymentGateway: { ...data?.paymentSettings.paymentGateway },
+      },
     },
   });
 
@@ -58,7 +62,7 @@ const PaymentSettings = ({ data }: { data: SystemSettingsTypes }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="enablePaidEvents"
+          name="paymentSettings.enablePaidEvents"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Enable Paid Events</FormLabel>
@@ -75,7 +79,7 @@ const PaymentSettings = ({ data }: { data: SystemSettingsTypes }) => {
 
         <FormField
           control={form.control}
-          name="supportedCurrencies"
+          name="paymentSettings.supportedCurrencies"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Supported Currencies</FormLabel>
@@ -89,7 +93,7 @@ const PaymentSettings = ({ data }: { data: SystemSettingsTypes }) => {
 
         <FormField
           control={form.control}
-          name="paymentGateway.provider"
+          name="paymentSettings.paymentGateway.provider"
           render={({ field }) => (
             <FormItem {...field}>
               <FormLabel>Payment Gateway Provider</FormLabel>
@@ -115,10 +119,10 @@ const PaymentSettings = ({ data }: { data: SystemSettingsTypes }) => {
           )}
         />
 
-        {form.watch("paymentGateway.provider") !== "None" && (
+        {form.watch("paymentSettings.paymentGateway.provider") !== "None" && (
           <FormField
             control={form.control}
-            name="paymentGateway.apiKey"
+            name="paymentSettings.paymentGateway.apiKey"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>API Key</FormLabel>

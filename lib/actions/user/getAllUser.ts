@@ -1,6 +1,8 @@
 "use server";
 
 import { User } from "@/lib/models/user.model";
+import { IUser, UserDataInterfaceProps } from "@/lib/types";
+import { IUser } from "@/lib/types";
 
 import { deepConvertToPlainObject } from "@/lib/utils";
 
@@ -14,6 +16,7 @@ export const getAllUsers = async ({
   limit?: number;
 }) => {
   try {
+    // skip number of rows
     const skip = (page - 1) * limit;
 
     const pipeline = [
@@ -35,7 +38,7 @@ export const getAllUsers = async ({
         : []),
       { $skip: skip },
       { $limit: limit },
-      { $sort: { createdAt: -1 } },
+      { $sort: { createdAt: -1 as -1 } },
       {
         $project: {
           firstName: 1,
@@ -54,9 +57,12 @@ export const getAllUsers = async ({
       },
     ];
 
+    // user aggrigatio pipline to fetch user info
+
     const users = await User.aggregate(pipeline);
     const totalCount = query
-      ? (
+      ? // if query then search
+        (
           await User.aggregate([
             {
               $search: {
@@ -73,7 +79,8 @@ export const getAllUsers = async ({
             { $count: "count" },
           ])
         )[0]?.count || 0
-      : await User.countDocuments();
+      : // else start counting document
+        await User.countDocuments();
 
     return {
       status: 200,
@@ -89,12 +96,100 @@ export const getAllUsers = async ({
 
 export const GetSingleUser = async (userId: string) => {
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+      .populate({
+        path: "registeredEvents.eventId",
+        model: "Event", 
+      })
+      .populate({
+        path: "waitlistedEvents.eventId",
+        model: "Event", 
+      });
+
     if (!user) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, data: deepConvertToPlainObject(user) };
-  } catch {
-    return { status: 500, message: "Error getting user" };
+
+    return { status: 200, data: deepConvertToPlainObject(user as unknown as IUser) };
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return { status: 500, message: "Error getting user", error };
   }
 };
+
+// export const GetAllUSersData = async ({
+//   query,
+//   page = 1,
+//   limit = 10,
+//   userType,
+// }: {
+//   query?: string;
+//   page?: number;
+//   limit?: number;
+//   userType: string;
+// }) => {
+//   try {
+//     // skip  number fo pages nase on the page params
+//     const skip = (page - 1) * limit;
+
+//     //  using pipeline to fetch user information
+
+//     const pipeline: PipelineStage = [
+//       // skip
+//       { $skip: skip },
+//       { $limit: limit },
+//       { $sort: { createdAt: -1 } },
+
+//       // then project the user information
+//       {
+//         $project: {
+//           firstName: 1,
+//           lastName: 1,
+//           initial: 1,
+//           email: 1,
+//           phoneNumber: 1,
+//           avatar: 1,
+//           address: 1,
+//           password: 2,
+//           role: 1,
+//           registeredEvents: 1,
+//           waitlistedEvents: 1,
+//           lastLogin: 1,
+//           attendedEvents: 1,
+//           status: 1,
+//         },
+//       },
+//     ];
+
+//     // if search query is available then do the searching
+//     if (query) {
+//       pipeline.unshift({
+//         $search: {
+//           index: "users",
+//           text: {
+//             query,
+//             fuzzy: { maxEdits: 1, prefixLength: 3, maxExpansions: 50 },
+//             path: { wildcard: "*" },
+//           },
+//         },
+//       });
+//     }
+//     const USerData = await User.aggregate(pipeline);
+//     const USers = deepConvertToPlainObject(USerData);
+//     const totalCount = await User.countDocuments();
+
+//     return {
+//       status: 200,
+//       data: USers as unknown as IUser,
+//       isPreviousPage: page > 1,
+//       isNextPage: totalCount > skip + USerData.length,
+//       totalCount,
+//     };
+//   } catch (error) {
+//     console.error("Error fetching user data:", error);
+//     return {
+//       status: 500,
+//       message: "Failed to fetch user data",
+//     };
+//   }
+// };

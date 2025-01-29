@@ -1,18 +1,21 @@
-'use client'
-import {userSchema} from '@/lib/validation/userValidation'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
+"use client";
+import { userSchema } from "@/lib/validation/userValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {useEffect, useState} from 'react';
+
+
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 import {
   Select,
@@ -20,66 +23,95 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Edit, Loader, Save } from "lucide-react"
-import { IUser } from '@/lib/types'
-import {UserHook} from "@/hooks/UserHook"
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Edit, Loader, Plus, Save } from "lucide-react";
+import { UserHook } from "@/hooks/UserHook";
 import { useSession } from "next-auth/react";
-import { useState } from 'react'
+import { IUser } from "@/lib/types";
 
-const EditUser = ({user} : {user: IUser}) => {
+// Define your Zod schema for validation
+const EditUser = ({user} : {user: IUser }) => {
+  const {handleUpdateUser, isLoading} = UserHook();
+  const [open, setOpen] = useState<boolean>(false);
 
-    const { handleUpdateUser, isLoading } = UserHook();
-    const [open, setOpen] = useState<boolean>(false);
-    const { data: session } = useSession({ required: true });
-  
+
 
   // Use react-hook-form with Zod validation
-  const form = useForm<z.infer<typeof userSchema>>({
+  const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      email: user?.email || '',
-      password: '', // Password is typically not pre-filled for security reasons
-      phoneNumber: user?.phoneNumber || '',
-      role: user?.role || ''
+      firstName: user?.firstName || "",
+      initial: user?.initial || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      password: user?.password || "",
+      phoneNumber: user?.phoneNumber || "",
+      role: user?.role || "",
     },
   });
   
-  // Handle form submission
+  useEffect(() => {
+    form.reset({
+      firstName: user?.firstName || "",
+      initial: user?.initial || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      password: user?.password || "",
+      phoneNumber: user?.phoneNumber || "",
+      role: user?.role || "",
+    });
+  }, [user, form]);
+  
+
   async function onSubmit() {
-    const status = await handleUpdateUser(user._id, form.getValues());
+    const updatedUser = {
+      ...user,
+      ...form.getValues(),
+    };
+    const status = await handleUpdateUser(
+      user._id,
+      updatedUser as unknown as IUser
+    );
     if (status?.status === 200) {
       setOpen(false);
       form.reset();
-    }    
+    }
   }
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-      <Button
-            variant={"outline"}
-            className="w-full flex items-center justify-between mt-1"
-          >
-            Edit <Edit />
+        <Button
+          variant={"outline"}
+          className="w-full flex items-center justify-between mt-1"
+        >
+          Edit <Edit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
-        <Form {...form}>
+      <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DialogHeader>
               <DialogTitle>Edit User</DialogTitle>
               <DialogDescription>
-                Edit below and click save to update user info.
+                Update input
               </DialogDescription>
             </DialogHeader>
 
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* First Name Field */}
             <FormField
               control={form.control}
@@ -94,6 +126,21 @@ const EditUser = ({user} : {user: IUser}) => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="initial"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Middle name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="BS" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
 
             {/* Last Name Field */}
             <FormField
@@ -160,45 +207,17 @@ const EditUser = ({user} : {user: IUser}) => {
               )}
             />
 
-            {/* Role Field */}
-                          <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="admin">Admin</SelectItem>
-                          <SelectItem value="user">User</SelectItem>
-                          <SelectItem value="moderator">Moderator</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
-
-            <DialogFooter>
-            <DialogClose type="button">
-                <Button variant="outline">Cancel</Button>
-            </DialogClose>
-
-              <Button disabled={isLoading} type="submit">
-              {isLoading ? "Saving changes..." : "Save changes"}
-                {isLoading ? (
-                  <Loader className="animate-spin ml-2" />
-                ) : (
-                  <Save className="ml-2" />
-                )}
-              </Button>
-            </DialogFooter>
+              <DialogFooter>
+                <Button disabled={isLoading} type="submit">
+                  {isLoading ? "Saving changes..." : "Save changes"}
+                  {isLoading ? (
+                    <Loader className="animate-spin ml-2" />
+                  ) : (
+                    <Save className="ml-2" />
+                  )}
+                </Button>
+              </DialogFooter>
           </form>
         </Form>
       </DialogContent>

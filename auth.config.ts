@@ -3,10 +3,10 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
-import { UserRole, UserProvider } from "@/lib/types";
+import { UserProvider, IUser } from "@/lib/types";
+import { UserRole } from "@/lib/models/types";
 import { SignInValidation } from "./lib/validation/auth";
 import { fetchUserByEmail, signInWithOauth } from "@/lib/api-handler/user";
-
 export default {
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
@@ -20,24 +20,23 @@ export default {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     Credentials({
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         const validatedFields = SignInValidation.safeParse(credentials);
         console.log(validatedFields);
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
 
-          const existingUser = await fetchUserByEmail(email);
-          // console.log({ existingUser });
-          if (!existingUser || !existingUser.password) return null;
+          const existingUser: IUser | null = await fetchUserByEmail(email);
+          // console.log("User", { existingUser });
+          if (!existingUser || !existingUser?.password) return null;
 
           const passwordsMatch = await bcrypt.compare(
             password,
-            existingUser.password
+            existingUser?.password
           );
 
           existingUser.password = "";
-
           // console.log({user})
           if (passwordsMatch) return existingUser;
         }
@@ -47,9 +46,9 @@ export default {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ account, profile }) {
       // console.log({user})
-      // console.log({account, profile})
+      console.log({ account, profile });
       if (
         account &&
         account?.provider !== UserProvider.CREDENTIALS &&
@@ -58,38 +57,23 @@ export default {
         return await signInWithOauth({ account, profile });
       }
 
-      // if (account?.provider === UserProvider.CREDENTIALS && user._id) {
-      //   // const existingUser = await fetchUserById(user._id);
-
-      //   // if (!existingUser?.emailVerified) return false;
-      //   // console.log("hello", { existingUser });
-
-      //   // if (existingUser?.isTwoFactorEnabled) {
-      //   //   const twoFactorConfirmation = await fetchConfirmationByUserId(
-      //   //     existingUser._id
-      //   //   );
-      //   //   if (!twoFactorConfirmation) return false;
-
-      //   //   await deleteConfirmationById(twoFactorConfirmation._id);
-      //   // }
-      // }
-
       return true;
     },
     async jwt({ token }) {
       // console.log({token})
       if (!token.email) return token;
 
-      const existingUser = await fetchUserByEmail(token.email);
+      // const existingUser = await fetchUserByEmail();
+      const existingUser: IUser | null = await fetchUserByEmail(token.email);
 
       if (!existingUser) return token;
 
       // console.log({existingUser})
       token._id = existingUser._id;
-      token.name = existingUser.name;
-      token.email = existingUser.email;
-      token.role = existingUser.role;
-      token.provider = existingUser.provider;
+      token.name = existingUser?.firstName;
+      token.email = existingUser?.email;
+      token.role = existingUser?.role;
+      token.provider = existingUser?.provider;
       // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;

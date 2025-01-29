@@ -1,15 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  AudioWaveform,
-  CalendarSync,
-  Command,
-  GalleryVerticalEnd,
-  LayoutGrid,
-  Settings2,
-  Users,
-} from "lucide-react";
+import { CalendarSync, LayoutGrid, Settings2, Users } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -32,7 +24,7 @@ const data = {
   teams: [
     {
       name: "Acme Inc",
-      logo: GalleryVerticalEnd,
+      // logo: "/4kiddos-LOGO.png",
       plan: "Enterprise",
     },
   ],
@@ -43,15 +35,21 @@ const data = {
       icon: LayoutGrid,
       isActive: true,
     },
+
+    {
+      title: "Attendies",
+      url: "users",
+      icon: Users,
+    },
+    {
+      title: "Host",
+      url: "hosts",
+      icon: Users,
+    },
     {
       title: "Events",
       url: "/event",
       icon: CalendarSync,
-    },
-    {
-      title: "Users",
-      url: "users",
-      icon: Users,
     },
     {
       title: "Staffs",

@@ -1,7 +1,8 @@
 "use server";
+import { IUser } from "@/lib/models/types";
 import { User } from "@/lib/models/user.model";
 
-export const addUserServerAction = async (userData: any) => {
+export const addUserServerAction = async (userData: IUser) => {
   try {
     if (!userData.firstName) {
       return {
@@ -31,7 +32,7 @@ export const addUserServerAction = async (userData: any) => {
       };
     }
 
-    if (!/^\+?\d{10,15}$/.test(userData.phoneNumber)) {
+    if (!userData.phoneNumber || !/^\+?\d{10,15}$/.test(userData.phoneNumber)) {
       return {
         status: 400, // Bad request for validation errors
         message: "Phone number must be a valid number with a country code",

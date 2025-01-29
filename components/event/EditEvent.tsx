@@ -83,7 +83,14 @@ const EditEvent = ({ event }: { event: EventInterfaceType }) => {
   }, [event, form, session]);
 
   async function onSubmit() {
-    const status = await handleUpdateEvent(event._id, form.getValues());
+    const updatedEvent = {
+      ...event,
+      ...form.getValues(),
+    };
+    const status = await handleUpdateEvent(
+      event._id,
+      updatedEvent as unknown as EventInterfaceType
+    );
     if (status?.status === 200) {
       setOpen(false);
       form.reset();

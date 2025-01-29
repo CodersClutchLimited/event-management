@@ -17,8 +17,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { UploadButton } from "@/components/ui/upload"; // Example for a custom upload component
@@ -35,15 +34,22 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
   const form = useForm({
     resolver: zodResolver(SettingGeneral),
     defaultValues: {
-      systemName: data?.general?.systemName,
-      // logo: data?.general?.logo,
-      contactEmail: data?.general?.contactEmail,
-      contactPhone: data?.general?.contactPhone,
+      systemName: {
+        systemName: data?.general?.systemName,
+        logo: "",
+        contactEmail: data?.general?.contactEmail,
+        contactPhone: data?.general?.contactPhone,
+      },
     },
   });
 
   function onSubmit() {
-    handleUpdateSystemSettings(form.getValues());
+    const updatedSettings = {
+      ...form.getValues(),
+      id: data._id,
+    };
+
+    handleUpdateSystemSettings(updatedSettings);
   }
 
   function handleLogoChange(file: File | null) {
@@ -79,7 +85,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
           >
             <FormField
               control={form.control}
-              name="systemName"
+              name="systemName.systemName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand Name</FormLabel>
@@ -93,7 +99,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
 
             <FormField
               control={form.control}
-              name="contactEmail"
+              name="systemName.contactEmail"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Contact Email</FormLabel>
@@ -106,7 +112,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
             />
             <FormField
               control={form.control}
-              name="contactPhone"
+              name="systemName.contactPhone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Contact Phone</FormLabel>
@@ -120,7 +126,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
 
             <FormField
               control={form.control}
-              name="logo"
+              name="systemName.logo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand Logo</FormLabel>

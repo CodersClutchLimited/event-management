@@ -61,7 +61,7 @@ const AddEvent = () => {
     console.log(form.getValues());
 
     const status = await HandleAddEvent(form.getValues());
-    console.log("sesso", session?.user?.id);
+    // console.log("sesso", session?.user?.id);
     // close the dialog when the status is 200
     if (status?.status === 200) {
       setOpen(false);

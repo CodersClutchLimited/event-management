@@ -2,6 +2,7 @@
 import Event from "@/lib/models/event.model";
 import { EventInterfaceType } from "@/lib/types";
 import { deepConvertToPlainObject } from "@/lib/utils";
+import { PipelineStage } from "mongoose";
 
 export const GetAllEvent = async ({
   query,
@@ -15,7 +16,7 @@ export const GetAllEvent = async ({
   try {
     const skip = (page - 1) * limit;
 
-    const pipeline = [
+    const pipeline: PipelineStage[] = [
       //   {
       //     $match: {
       //       ...(startDate &&
@@ -90,12 +91,12 @@ export const GetAllEvent = async ({
 
     return {
       status: 200,
-      data: Events as EventInterfaceType,
+      data: Events as unknown as EventInterfaceType,
       isPreviousPage: page > 1,
       isNextPage: totalCount > skip + EventData.length,
       totalCount,
     };
-  } catch (error) {
+  } catch {
     return { status: 500, message: "Failed to get events" };
   }
 };
@@ -120,5 +121,29 @@ export const GetTotalUpcomingEvent = async () => {
     return { status: 200, data: total };
   } catch {
     return { status: 500, message: "Error getting total upcoming event" };
+  }
+};
+
+// get 5 lates upcomming event
+export const GetLatestUpcomingEvent = async () => {
+  try {
+    const events = await Event.find({ status: "upcoming" })
+      .sort({ createdAt: -1 })
+      .limit(6);
+    return { status: 200, data: deepConvertToPlainObject(events) };
+  } catch {
+    return { status: 500, message: "Error getting latest upcoming event" };
+  }
+};
+
+// fetch the total number of ongoingEvent, upcominEvent and compleatedEvent
+export const Eventstatus = async () => {
+  try {
+    const upcommingEventLength = await Event.countDocuments({
+      status: "upcoming",
+    });
+    return { status: 200, upcommingEventLength: upcommingEventLength };
+  } catch (error) {
+    return { status: 500, message: "Error getting data" };
   }
 };

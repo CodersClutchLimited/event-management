@@ -1,14 +1,10 @@
-import React from "react";
+import React from 'react'
+import ProfileContainer from '@/components/userProfile/profileContainer'
 import { GetSingleUser } from '@/lib/actions/user/getAllUser'
-import {IUser} from "@/lib/types";
-import ProfileContainer from "@/components/userProfile/profileContainer";
-
-
-const page = async ({params} : {params: {slug: string}}) => {
-  const {slug} = await params;
-  console.log(slug);
-  // find user base on user id
-  const {data} = await GetSingleUser(slug);
+import { IUser } from '@/lib/types';
+const page = async ({ params }: { params: { slug: string } }) => {
+  const { slug } = await params;
+  const { status, data } = await GetSingleUser(slug);
 
   return (
     <div>
@@ -17,4 +13,4 @@ const page = async ({params} : {params: {slug: string}}) => {
   );
 };
 
-export default page;
+export default page

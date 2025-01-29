@@ -1,5 +1,6 @@
 "use server";
 
+import { connectDB } from "@/lib/db";
 import SystemSetting from "@/lib/models/systemsetting.model";
 import { deepConvertToPlainObject } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
@@ -54,9 +55,8 @@ export const addSystemSettingsServerAction = async () => {
   }
 };
 
-export const updateSystemSettings = async (updatedSettings) => {
+export const updateSystemSettings = async (updatedSettings: any) => {
   try {
-    // Ensure at least one field is provided for update
     if (!updatedSettings || Object.keys(updatedSettings).length === 0) {
       return {
         status: 400,
@@ -64,17 +64,28 @@ export const updateSystemSettings = async (updatedSettings) => {
       };
     }
 
-    // Update system settings (assuming there's only one settings document)
-    const systemSettings = await SystemSetting.findOneAndUpdate(
-      {},
-      { ...updatedSettings, updatedAt: new Date() },
-      { new: true, upsert: true } // Create a new document if none exists
+    console.log("Settings before update:", updatedSettings);
+
+    const settings = await SystemSetting.findOneAndUpdate(
+      { _id: updatedSettings.id },
+      { $set: updatedSettings }, // Ensures only specified fields are updated
+      { new: true } // Returns the updated document
     );
+
+    if (!settings) {
+      return {
+        status: 404,
+        message: "Failed to update system settings",
+      };
+    }
+
+    console.log("Settings after update:", settings);
+
     revalidatePath("./settings");
     return {
       status: 200,
       message: "System settings updated successfully",
-      systemSettings,
+      // data: settings, // Return the updated settings if needed
     };
   } catch (error) {
     console.error("Error updating system settings:", error);
@@ -87,8 +98,10 @@ export const updateSystemSettings = async (updatedSettings) => {
 
 export const getSystemSettings = async () => {
   try {
+    await connectDB();
+
     // Retrieve the first system settings document
-    const systemSettings = await SystemSetting.findOne({});
+    const systemSettings = await SystemSetting.findOne();
 
     if (!systemSettings) {
       return {

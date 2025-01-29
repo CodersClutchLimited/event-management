@@ -44,6 +44,7 @@ const SearchComponent = ({
     pathname,
     query,
     router,
+    search,
     searchParamsDateTo,
     pagenumber,
     searchParamsDateFrom,

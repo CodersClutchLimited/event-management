@@ -7,11 +7,12 @@ import {
 } from "../ui/card";
 import ProfileComponent from "../common/ProfileComponent";
 // import { DeleteIcon } from "lucide-react";
-import RevomeFromEvent from "./RevomeFromEvent";
+// import RevomeFromEvent from "./RevomeFromEvent";
 import Link from "next/link";
 import { formatReadableDate } from "@/lib/utils";
+import { EventInterfaceType, IUser } from "@/lib/types";
 
-const RecentApplicant = ({ event }) => {
+const RecentApplicant = ({ item: event }: { item: EventInterfaceType }) => {
   return (
     <Card className="">
       <CardHeader>
@@ -21,9 +22,9 @@ const RecentApplicant = ({ event }) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        {event?.registeredUsers?.map((item) => (
+        {event?.registeredUsers?.map((item: IUser) => (
           <Link
-            href={`/users/${item?._id}`}
+            href={`/users/${item._id}`}
             key={item?._id}
             className="flex items-center justify-between border rounded-md p-2  hover:border-red-700"
           >
@@ -33,8 +34,12 @@ const RecentApplicant = ({ event }) => {
               email="kebbawaiga@gmail.com"
               middleName=""
             />
-            <p>{formatReadableDate(item?.registeredAt)}</p>
-            <RevomeFromEvent item={{}} />
+            <p>
+              {item.registeredAt
+                ? formatReadableDate(item.registeredAt)
+                : "No date"}
+            </p>
+            {/* <RevomeFromEvent item={{}} /> */}
           </Link>
         ))}
       </CardContent>

@@ -18,14 +18,14 @@ import Link from "next/link";
 import { getRoleByNameServerAction } from "@/lib/actions/role/roleServerAction";
 import PermissionCollaps from "@/components/setting/PermissionCollaps";
 
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = await params; // Decode role name directly
+const Page = async ({ params }: { params: Promise<{ subslug: string }> }) => {
+  const { subslug } = await params; // Decode role name directly
 
-  const roleName = decodeURIComponent(slug.replace("edit-permission-", "")); // Decode the slug for readability
-
+  const roleName = decodeURIComponent(subslug.replace("edit-permission-", "")); // Decode the slug for readability
 
   // Fetch role by name
-  const { data, status } = await getRoleByNameServerAction(roleName);
+  const { data } = await getRoleByNameServerAction(roleName);
+  const permissions = (data?.permissions as Record<string, any>) || {};
 
   if (!data || Object.keys(data).length === 0) {
     return (
@@ -56,7 +56,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
       </CardHeader>
 
       <CardContent>
-        {Object.entries(data.permissions).map(
+        {Object.entries(data.permissions as Record<string, any>).map(
           ([permissionKey, permissionValue]) => (
             <Collapsible key={permissionKey} className="w-full border">
               <div className="flex items-center justify-between px-4">
