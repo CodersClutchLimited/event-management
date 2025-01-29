@@ -1,4 +1,3 @@
-
 export const EventTableHeaderData = [
   "Event Number",
   "Event Title",
@@ -8,6 +7,18 @@ export const EventTableHeaderData = [
   "No-Users",
   "Max-Users",
   "Create At",
+  "Action",
+];
+
+export const HostTableData = [
+  "Number ",
+  "Profile",
+  "Phone Number",
+  "End Date",
+  "Status",
+  "No-Users",
+  "No-of Events ",
+  "Join At",
   "Action",
 ];
 

@@ -1,17 +1,18 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
-import { EventTableHeaderData, HostTableData } from "@/constants/tablesData";
+import { EventTableHeaderData } from "@/constants/tablesData";
 // import { EventData } from "@/constants/sampleData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
-import EventAction from "./EventAction";
+// import EventAction from "./EventAction";
 import { EventInterfaceType } from "@/lib/types";
+import EventAction from "../event/EventAction";
 
-const EventTable = ({ events }: { events: EventInterfaceType[] }) => {
+const HostTable = ({ events }: { events: EventInterfaceType[] }) => {
   return (
     <Table className="mt-5">
-      <DynamicTableHeaders headers={HostTableData} />
+      <DynamicTableHeaders headers={EventTableHeaderData} />
 
       <TableBody>
         {events?.map((item: EventInterfaceType) => (
@@ -47,4 +48,4 @@ const EventTable = ({ events }: { events: EventInterfaceType[] }) => {
   );
 };
 
-export default EventTable;
+export default HostTable;

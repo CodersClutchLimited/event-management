@@ -55,7 +55,7 @@ const Home = async () => {
             <Skeleton className="w-[300px] p-6 h-10 mt-2" key={index} />
           ))}
         >
-          {/* <UpcommingEvents /> */}
+          <UpcommingEvents />
         </Suspense>
       </div>
     </div>
