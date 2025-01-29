@@ -28,6 +28,7 @@ export const UserTableHeaderData = [
   "Status", // User's account status (active, suspended, block)
   "Phone Number",
   "Last Login", // The last time the user logged in
+  "No-Events",
   "Registered At", // Account creation or registration date
   "Action", // Actions that can be taken (e.g., view, edit, delete)
 ];

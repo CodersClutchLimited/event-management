@@ -45,6 +45,10 @@ const UserTable = ({ users }: { users: IUser[] }) => {
                   : formatReadableDate(item?.lastLogin)}
               </TableCell>
               <TableCell>
+                {item?.registeredEvents?.length || 0}
+              </TableCell>
+
+              <TableCell>
                 {item.createdAt === undefined || item.createdAt || undefined
                   ? "no date"
                   : formatReadableDate(item.createdAt)}

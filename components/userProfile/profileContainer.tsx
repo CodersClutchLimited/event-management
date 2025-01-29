@@ -69,6 +69,7 @@ const ProfileContainer: React.FC<userProfileEventProps> = ({
         )}
       </TabsList>
 
+        
     <TabsContent value='audit'>
     <Card>
       <CardContent>
@@ -122,7 +123,6 @@ const ProfileContainer: React.FC<userProfileEventProps> = ({
     </Card>
 
     </TabsContent>
-
 
       <TabsContent value="details">
         <CardHeader>
