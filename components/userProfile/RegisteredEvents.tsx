@@ -10,8 +10,8 @@ import { GetUserRegisteredEvents } from "@/lib/actions/user/getAllUser";
 
 const RegisteredEvents = async ({ user }: { user: IUser }) => {
 
-  const { data, status } = await GetUserRegisteredEvents(user.id);
-  console.log(data, status);
+  const { data, status } = await GetUserRegisteredEvents(user._id);
+  console.log("event sing daat", data, status);
   
   return (
     <div className="mt-5 overflow-x-auto">

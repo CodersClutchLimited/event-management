@@ -7,7 +7,11 @@ import { revalidatePath } from "next/cache";
 interface RoleData {
   name: string;
   description?: string;
-  permissions: string[];
+  permissions: {
+    [key: string]: {
+      level: string;
+    };
+  }
 }
 
 export const addRoleServerAction = async (roleData: RoleData) => {

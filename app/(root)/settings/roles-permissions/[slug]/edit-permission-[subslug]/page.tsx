@@ -20,6 +20,8 @@ import PermissionCollaps from "@/components/setting/PermissionCollaps";
 
 const Page = async ({ params }: { params: Promise<{ subslug: string }> }) => {
   const { subslug } = await params; // Decode role name directly
+  console.log(subslug);
+  
 
   const roleName = decodeURIComponent(subslug.replace("edit-permission-", "")); // Decode the slug for readability
 

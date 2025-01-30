@@ -8,6 +8,7 @@ import UserAction from "./UserActions";
 import ProfileComponent from "@/components/common/ProfileComponent";
 import { IUser } from "@/lib/types";
 const UserTable = ({ users }: { users: IUser[] }) => {
+  
   return (
     <div>
       <Table className="mt-5">

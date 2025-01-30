@@ -5,14 +5,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { fetchRolesServerAction } from "@/lib/actions/role/roleServerAction";
+import {  fetchRolesServerAction } from "@/lib/actions/role/roleServerAction";
 // import { roles } from "@/constansts";
 import { User } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+
+// const sone = {
+//   name: "Host",
+//   description: "Has full access to managing events, can view the dashboard, but cannot manage users, staffs, or settings.",
+//   permissions: {
+//     view_dashboard: { level: "view" },
+//     manage_users: { level: "off" },
+//     manage_staffs: { level: "off" },
+//     manage_events: { level: "full" },
+//     manage_settings: { level: "off" },
+//   },
+// };
 
 const RoleAndPermissions = async () => {
   const { data } = await fetchRolesServerAction();
+  // await addRoleServerAction(sone);
   return (
     <Card>
       <CardHeader>

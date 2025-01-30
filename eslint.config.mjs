@@ -33,7 +33,7 @@ const eslintConfig = [
       "next/no-img-element": "off", // Example: Disable img element restriction
       "react-hooks/exhaustive-deps": "off", // Example: Disable exhaustive deps warning
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": "off",
+      // "@typescript-eslint/no-unused-vars": "off",
     },
   },
 ];

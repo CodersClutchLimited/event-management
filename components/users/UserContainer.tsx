@@ -41,7 +41,7 @@ const UserContainer: React.FC<UserContanerProps> = ({
   search,
   users,
 }) => {
-  // console.log(users);
+  console.log("users data", users);
   return (
     <Card>
       <CardHeader>

@@ -7,7 +7,7 @@ import { Document } from "mongoose";
 export enum UserRole {
   ADMIN = "admin",
   USER = "user",
-  SUBAdmin = "staff",
+  STAFF = "staff",
 }
 
 export enum UserProvider {
@@ -37,7 +37,7 @@ export interface IUser extends Document {
   resetPasswordExpires?: Date;
   verificationToken?: string;
   verificationTokenExpires?: Date;
-  registeredEvents: {
+  registeredUsers: {
     eventId: string; // ObjectId reference
     registeredAt: Date;
   }[];
@@ -53,7 +53,7 @@ export interface IUser extends Document {
   lastLogin?: string;
   updatedAt: Date;
   provider: UserProvider;
-  attendedEvents: {
+  registeredEvents: {
     eventId: string; // ObjectId reference
     attendedAt?: Date;
   }[];
