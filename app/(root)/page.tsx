@@ -1,10 +1,10 @@
-import DynamicTableSkeleton from "@/components/common/DynamicTableSkeleton";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
+import CancelledEventsLength from "@/components/event/CancelledEventsLength";
+import CompletedEventLength from "@/components/event/CompletedEventLength";
 import UpcommingEvents from "@/components/event/UpcommingEvents";
-import StatsCard from "@/components/StatsCard"; // import the new StatsCard component
+import UpcommingEventsLength from "@/components/event/UpcommingEventsLength";
 import { Skeleton } from "@/components/ui/skeleton";
 // import { Eventstatus } from "@/lib/actions/event/GetAllEvent";
-import { Timer, TimerResetIcon } from "lucide-react";
 import { Suspense } from "react";
 
 const Home = async () => {
@@ -12,40 +12,17 @@ const Home = async () => {
 
   // console.log(upcommingEventLength);
 
-  const cardData = [
-    {
-      icon: <Timer className="w-3.5 h-5 text-yellow-600" />,
-      title: "Upcoming Events",
-      value: "45",
-      percentage: "+20.1% from last month",
-    },
-    {
-      icon: <Timer className="text-lime-500 w-5 h-5" />,
-      title: "Ongoing Events",
-      value: "50",
-      percentage: "+180.1% from last month",
-    },
-    {
-      icon: <TimerResetIcon className="text-green-600 w-5 h-5" />,
-      title: "Completed Events",
-      value: "+234",
-      percentage: "+19% from last month",
-    },
-  ];
+ 
 
   return (
-    <div className="flex justify-between gap-5">
+    <div className="flex justify-between gap-5  max-md:flex-wrap">
       <div className="w-full pb-10">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-10">
-          {cardData.map((card, index) => (
-            <StatsCard
-              key={index}
-              icon={card.icon}
-              title={card.title}
-              value={card.value}
-              percentage={card.percentage}
-            />
-          ))}
+          <Suspense>
+            < UpcommingEventsLength/>
+            <CancelledEventsLength/>
+            <CompletedEventLength/>
+          </Suspense>
         </div>
         <DashboardCharts />
       </div>

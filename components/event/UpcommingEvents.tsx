@@ -32,9 +32,10 @@ const UpcommingEvents = async () => {
             <Link
               href={`/event/${item._id}`}
               key={item._id}
-              className="-mx-1 flex justify-between items-start space-x-4 rounded-md p-3 transition-all hover:bg-accent bg-accent/50 hover:text-accent-foreground mt-3"
+              className="-mx-1 flex justify-between  items-start space-x-4 rounded-md p-3 transition-all hover:bg-accent bg-accent/50 hover:text-accent-foreground mt-3"
             >
-              <div>
+              <div className="flex md:flex-row flex-col">
+              <div className="pr-2">
                 <p className="font-semibold text-sm">{item?.title}</p>
                 <p className="font-semibold text-sm text-muted-foreground">
                   Attendies : {item?.registeredUsers?.length}
@@ -53,6 +54,8 @@ const UpcommingEvents = async () => {
                   }
                   eventStart={item.schedule.start}
                 />
+              </div>
+
               </div>
             </Link>
           ))}

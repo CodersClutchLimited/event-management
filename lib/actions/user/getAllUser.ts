@@ -10,7 +10,7 @@ export const getAllUsers = async ({
   query,
   page = 1,
   limit = 10,
-  UserRole
+  UserRole,
 }: {
   query?: string;
   page?: number;
@@ -33,20 +33,7 @@ export const getAllUsers = async ({
       { $match: { "role.name": UserRole } },
 
       // Full-text search (if query exists)
-      ...(query
-        ? [
-            {
-              $search: {
-                index: "user",
-                text: {
-                  query,
-                  path: { wildcard: "*" },
-                  fuzzy: { maxEdits: 1, prefixLength: 2 },
-                },
-              },
-            },
-          ]
-        : []),
+     
 
       {
         $facet: {
@@ -78,6 +65,19 @@ export const getAllUsers = async ({
         },
       },
     ];
+
+    if (query) {
+      pipeline.unshift({
+        $search: {
+          index: "users",
+          text: {
+            query,
+            fuzzy: { maxEdits: 1, prefixLength: 3, maxExpansions: 50 },
+            path: { wildcard: "*" },
+          },
+        },
+      });
+    }
 
     const result = await User.aggregate(pipeline);
     const users = result[0]?.users || [];
@@ -124,7 +124,6 @@ export const GetSingleUser = async (userId: string) => {
 
 export const GetUserRegisteredEvents = async (userId: string) => {
   try {
-
     // Populate the eventId inside the registeredEvents array
     const user = await User.findById(userId).populate(
       "registeredEvents.eventId"
@@ -137,7 +136,6 @@ export const GetUserRegisteredEvents = async (userId: string) => {
 
     // Ensure registeredEvents is populated properly
     const registeredEvents = user.registeredEvents.map((event) => {
-
       return {
         id: event.eventId?._id || null,
         title: event.eventId?.title || "Unknown",
@@ -149,8 +147,6 @@ export const GetUserRegisteredEvents = async (userId: string) => {
         registrationStatus: event.status || "unknown", // Expecting "active" or "canceled"
       };
     });
-
-
 
     return {
       status: 200,
@@ -202,11 +198,8 @@ export const GetUserWaitlistedEvents = async (userId: string) => {
   }
 };
 
-
 // get single user for updaet
-  // check if the user exist
-
-
+// check if the user exist
 
 export const GetSingleUserData = async (userId: string) => {
   try {
