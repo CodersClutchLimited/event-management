@@ -4,10 +4,8 @@ import Event from "@/lib/models/event.model";
 import { User } from "@/lib/models/user.model";
 import { IUser, UserRole } from "@/lib/types";
 
-
 import { deepConvertToPlainObject } from "@/lib/utils";
 // import { startOfDay } from "date-fns";
-import mongoose from "mongoose";
 
 export const getAllUsers = async ({
   query,
@@ -42,7 +40,8 @@ export const getAllUsers = async ({
       { $skip: skip },
       { $limit: limit },
       { $sort: { createdAt: -1 as -1 } },
-      {
+      { $match: { role: UserRole.USER } },
+      { 
         $project: {
           firstName: 1,
           initial: 1,
@@ -57,7 +56,7 @@ export const getAllUsers = async ({
           lastLogin: 1,
           createdAt: 1,
           registeredUsers: 1,
-          registeredEvents: 1
+          registeredEvents: 1,
         },
       },
     ];
@@ -99,22 +98,17 @@ export const getAllUsers = async ({
   }
 };
 
-
 export const GetSingleUser = async (userId: string) => {
+  console.log(userId);
   try {
-    const user = await User.findById(userId)
-      // .populate({
-      //   path: "registeredEvents.eventId",
-      //   model: "Event",
-      // })
-      // .populate({
-      //   path: "waitlistedEvents.eventId",
-      //   model: "Event",
-      // });
-
+    const user = await User.findById(userId).populate({
+      path: "role",
+      select: "name",
+    });
     if (!user) {
       return { status: 404, message: "User not found" };
     }
+    console.log(user);
 
     return {
       status: 200,
@@ -126,33 +120,7 @@ export const GetSingleUser = async (userId: string) => {
   }
 };
 
-
-// get the events that a particular user is registered for
-export const GetUserRegisteredEvents = async (userId: string) => {
-  try {
-    console.log("User ID:", userId);
-
-    // Ensure userId is an ObjectId
-    const objectId = new mongoose.Types.ObjectId(userId);
-
-    // Find events where the user is registered
-    const events = await Event.find({ "registeredUsers.userId": objectId })
-      .populate("registeredUsers.userId") // Populate the user details
-      .populate("events"); // Populate event details if needed
-
-    // Return the data
-    return {
-      status: 200,
-      data: events,
-    };
-
-  } catch (error) {
-    console.error("Error fetching user events:", error);
-    return { status: 500, message: "Error getting user events", error };
-  }
-};
-
-
+// get the events that a particular user is registered forimport User from "../models/User"; // Ensure correct import
 
 // get  all user whose role is staff
 export const getAllStaff = async ({
@@ -248,12 +216,98 @@ export const getAllStaff = async ({
 };
 
 // Get a single staff for the profile page purpose
-export const GetStaffById = async(userId: string) => {
+export const GetStaffById = async (userId: string) => {
   try {
-    const staff = await User.findOne({_id: userId, role: UserRole.STAFF})
-    return staff
+    const staff = await User.findOne({ _id: userId, role: UserRole.STAFF });
+    return staff;
   } catch (error) {
     console.error("Error fetching staff by ID:", error);
     throw error;
   }
-}
+};
+
+export const GetUserRegisteredEvents = async (userId: string) => {
+  try {
+    console.log("Fetching registered events for User ID:", userId);
+
+    // Populate the eventId inside the registeredEvents array
+    const user = await User.findById(userId).populate(
+      "registeredEvents.eventId"
+    );
+
+    if (!user) {
+      return { status: 404, message: "User not found" };
+    }
+    // console.log(user);
+
+    // Ensure registeredEvents is populated properly
+    const registeredEvents = user.registeredEvents.map((event) => {
+      console.log("Mapped event:", event);
+      console.log("EventId Object:", event.eventId);
+      console.log("Event Status:", event.eventId?.status);
+      console.log("User Registration Status:", event.status);
+
+      return {
+        id: event.eventId?._id || null,
+        title: event.eventId?.title || "Unknown",
+        schedule: event.eventId?.schedule || null,
+        location: event.eventId?.location || "Not specified",
+        registeredAt: event.registeredAt,
+        eventId: event.eventId?.eventId || null,
+        status: event.eventId?.status || "unknown",
+        registrationStatus: event.status || "unknown", // Expecting "active" or "canceled"
+      };
+    });
+
+    console.log("user", registeredEvents);
+
+    // console.log(registeredEvents);
+
+    return {
+      status: 200,
+      data: registeredEvents,
+    };
+  } catch (error) {
+    console.error("Error fetching user events:", error);
+    return { status: 500, message: "Error getting user events", error };
+  }
+};
+
+export const GetUserWaitlistedEvents = async (userId: string) => {
+  try {
+    console.log("Fetching waitlisted events for User ID:", userId);
+
+    // Fetch the user, populating the eventId in waitlistedEvents
+    const user = await User.findById(userId)
+      .populate("waitlistedEvents.eventId");
+
+    if (!user) {
+      return { status: 404, message: "User not found" };
+    }
+
+    // Process waitlistedEvents
+    const waitlistedEvents = user.waitlistedEvents.map((event) => {
+      console.log("Mapped waitlisted event:", event);
+      return {
+        id: event.eventId?._id || null,
+        title: event.eventId?.title || "Unknown",
+        schedule: event.eventId?.schedule || null,
+        location: event.eventId?.location || "Not specified",
+        joinedAt: event.joinedAt,
+        eventId: event.eventId?.eventId || null,
+        status: event.eventId?.status || "unknown",
+        registrationStatus: "waitlisted", // Explicitly setting registration status as "waitlisted"
+      };
+    });
+
+    console.log("Waitlisted Events:", waitlistedEvents);
+
+    return {
+      status: 200,
+      data: waitlistedEvents,
+    };
+  } catch (error) {
+    console.error("Error fetching waitlisted events:", error);
+    return { status: 500, message: "Error getting waitlisted events", error };
+  }
+};

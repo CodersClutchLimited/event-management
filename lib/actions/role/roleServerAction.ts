@@ -63,7 +63,7 @@ export const fetchRolesServerAction = async () => {
     return {
       status: 200,
       message: "Roles fetched successfully",
-      data: roles,
+      data: deepConvertToPlainObject(roles),
     };
   } catch (error) {
     console.error("Error fetching roles:", error);

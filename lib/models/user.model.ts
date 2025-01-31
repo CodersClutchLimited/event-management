@@ -16,11 +16,7 @@ const UserSchema = new mongoose.Schema(
       country: { type: String },
     },
 
-    role: {
-      type: String,
-      enum: [UserRole.USER, UserRole.ADMIN, UserRole.STAFF],
-      default: UserRole.USER,
-    },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: "role"}, 
     status: {
       type: String,
       enum: ["active", "suspended", "blocked"],
@@ -33,11 +29,16 @@ const UserSchema = new mongoose.Schema(
     verificationTokenExpires: { type: Date },
     registeredEvents: [
       {
-        eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
+        eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
         registeredAt: { type: Date, default: Date.now },
-      },
-    ],
-
+        status: {
+          type: String,
+          enum: ["active", "canceled"],
+          default: "active",
+          trim: true
+        },
+      }
+    ],
     waitlistedEvents: [
       {
         eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },

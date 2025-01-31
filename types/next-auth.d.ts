@@ -4,13 +4,16 @@ import NextAuth, {type DefaultSession, type User as NextAuthUser } from "next-au
 export interface ExtendedUser extends NextAuthUser {
   _id: string,
   role: UserRole,
-  provider: string
+  firstName: string,
+    initial: string,
+  lastName: string,
+  provider: string,
   isTwoFactorEnabled: boolean
 }
 
 declare module "next-auth" {
   interface User extends Partial<ExtendedUser> {}
-  interface Session {
+   interface Session {
     user: ExtendedUser & DefaultSession["user"]
-  }
+  } 
 }

@@ -40,5 +40,5 @@ export const RegisteredEv = [
   "Status",
   "Start Date",
   "End Date",
-  "Create At"
+  "Create At",
 ]

@@ -4,23 +4,21 @@ import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { RegisteredEv } from "@/constants/tablesData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
-import { IUser } from "@/lib/types";
 import { GetUserRegisteredEvents } from "@/lib/actions/user/getAllUser";
 
 
-const RegisteredEvents = async ({ user }: { user: IUser }) => {
+const RegisteredEvents = async ({userId}:{userId: string}) => {
 
-  const { data, status } = await GetUserRegisteredEvents(user._id);
-  console.log("event sing daat", data, status);
+  const { data, status } = await GetUserRegisteredEvents(userId);
   
   return (
     <div className="mt-5 overflow-x-auto">
       <Table className="w-full table-auto text-sm sm:text-base">
         <DynamicTableHeaders headers={RegisteredEv} />
         <TableBody>
-          {user?.registeredEvents.map((item: { eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }, index) => (
+          {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }, index) => (
             <TableRow key={item.eventId} className="whitespace-nowrap">
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{item.eventId}</TableCell>
               <TableCell>{item?.title || "Unknown Event"}</TableCell>
               <TableCell>
                 <Badge
@@ -42,6 +40,19 @@ const RegisteredEvents = async ({ user }: { user: IUser }) => {
                   ? formatReadableDate(item.schedule.start)
                   : "No date"}
               </TableCell>
+              {/* <TableCell>
+                <Badge
+                  className={
+                    item?.registeredEvents?.state === "cancelled"
+                      ? "bg-red-600"
+                    
+                      : "bg-green-700"
+                  }
+                >
+                  {item?.status || "N/A"}
+                </Badge>
+              </TableCell> */}
+
               <TableCell>
                 {item?.schedule?.end
                   ? formatReadableDate(item.schedule.end)
@@ -51,6 +62,9 @@ const RegisteredEvents = async ({ user }: { user: IUser }) => {
                 {item?.registeredAt
                   ? formatReadableDate(item.registeredAt.toString())
                   : "No date"}
+              </TableCell>
+              <TableCell>
+              {/* <RevomeFromEvent/> */}
               </TableCell>
               {/* <TableCell>{formatReadableDate(item.schedule.start?? "No Date")}</TableCell>
               <TableCell>{formatReadableDate(item.schedule.end?? "No Date")}</TableCell>

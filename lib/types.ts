@@ -1,12 +1,31 @@
-export interface RoleTypes {
-  name: string;
+
+
+import { Documentm ,ObjectId } from "mongoose";
+
+
+type PermissionLevel = "view" | "off" | "full";
+
+interface Permissions {
+  view_dashboard: { level: PermissionLevel };
+  manage_users: { level: PermissionLevel };
+  manage_staffs: { level: PermissionLevel };
+  manage_events: { level: PermissionLevel };
+  manage_settings: { level: PermissionLevel };
 }
 
-import { Document } from "mongoose";
 
-export enum UserRole {
+
+
+export interface RoleTypes {
+  _id: ObjectId;
+  name: string;
+  description: string;
+  permissions: Permissions;
+  __v: number;
+}
+export enum UserRole  {
   ADMIN = "admin",
-  USER = "user",
+  USER = "Attendees",
   STAFF = "staff",
 }
 
@@ -30,7 +49,7 @@ export interface IUser extends Document {
     city?: string;
     country?: string;
   };
-  role: UserRole;
+  role: RoleTypes;
   status: "active" | "suspended" | "blocked";
   isVerified: boolean;
   resetPasswordToken?: string;

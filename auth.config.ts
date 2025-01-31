@@ -70,7 +70,9 @@ export default {
 
       // console.log({existingUser})
       token._id = existingUser._id;
-      token.name = existingUser?.firstName;
+      token.firstName = existingUser?.firstName;
+      token.lastName = existingUser?.lastName;
+      token.phoneNumber = existingUser?.phoneNumber;
       token.email = existingUser?.email;
       token.role = existingUser?.role;
       token.provider = existingUser?.provider;
@@ -82,7 +84,7 @@ export default {
       // console.log({session, token})
       if (token._id && session.user) {
         session.user._id = token._id as string;
-        session.user.name = token.name as string;
+        session.user.firstName = token.name as string;
         session.user.email = token.email as string;
         session.user.role = token.role as UserRole;
         session.user.provider = token.provider as string;
