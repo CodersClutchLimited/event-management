@@ -34,6 +34,7 @@ const page = async ({
     page: page,
     limit: limit,
     query: search,
+    UserRole: "Attendees"
   });
 
   return (

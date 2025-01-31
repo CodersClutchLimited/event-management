@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserProvider, UserRole } from "./types";
+import { UserProvider } from "./types";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -29,16 +29,11 @@ const UserSchema = new mongoose.Schema(
     verificationTokenExpires: { type: Date },
     registeredEvents: [
       {
-        eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+        eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },
         registeredAt: { type: Date, default: Date.now },
-        status: {
-          type: String,
-          enum: ["active", "canceled"],
-          default: "active",
-          trim: true
-        },
-      }
-    ],
+      },
+    ],
+
     waitlistedEvents: [
       {
         eventId: { type: mongoose.Schema.Types.ObjectId, ref: "Event" },

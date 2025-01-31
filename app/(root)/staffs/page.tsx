@@ -1,13 +1,12 @@
-import StaffContainer from "@/components/staff/StaffContainer";
-import { getAllStaff } from "@/lib/actions/user/getAllUser"; // Ensure correct import
-import React from "react";
-
+import UserContainer from "@/components/users/UserContainer";
+import { getAllUsers } from "@/lib/actions/user/getAllUser";
 const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{ page: string; limit: string; search: string }>;
 }) => {
   const searchParamsData = await searchParams;
+  console.log(searchParamsData);
 
   const page =
     typeof searchParamsData.page === "string"
@@ -24,27 +23,23 @@ const page = async ({
       ? searchParamsData.search
       : undefined;
 
-  // Fetch staff data
-  const {
-    isNextPage,
-    totalCount,
-    isPreviousPage,
-    data = [],
-  } = await getAllStaff({
+  // get the events
+  const { isNextPage, totalCount, isPreviousPage, data } = await getAllUsers({
     page: page,
     limit: limit,
     query: search,
+    UserRole: "Staff"
   });
-
   return (
     <div>
-      <StaffContainer
+      <UserContainer
         page={page}
         isPreviousPage={isPreviousPage}
         isNextPage={isNextPage}
         totalCount={totalCount}
         search={search}
-        staff={data} // Assuming StaffContainer expects "staff" instead of "users"
+        users={data}
+        userRole= "Staff"
       />
     </div>
   );

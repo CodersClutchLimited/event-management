@@ -29,8 +29,10 @@ export const UserTableHeaderData = [
   "Phone Number",
   "Last Login", // The last time the user logged in
   "No-Events",
+  "No-Waitlisted",
   "Registered At", // Account creation or registration date
   "Action", // Actions that can be taken (e.g., view, edit, delete)
+
 ];
 
 

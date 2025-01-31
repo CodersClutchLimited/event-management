@@ -50,18 +50,25 @@ const ProfileContainer: React.FC<userProfileEventProps> = ({
     <Tabs defaultValue="details" className="">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="details" className="uppercase font-bold">
-          Employee Details
+          User Details
         </TabsTrigger>
-        {user && user?.role.name === "Attendees" ? (
-          <>
+        <>
+          {user.role.name === "Staff" ? null : (
             <TabsTrigger value="events" className="uppercase font-bold">
-              Registered Events
+              {user.role.name === "Attendees"
+                ? "Registered Events"
+                : "Hosted Events"}
             </TabsTrigger>
+          )}
+          {user.role.name === "Attendees" && (
             <TabsTrigger value="waitlists" className="uppercase font-bold">
               Waitlisted Events
             </TabsTrigger>
-          </>
-        ) : (
+          )}
+        </>
+
+        {/* handle later */}
+        {user.role.name === "Staff" && (
           <TabsTrigger value="audit" className="uppercase font-bold">
             Audit Log
           </TabsTrigger>
@@ -171,7 +178,9 @@ const ProfileContainer: React.FC<userProfileEventProps> = ({
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-center">
-              Registered Event
+              {user.role.name === "Attendees"
+                ? "Registered Events"
+                : "Hosted Events"}
             </CardTitle>
           </CardHeader>
 

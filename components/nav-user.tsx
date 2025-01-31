@@ -29,6 +29,7 @@ import { Button } from "./ui/button";
 import { logout } from "@/lib/actions/auth/Signout";
 import { routes } from "@/routes";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -92,10 +93,13 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+            <Link href="/profile">
               <DropdownMenuItem>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
+              </Link>
+
               <DropdownMenuItem>
                 <Bell />
                 Notifications

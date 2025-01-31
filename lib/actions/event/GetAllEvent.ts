@@ -88,7 +88,8 @@ export const GetAllEvent = async ({
     const EventData = await Event.aggregate(pipeline);
     const Events = deepConvertToPlainObject(EventData);
     const totalCount = await Event.countDocuments();
-
+    console.log(EventData);
+    
     return {
       status: 200,
       data: Events as unknown as EventInterfaceType,

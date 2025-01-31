@@ -5,6 +5,7 @@ export const routes = {
     "/auth/signup",
     "/auth/reset",
     "/auth/new-password",
+    "/auth/setup-account",
     "/error",
   ],
   apiAuthPrefix: "/api/auth",

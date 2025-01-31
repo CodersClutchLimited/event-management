@@ -60,12 +60,12 @@ const InviteStaff = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const FormValues = form.getValues();
 
-   const {status} = sendStaffInviteEmail(FormValues)
-   if(status !== 200) {
-    setOpen(false)
+   const response = await sendStaffInviteEmail(FormValues)
+   if(response?.status !== 200) {
+    setOpen(true)
     return
    }
-   setOpen(true)
+   setOpen(false)
 
   }
 

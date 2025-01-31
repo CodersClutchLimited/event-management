@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 
 export enum UserRole {
   ADMIN = "admin",
-  USER = "user",
+  ATTENDEE = "Attendee",
   STAFF = "staff",
 }
 

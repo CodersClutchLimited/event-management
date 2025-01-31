@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { generateInvitationToken } from "./jwt-token";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 // console.log(process.env.RESEND_API_KEY);
@@ -63,12 +64,14 @@ export const SendEmailWhenEventDateUpdate = async (
 
 
 // invite staff 
-export const SendInvitationLink = async () => {
-  const invitationLink = `${baseURL}/setup-account?token=1234`;
+export const SendInvitationLink = async (email: string) => {
 
+  const token = await generateInvitationToken({ email })
+  const invitationLink = `${baseURL}/setup-account?$token=${token}`;
+  
   await resend.emails.send({
     from: `onboarding@resend.dev`,
-    to: "honorablewaiga@gmail.com", 
+    to: email, 
     subject: "You're Invited: Set Up Your Staff Account",
     html: `
       <p>Hello,</p>
