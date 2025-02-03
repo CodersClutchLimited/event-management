@@ -91,7 +91,7 @@ const HostContainer: React.FC<EvenContainerProps> = ({
             /> */}
           </div>
 
-          <EventTable users={users} />
+          <EventTable events={users as unknown as EventInterfaceType[]} />
         </div>
       </CardContent>
       <CardFooter>

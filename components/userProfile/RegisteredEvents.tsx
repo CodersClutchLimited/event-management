@@ -16,7 +16,7 @@ const RegisteredEvents = async ({userId}:{userId: string}) => {
       <Table className="w-full table-auto text-sm sm:text-base">
         <DynamicTableHeaders headers={RegisteredEv} />
         <TableBody>
-          {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }, index) => (
+          {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }) => (
             <TableRow key={item.eventId} className="whitespace-nowrap">
               <TableCell>{item.eventId}</TableCell>
               <TableCell>{item?.title || "Unknown Event"}</TableCell>

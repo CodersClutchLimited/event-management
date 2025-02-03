@@ -36,6 +36,7 @@ import { SendInvitationLink } from "@/lib/mail";
 import { SendInvitation } from "@/lib/actions/staff/staffServerAction";
 import { UserHook } from "@/hooks/UserHook";
 import { Loader } from "lucide-react";
+import { RoleTypes, UserRole } from "@/lib/types";
 const formSchema = z.object({
   email: z.string().email(),
   role: z
@@ -43,7 +44,7 @@ const formSchema = z.object({
     .min(24, { message: "role selected must be at least 24 characters" }),
 });
 const InviteStaff = () => {
-  const [roles, setRoles] = useState([]);
+  const [roles, setRoles] = useState<RoleTypes | any>();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState<boolean>()
     const [error, setError] = useState<string | null>(null);
@@ -78,8 +79,8 @@ const InviteStaff = () => {
           setError(response.message)
           setLoading(false);
         }
-
-        setRoles(response.data);
+const data  = response.data as unknown as RoleTypes
+        setRoles(data);
       } catch  {
         setError("Failed to fetch roles");
       } finally {

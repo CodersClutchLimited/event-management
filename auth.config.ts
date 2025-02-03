@@ -3,7 +3,7 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
-import { UserProvider, IUser } from "@/lib/types";
+import { UserProvider, IUser, RoleTypes } from "@/lib/types";
 import { UserRole } from "@/lib/models/types";
 import { SignInValidation } from "./lib/validation/auth";
 import { fetchUserByEmail, signInWithOauth } from "@/lib/api-handler/user";
@@ -86,7 +86,7 @@ export default {
         session.user._id = token._id as string;
         session.user.firstName = token.name as string;
         session.user.email = token.email as string;
-        session.user.role = token.role as UserRole;
+        session.user.role = token.role as RoleTypes;
         session.user.provider = token.provider as string;
         // session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }

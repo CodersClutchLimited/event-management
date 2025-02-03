@@ -25,6 +25,7 @@ import { Loader } from "lucide-react";
 import { UserHook } from "@/hooks/UserHook";
 import { useSession } from "next-auth/react";
 import { GetSingleUserData } from "@/lib/actions/user/getAllUser";
+import { IUser } from "@/lib/types";
 
 const UserSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -67,7 +68,8 @@ const Profile = () => {
 
  async function onSubmit() {
   const id = session?.user._id
-   await handleUpdateUser( id as string, form.getValues());
+  const fromdata = form.getValues() 
+   await handleUpdateUser(id as string, fromdata as unknown as IUser);
 
   }
 

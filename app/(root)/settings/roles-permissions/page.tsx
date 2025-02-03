@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {  fetchRolesServerAction } from "@/lib/actions/role/roleServerAction";
+import { RoleTypes } from "@/lib/types";
 // import { roles } from "@/constansts";
 import { User } from "lucide-react";
 import Link from "next/link";
@@ -36,7 +37,7 @@ const RoleAndPermissions = async () => {
       </CardHeader>
       {/* Card content */}
       <CardContent>
-        {data?.map((role, index) => (
+        {data?.map((role:RoleTypes, index:number) => (
           <Link
             href={`/settings/roles-permissions/${encodeURIComponent(
               role.name

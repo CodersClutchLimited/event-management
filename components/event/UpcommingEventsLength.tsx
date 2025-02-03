@@ -11,7 +11,7 @@ const UpcommingEventsLength = async () => {
              
               icon={<Timer className="w-3.5 h-5 text-yellow-600" />}
               title={"Upcoming Events"}
-              value={upcomingEventsLength.upcomingEvent}
+              value={upcomingEventsLength.upcomingEvent ?? 0}
               percentage={"+20.1% from last month"}
             />
     </div>

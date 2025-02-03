@@ -14,6 +14,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { RoleTypes } from "@/lib/types";
 
 // Sample data
 const navItems = [
@@ -27,11 +28,11 @@ const navItems = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
-  const permissions = session?.user?.role?.permissions || {};
+  const permissions: Record<string, string> | undefined = session?.user?.role?.permissions as unknown as Record<string, string> || {};
 
   // Filter navigation based on permissions
   const filteredNav = navItems.filter((item) => {
-    return permissions[item.permission] === "full" || permissions[item.permission] === "view";
+    return (permissions?.[item.permission] ?? "") === "full" || (permissions?.[item.permission] ?? "") === "view";
   });
 
   return (
@@ -43,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={filteredNav} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={session?.user || { name: "Guest", email: "" }} />
+        <NavUser user={{ name: session?.user?.name || "Guest", email: session?.user?.email || "", avatar: session?.user?.image || "" }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

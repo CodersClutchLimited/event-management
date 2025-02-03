@@ -122,7 +122,6 @@ const ProfileContainer: React.FC<userProfileEventProps> = ({
             <TablePagination
               limit={10}
               page={1}
-              isPreviousPage={false}
               isNextPage={false}
               totalCount={10}
               search={"search"}

@@ -11,7 +11,7 @@ const CancelledEventsLength = async () => {
              
               icon={<Timer className="w-3.5 h-5 text-destructive" />}
               title={"Cancelled Events"}
-              value={upcomingEventsLength.canceledEvent}
+              value={upcomingEventsLength.canceledEvent ?? 0}
               percentage={"+20.1% from last month"}
             />
     </div>

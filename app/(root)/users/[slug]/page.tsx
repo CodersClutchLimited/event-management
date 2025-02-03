@@ -2,7 +2,7 @@ import React from 'react'
 import ProfileContainer from '@/components/userProfile/profileContainer'
 import { GetSingleUser } from '@/lib/actions/user/getAllUser'
 import { IUser } from '@/lib/types';
-const page = async ({ params }: { params: { slug: string } }) => {
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const { status, data } = await GetSingleUser(slug);
 

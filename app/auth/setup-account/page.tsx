@@ -169,7 +169,7 @@ const ResetForm = () => {
               <Button
                 size="lg"
                 className="w-full mt-6"
-                s
+                
                 type="submit"
                 disabled={isPending}
               >

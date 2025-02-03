@@ -17,7 +17,7 @@ const WaitlistedEvent = async ({userId}:{userId: string}) => {
         />
 
         <TableBody>
-        {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }, index) => (
+        {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }) => (
             <TableRow key={item.eventId} className="whitespace-nowrap">
               <TableCell>{item.eventId}</TableCell>
               <TableCell>{item?.title}</TableCell>
