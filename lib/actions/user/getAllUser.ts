@@ -6,6 +6,27 @@ import { IUser } from "@/lib/types";
 import { deepConvertToPlainObject } from "@/lib/utils";
 import { PipelineStage } from "mongoose";
 // import { startOfDay } from "date-fns";
+
+export interface IRegisteredEvent {
+  id: string | null;
+  title: string;
+  schedule: any; // Replace 'any' with the actual type if known
+  location: string;
+  registeredAt: Date;
+  eventId: string | null;
+  status: string;
+  registrationStatus: string;
+}
+export interface IWaitlistedEvent {
+  id: string | null;
+  title: string;
+  schedule: any; // Replace 'any' with the actual type if known
+  location: string;
+  joinedAt: Date;
+  eventId: string | null;
+  status: string;
+  registrationStatus: string;
+}
 export const getAllUsers = async ({
   query,
   page = 1,
@@ -33,7 +54,6 @@ export const getAllUsers = async ({
       { $match: { "role.name": UserRole } },
 
       // Full-text search (if query exists)
-     
 
       {
         $facet: {
@@ -135,18 +155,33 @@ export const GetUserRegisteredEvents = async (userId: string) => {
     // console.log(user);
 
     // Ensure registeredEvents is populated properly
-    const registeredEvents = user.registeredEvents.map((event) => {
-      return {
-        id: event.eventId?._id || null,
-        title: event.eventId?.title || "Unknown",
-        schedule: event.eventId?.schedule || null,
-        location: event.eventId?.location || "Not specified",
-        registeredAt: event.registeredAt,
-        eventId: event.eventId?.eventId || null,
-        status: event.eventId?.status || "unknown",
-        registrationStatus: event.status || "unknown", // Expecting "active" or "canceled"
+    interface IUserEvent {
+      eventId: {
+        eventId: null;
+        _id: string;
+        title: string;
+        schedule: any;
+        location: string;
+        status: string;
       };
-    });
+      registeredAt: Date;
+      status: string;
+    }
+
+    const registeredEvents: IRegisteredEvent[] = user.registeredEvents.map(
+      (event: IUserEvent): IRegisteredEvent => {
+        return {
+          id: event.eventId?._id || null,
+          title: event.eventId?.title || "Unknown",
+          schedule: event.eventId?.schedule || null,
+          location: event.eventId?.location || "Not specified",
+          registeredAt: event.registeredAt,
+          eventId: event.eventId?.eventId || null,
+          status: event.eventId?.status || "unknown",
+          registrationStatus: event.status || "unknown", // Expecting "active" or "canceled"
+        };
+      }
+    );
 
     return {
       status: 200,
@@ -172,19 +207,34 @@ export const GetUserWaitlistedEvents = async (userId: string) => {
     }
 
     // Process waitlistedEvents
-    const waitlistedEvents = user.waitlistedEvents.map((event) => {
-      console.log("Mapped waitlisted event:", event);
-      return {
-        id: event.eventId?._id || null,
-        title: event.eventId?.title || "Unknown",
-        schedule: event.eventId?.schedule || null,
-        location: event.eventId?.location || "Not specified",
-        joinedAt: event.joinedAt,
-        eventId: event.eventId?.eventId || null,
-        status: event.eventId?.status || "unknown",
-        registrationStatus: "waitlisted", // Explicitly setting registration status as "waitlisted"
+
+    interface IUserWaitlistedEvent {
+      eventId: {
+        eventId: null;
+        _id: string;
+        title: string;
+        schedule: any;
+        location: string;
+        status: string;
       };
-    });
+      joinedAt: Date;
+    }
+
+    const waitlistedEvents: IWaitlistedEvent[] = user.waitlistedEvents.map(
+      (event: IUserWaitlistedEvent): IWaitlistedEvent => {
+        console.log("Mapped waitlisted event:", event);
+        return {
+          id: event.eventId?._id || null,
+          title: event.eventId?.title || "Unknown",
+          schedule: event.eventId?.schedule || null,
+          location: event.eventId?.location || "Not specified",
+          joinedAt: event.joinedAt,
+          eventId: event.eventId?.eventId || null,
+          status: event.eventId?.status || "unknown",
+          registrationStatus: "waitlisted", // Explicitly setting registration status as "waitlisted"
+        };
+      }
+    );
 
     console.log("Waitlisted Events:", waitlistedEvents);
 

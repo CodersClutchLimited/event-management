@@ -4,19 +4,20 @@ import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { RegisteredEv } from "@/constants/tablesData";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
-import { GetUserRegisteredEvents } from "@/lib/actions/user/getAllUser";
+import {
+  GetUserRegisteredEvents,
+  IRegisteredEvent,
+} from "@/lib/actions/user/getAllUser";
 
-
-const RegisteredEvents = async ({userId}:{userId: string}) => {
-
+const RegisteredEvents = async ({ userId }: { userId: string }) => {
   const { data, status } = await GetUserRegisteredEvents(userId);
-  
+
   return (
     <div className="mt-5 overflow-x-auto">
       <Table className="w-full table-auto text-sm sm:text-base">
         <DynamicTableHeaders headers={RegisteredEv} />
         <TableBody>
-          {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }) => (
+          {data?.map((item: IRegisteredEvent) => (
             <TableRow key={item.eventId} className="whitespace-nowrap">
               <TableCell>{item.eventId}</TableCell>
               <TableCell>{item?.title || "Unknown Event"}</TableCell>
@@ -63,9 +64,7 @@ const RegisteredEvents = async ({userId}:{userId: string}) => {
                   ? formatReadableDate(item.registeredAt.toString())
                   : "No date"}
               </TableCell>
-              <TableCell>
-              {/* <RevomeFromEvent/> */}
-              </TableCell>
+              <TableCell>{/* <RevomeFromEvent/> */}</TableCell>
               {/* <TableCell>{formatReadableDate(item.schedule.start?? "No Date")}</TableCell>
               <TableCell>{formatReadableDate(item.schedule.end?? "No Date")}</TableCell>
               <TableCell>{formatReadableDate(item.createdAt?? "No Date")}</TableCell> */}

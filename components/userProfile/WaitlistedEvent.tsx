@@ -4,20 +4,21 @@ import { RegisteredEv } from "@/constants/tablesData";
 import DynamicTableHeaders from "../common/DynamicTableHeaders";
 import { formatReadableDate } from "@/lib/utils";
 import { Badge } from "../ui/badge";
-import { GetUserWaitlistedEvents } from "@/lib/actions/user/getAllUser";
+import {
+  GetUserWaitlistedEvents,
+  IWaitlistedEvent,
+} from "@/lib/actions/user/getAllUser";
 
-const WaitlistedEvent = async ({userId}:{userId: string}) => {
-    const { data, status } = await GetUserWaitlistedEvents(userId);
-  
+const WaitlistedEvent = async ({ userId }: { userId: string }) => {
+  const { data, status } = await GetUserWaitlistedEvents(userId);
+
   return (
     <div className="mt-5 overflow-x-auto">
       <Table className="w-full table-auto text-sm sm:text-base">
-        <DynamicTableHeaders
-          headers={RegisteredEv}
-        />
+        <DynamicTableHeaders headers={RegisteredEv} />
 
         <TableBody>
-        {data?.map((item: { _id:string ,eventId: string; registeredAt: Date; title?: string; status?: string; schedule?: { start?: Date; end?: Date } }) => (
+          {data?.map((item: IWaitlistedEvent) => (
             <TableRow key={item.eventId} className="whitespace-nowrap">
               <TableCell>{item.eventId}</TableCell>
               <TableCell>{item?.title}</TableCell>
@@ -47,8 +48,8 @@ const WaitlistedEvent = async ({userId}:{userId: string}) => {
                   : "No date"}
               </TableCell>
               <TableCell>
-                {item?.registeredAt
-                  ? formatReadableDate(item.registeredAt.toString())
+                {item?.joinedAt
+                  ? formatReadableDate(item.joinedAt.toString())
                   : "No date"}
               </TableCell>
             </TableRow>

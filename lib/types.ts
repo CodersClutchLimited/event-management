@@ -1,7 +1,4 @@
-
-
-import { Documentm ,ObjectId } from "mongoose";
-
+import { ObjectId } from "mongoose";
 
 type PermissionLevel = "view" | "off" | "full";
 
@@ -13,9 +10,6 @@ interface Permissions {
   manage_settings: { level: PermissionLevel };
 }
 
-
-
-
 export interface RoleTypes {
   _id: ObjectId;
   name: string;
@@ -23,7 +17,7 @@ export interface RoleTypes {
   permissions: Permissions;
   __v: number;
 }
-export enum UserRole  {
+export enum UserRole {
   ADMIN = "admin",
   USER = "Attendees",
   STAFF = "staff",
