@@ -1,13 +1,26 @@
-export interface RoleTypes {
-  name: string;
+import { ObjectId } from "mongoose";
+
+type PermissionLevel = "view" | "off" | "full";
+
+interface Permissions {
+  view_dashboard: { level: PermissionLevel };
+  manage_users: { level: PermissionLevel };
+  manage_staffs: { level: PermissionLevel };
+  manage_events: { level: PermissionLevel };
+  manage_settings: { level: PermissionLevel };
 }
 
-import { Document } from "mongoose";
-
+export interface RoleTypes {
+  _id: ObjectId;
+  name: string;
+  description: string;
+  permissions: Permissions;
+  __v: number;
+}
 export enum UserRole {
   ADMIN = "admin",
-  USER = "user",
-  SUBAdmin = "staff",
+  USER = "Attendees",
+  STAFF = "staff",
 }
 
 export enum UserProvider {
@@ -30,14 +43,14 @@ export interface IUser extends Document {
     city?: string;
     country?: string;
   };
-  role: UserRole;
+  role: RoleTypes;
   status: "active" | "suspended" | "blocked";
   isVerified: boolean;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
   verificationToken?: string;
   verificationTokenExpires?: Date;
-  registeredEvents: {
+  registeredUsers: {
     eventId: string; // ObjectId reference
     registeredAt: Date;
   }[];
@@ -53,13 +66,23 @@ export interface IUser extends Document {
   lastLogin?: string;
   updatedAt: Date;
   provider: UserProvider;
-  attendedEvents: {
+  registeredEvents: {
     eventId: string; // ObjectId reference
     attendedAt?: Date;
   }[];
   createdAt: string;
 }
 
+export interface UserDataInterfaceProps {
+  page: number;
+  isPreviousPage: boolean | undefined;
+  isNextPage: boolean | undefined;
+  totalCount: number | undefined;
+  search: string | undefined;
+  users: IUser[];
+  userType: string;
+  // events: EventInterfaceType[];
+}
 interface EventSchedule {
   start: string; // ISO date string
   end: string; // ISO date string

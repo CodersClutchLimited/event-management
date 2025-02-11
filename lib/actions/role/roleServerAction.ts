@@ -7,7 +7,11 @@ import { revalidatePath } from "next/cache";
 interface RoleData {
   name: string;
   description?: string;
-  permissions: string[];
+  permissions: {
+    [key: string]: {
+      level: string;
+    };
+  }
 }
 
 export const addRoleServerAction = async (roleData: RoleData) => {
@@ -59,7 +63,7 @@ export const fetchRolesServerAction = async () => {
     return {
       status: 200,
       message: "Roles fetched successfully",
-      data: roles,
+      data: deepConvertToPlainObject(roles),
     };
   } catch (error) {
     console.error("Error fetching roles:", error);

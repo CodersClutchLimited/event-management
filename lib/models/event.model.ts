@@ -9,6 +9,7 @@ const EventSchema = new mongoose.Schema({
     start: { type: Date, required: true },
     end: { type: Date, required: true },
   },
+  // state: { type: String, enum: ["active", "cancelled"]
   registrationDeadline: { type: Date, required: true },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

@@ -1,6 +1,4 @@
 import React from "react";
-import { useParams } from "next/navigation";
-import { userData } from "@/constants/sampleData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
@@ -12,6 +10,8 @@ import {
   Home,
   BadgeRussianRuble,
   Key,
+  CloudUpload,
+  ListFilter,
 } from "lucide-react";
 
 import TablePagination from "../common/TablePagination";
@@ -25,7 +25,6 @@ import {
 
 import SearchComponent from "../common/SearchComponent";
 import { Button } from "../ui/button";
-import { CloudUpload, ListFilter } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -37,30 +36,39 @@ import {
 import RegisteredEvents from "./RegisteredEvents";
 import WaitlistedEvent from "./WaitlistedEvent";
 import { formatReadableDate } from "@/lib/utils";
+import { IUser } from "@/lib/types";
 
-const ProfileContainer = () => {
-  const { slug } = useParams();
-  const user = userData.find((item) => item.id.toString() === slug);
-  if (!user) {
-    return <div>User not found</div>;
-  }
-
+interface userProfileEventProps {
+  user: IUser;
+}
+const ProfileContainer: React.FC<userProfileEventProps> = ({
+  user,
+}: {
+  user: IUser;
+}) => {
   return (
     <Tabs defaultValue="details" className="">
-      <TabsList className="grid w-full grid-cols-3 bg-">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="details" className="uppercase font-bold">
-          employee details
+          User Details
         </TabsTrigger>
-        {user.role === "user" ? (
-          <>
+        <>
+          {user.role.name === "Staff" ? null : (
             <TabsTrigger value="events" className="uppercase font-bold">
-              Registered events
+              {user.role.name === "Attendees"
+                ? "Registered Events"
+                : "Hosted Events"}
             </TabsTrigger>
+          )}
+          {user.role.name === "Attendees" && (
             <TabsTrigger value="waitlists" className="uppercase font-bold">
-              Waitlisted events
+              Waitlisted Events
             </TabsTrigger>
-          </>
-        ) : (
+          )}
+        </>
+
+        {/* handle later */}
+        {user.role.name === "Staff" && (
           <TabsTrigger value="audit" className="uppercase font-bold">
             Audit Log
           </TabsTrigger>
@@ -114,7 +122,6 @@ const ProfileContainer = () => {
             <TablePagination
               limit={10}
               page={1}
-              // isPreviousPage={false}
               isNextPage={false}
               totalCount={10}
               search={"search"}
@@ -124,39 +131,33 @@ const ProfileContainer = () => {
       </TabsContent>
 
       <TabsContent value="details">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-center">
+            User Details
+          </CardTitle>
+        </CardHeader>
+
         <Card className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 shadow-lg rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 transition-all">
           {[
-            { label: "First Name", value: user.firstName, Icon: User },
-            { label: "Last Name", value: user.lastName, Icon: User },
-            { label: "Email Address", value: user.email, Icon: Mail },
-            { label: "Phone Number", value: user.telNum, Icon: Phone },
-            { label: "Country", value: user.address.country, Icon: Globe },
-            { label: "City", value: user.address.city, Icon: MapPin },
-            { label: "Street", value: user.address.street, Icon: Home },
-            { label: "Status", value: user.status, Icon: BadgeRussianRuble },
+            { label: "First Name", value: user?.firstName, Icon: User },
+            { label: "Last Name", value: user?.lastName, Icon: User },
+            { label: "Email Address", value: user?.email, Icon: Mail },
+            { label: "Phone Number", value: user?.phoneNumber, Icon: Phone },
+            { label: "Country", value: user?.address?.country, Icon: Globe },
+            { label: "City", value: user?.address?.city, Icon: MapPin },
+            { label: "Street", value: user?.address?.street, Icon: Home },
+            { label: "Status", value: user?.status, Icon: BadgeRussianRuble },
           ].map(({ label, value, Icon }) => (
             <div key={label} className="flex flex-col items-start">
               <span className="flex items-center text-gray-500 dark:text-gray-400 font-medium text-lg">
                 <Icon className="mr-2 h-5 w-5" />
                 {label}
               </span>
-              <span className="text-base font-semibold">{value}</span>
+              <span className="text-base font-semibold">
+                {value ?? "no data"}
+              </span>
             </div>
           ))}
-
-          <div className="flex flex-col items-start border-t pt-4 col-span-full">
-            <span className="flex items-center text-gray-500 dark:text-gray-400 font-medium text-lg">
-              <Key className="mr-2 h-5 w-5" />
-              Authentication Method(s):
-            </span>
-            {Object.entries(user.authMethod)
-              .filter(([, value]) => value)
-              .map(([key]) => (
-                <span key={key} className="text-base font-semibold capitalize">
-                  {key.replace(/([A-Z])/g, " $1")}
-                </span>
-              ))}
-          </div>
 
           <div className="flex flex-col items-start pt-4">
             <span className="flex items-center text-gray-500 dark:text-gray-400 font-medium text-lg">
@@ -164,7 +165,9 @@ const ProfileContainer = () => {
               Last Logged In
             </span>
             <span className="text-base font-semibold">
-              {formatReadableDate(user.lastLogin)}
+              {user?.lastLogin
+                ? formatReadableDate(user?.lastLogin)
+                : "No data"}
             </span>
           </div>
         </Card>
@@ -174,7 +177,9 @@ const ProfileContainer = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-center">
-              Registered Event
+              {user.role.name === "Attendees"
+                ? "Registered Events"
+                : "Hosted Events"}
             </CardTitle>
           </CardHeader>
 
@@ -216,7 +221,13 @@ const ProfileContainer = () => {
                   </Button>
                 </div>
               </div>
-              <RegisteredEvents />
+              {user?.registeredEvents?.length > 0 ? (
+                <RegisteredEvents userId={user._id} />
+              ) : (
+                <p className="text-center text-gray-500">
+                  No registered events.
+                </p>
+              )}{" "}
             </div>
           </CardContent>
           <CardFooter>
@@ -278,7 +289,13 @@ const ProfileContainer = () => {
                   </Button>
                 </div>
               </div>
-              <WaitlistedEvent />
+              {user?.waitlistedEvents?.length > 0 ? (
+                <WaitlistedEvent userId={user._id} />
+              ) : (
+                <p className="text-center text-gray-500">
+                  No Waitlisted events.
+                </p>
+              )}{" "}
             </div>
           </CardContent>
           <CardFooter>

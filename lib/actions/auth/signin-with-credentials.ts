@@ -41,68 +41,6 @@ export const signInWithCredentials = async (
     return { error: "Email does not exist!" };
   }
 
-  // if (!existingUser.emailVerified) {
-  //   const verificationToken = await generateToken({
-  //     email: existingUser.email,
-  //   });
-  //   // console.log({verificationToken})
-
-  //   await sendVerificationEmail(existingUser.email, verificationToken);
-
-  //   // const verificationToken = await generateVerificationToken(existingUser.email)
-
-  //   // await sendVerificationEmail(
-  //   //   verificationToken.email,
-  //   //   verificationToken.token
-  //   // )
-
-  //   return { success: "Confirmation email sent!" };
-  // }
-
-  // if (existingUser.isTwoFactorEnabled && existingUser.email) {
-  //   if (code) {
-  //     const twoFactorToken = await TwoFactorToken.findOne({
-  //       email: existingUser.email,
-  //     });
-
-  //     if (!twoFactorToken || twoFactorToken.token !== code) {
-  //       return { error: "Invalid code!" };
-  //     }
-
-  //     const hasExpired = new Date(twoFactorToken.expires) < new Date();
-
-  //     await TwoFactorToken.findByIdAndDelete(twoFactorToken._id);
-
-  //     if (hasExpired) {
-  //       return { error: "Code expired!" };
-  //     }
-
-  //     const existingConfirmation = await TwoFactorConfirmation.findOne({
-  //       userId: existingUser._id,
-  //     });
-
-  //     if (existingConfirmation) {
-  //       await TwoFactorConfirmation.findByIdAndDelete(existingConfirmation._id);
-  //     }
-
-  //     const twoFactorConfirmation = new TwoFactorConfirmation({
-  //       userId: existingUser._id,
-  //     });
-  //     await twoFactorConfirmation.save();
-  //   } else {
-  //     const twoFactorToken = await generateCode(existingUser.email);
-  //     // console.log({twoFactorToken})
-  //     await sendTwoFactorTokenEmail(existingUser.email, twoFactorToken);
-  //     //const twoFactorToken = await generateTwoFactorToken(existingUser.email)
-
-  //     // await sendTwoFactorTokenEmail(
-  //     //   twoFactorToken.email,
-  //     //   twoFactorToken.token
-  //     // )
-
-  //     return { twoFactor: true };
-  //   }
-  // }
   try {
     await signIn("credentials", {
       email,

@@ -34,15 +34,22 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
   const form = useForm({
     resolver: zodResolver(SettingGeneral),
     defaultValues: {
-      systemName: data?.general?.systemName,
-      logo: "",
-      contactEmail: data?.general?.contactEmail,
-      contactPhone: data?.general?.contactPhone,
+      systemName: {
+        systemName: data?.general?.systemName,
+        logo: "",
+        contactEmail: data?.general?.contactEmail,
+        contactPhone: data?.general?.contactPhone,
+      },
     },
   });
 
   function onSubmit() {
-    handleUpdateSystemSettings(form.getValues());
+    const updatedSettings = {
+      ...form.getValues(),
+      id: data._id,
+    };
+
+    handleUpdateSystemSettings(updatedSettings);
   }
 
   function handleLogoChange(file: File | null) {
@@ -78,7 +85,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
           >
             <FormField
               control={form.control}
-              name="systemName"
+              name="systemName.systemName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand Name</FormLabel>
@@ -92,7 +99,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
 
             <FormField
               control={form.control}
-              name="contactEmail"
+              name="systemName.contactEmail"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Contact Email</FormLabel>
@@ -105,7 +112,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
             />
             <FormField
               control={form.control}
-              name="contactPhone"
+              name="systemName.contactPhone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Contact Phone</FormLabel>
@@ -119,7 +126,7 @@ const General = ({ data }: { data: SystemSettingsTypes }) => {
 
             <FormField
               control={form.control}
-              name="logo"
+              name="systemName.logo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand Logo</FormLabel>

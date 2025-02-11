@@ -22,7 +22,8 @@ import {
 import TablePagination from "../common/TablePagination";
 import UserTable from "./UserTable";
 import AddUser from "./AddUser";
-import { IUser } from "@/lib/types";
+import { IUser, UserRole } from "@/lib/types";
+import InviteStaff from "../staff/InviteStaff";
 
 interface UserContanerProps {
   page: number;
@@ -31,6 +32,7 @@ interface UserContanerProps {
   totalCount: number | undefined;
   search: string | undefined;
   users: IUser[];
+  userRole?: "Staff"
 }
 
 const UserContainer: React.FC<UserContanerProps> = ({
@@ -40,8 +42,9 @@ const UserContainer: React.FC<UserContanerProps> = ({
   totalCount,
   search,
   users,
+  userRole
 }) => {
-  console.log(users);
+  console.log("users data", users);
   return (
     <Card>
       <CardHeader>
@@ -83,7 +86,7 @@ const UserContainer: React.FC<UserContanerProps> = ({
                 </span>
                 <CloudUpload className="h-5 w-5 ml-3 " />
               </Button>
-              <AddUser />
+              {userRole === "Staff" ? <InviteStaff /> :  null}
             </div>
           </div>
           <UserTable users={users} />

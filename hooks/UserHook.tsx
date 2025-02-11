@@ -5,6 +5,7 @@ import { deleteUserServerAction } from "@/lib/actions/user/DeleteUser";
 import { updateUserServerAction } from "@/lib/actions/user/updateUserAction";
 import { toast } from "sonner";
 import { IUser } from "@/lib/types";
+import { SendInvitation } from "@/lib/actions/staff/staffServerAction";
 
 export const UserHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -77,11 +78,32 @@ export const UserHook = () => {
       setIsLoading(false);
     }
   };
+  // Send staff invitation email
+  const sendStaffInviteEmail = async (userData: any) => {
+    setIsLoading(true);
+    // const loadingToastId = toast.loading("��������������� Sending staff invite email...");
+    try {
+      const { status, message } = await SendInvitation(userData);
+      if (status!== 200) {
+        toast.error(message);
+        return { status };
+      }
+      setIsLoading(false);
+      toast.success(message);
+      return { status };
+    } catch {
+      toast.error("An error occurred while sending staff invite email.");
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
     handleUpdateUser,
     HandleAddUser,
     HandleDeleteUser,
+    sendStaffInviteEmail,
     isLoading,
   };
 };

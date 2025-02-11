@@ -1,13 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  CalendarSync,
-  GalleryVerticalEnd,
-  LayoutGrid,
-  Settings2,
-  Users,
-} from "lucide-react";
+import { CalendarSync, LayoutGrid, Settings2, Users } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -19,63 +14,37 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { RoleTypes } from "@/lib/types";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-  ],
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: LayoutGrid,
-      isActive: true,
-    },
-    {
-      title: "Events",
-      url: "/event",
-      icon: CalendarSync,
-    },
-    {
-      title: "Users",
-      url: "users",
-      icon: Users,
-    },
-    {
-      title: "Staffs",
-      url: "/staffs",
-      icon: Users,
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings2,
-    },
-  ],
-};
+// Sample data
+const navItems = [
+  { title: "Dashboard", url: "/", icon: LayoutGrid, permission: "view_dashboard" },
+  { title: "Attendies", url: "/users", icon: Users, permission: "manage_users" },
+  { title: "Host", url: "/hosts", icon: Users, permission: "manage_staffs" },
+  { title: "Events", url: "/event", icon: CalendarSync, permission: "manage_events" },
+  { title: "Staffs", url: "/staffs", icon: Users, permission: "manage_staffs" },
+  { title: "Settings", url: "/settings", icon: Settings2, permission: "manage_settings" },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession();
+  const permissions: Record<string, string> | undefined = session?.user?.role?.permissions as unknown as Record<string, string> || {};
+
+  // Filter navigation based on permissions
+  const filteredNav = navItems.filter((item) => {
+    return (permissions?.[item.permission] ?? "") === "full" || (permissions?.[item.permission] ?? "") === "view";
+  });
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher teams={[{ name: "Acme Inc", plan: "Enterprise" }]} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
+        <NavMain items={filteredNav} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={{ name: session?.user?.name || "Guest", email: session?.user?.email || "", avatar: session?.user?.image || "" }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

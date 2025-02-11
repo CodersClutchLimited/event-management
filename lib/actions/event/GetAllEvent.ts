@@ -1,4 +1,5 @@
 "use server";
+import { connectDB } from "@/lib/db";
 import Event from "@/lib/models/event.model";
 import { EventInterfaceType } from "@/lib/types";
 import { deepConvertToPlainObject } from "@/lib/utils";
@@ -121,5 +122,74 @@ export const GetTotalUpcomingEvent = async () => {
     return { status: 200, data: total };
   } catch {
     return { status: 500, message: "Error getting total upcoming event" };
+  }
+};
+
+// get 5 lates upcomming event
+export const GetLatestUpcomingEvent = async () => {
+  try {
+    const events = await Event.find({ status: "upcoming" })
+      .sort({ createdAt: -1 })
+      .limit(6);
+    return { status: 200, data: deepConvertToPlainObject(events) };
+  } catch {
+    return { status: 500, message: "Error getting latest upcoming event" };
+  }
+};
+
+// fetch the total number of ongoingEvent, upcominEvent and compleatedEvent
+export const Eventstatus = async () => {
+  try {
+    const upcommingEventLength = await Event.countDocuments({
+      status: "upcoming",
+    });
+    return { status: 200, upcommingEventLength: upcommingEventLength };
+  } catch (error) {
+    return { status: 500, message: "Error getting data" };
+  }
+};
+
+// get the total number of ongoingEvent,
+export const ongoingEventLength = async () => {
+  try {
+    const ongoingEvent = await Event.countDocuments({
+      status: "ongoing",
+      // $or: [{ registrationDeadline: { $gte: new Date() } }, { waitlist: { $ne: [] } }],
+    });
+    return { status: 200, ongoingEvent };
+  } catch {
+    return { status: 500, message: "Error getting data" };
+  }
+};
+
+// get the total number of completed event
+export const completedEventLength = async () => {
+  try {
+    const completedEvent = await Event.countDocuments({ status: "completed" });
+    return { status: 200, completedEvent };
+  } catch {
+    return { status: 500, message: "Error getting data" };
+  }
+};
+
+// get the total number of canceled event
+export const canceledEventLength = async () => {
+  try {
+    const canceledEvent = await Event.countDocuments({ status: "canceled" });
+    return { status: 200, canceledEvent };
+  } catch {
+    return { status: 500, message: "Error getting data" };
+  }
+};
+
+// get the total number of upcoming event
+export const upcomingEventLength = async () => {
+  try {
+    await connectDB();
+
+    const upcomingEvent = await Event.countDocuments({ status: "upcoming" });
+    return { status: 200, upcomingEvent };
+  } catch {
+    return { status: 500, message: "Error getting data" };
   }
 };

@@ -2,6 +2,7 @@
 
 import Event from "@/lib/models/event.model";
 import { EventInterfaceType } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
 export const addEventServerAction = async (eventData: EventInterfaceType) => {
   try {
@@ -46,6 +47,8 @@ export const addEventServerAction = async (eventData: EventInterfaceType) => {
     }
 
     // Create and save the event
+    revalidatePath("/event");
+
     const newEvent = new Event(eventData);
     await newEvent.save();
 

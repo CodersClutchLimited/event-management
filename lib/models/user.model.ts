@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserProvider, UserRole } from "./types";
+import { UserProvider } from "./types";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -16,11 +16,7 @@ const UserSchema = new mongoose.Schema(
       country: { type: String },
     },
 
-    role: {
-      type: String,
-      enum: [UserRole.USER, UserRole.ADMIN],
-      default: UserRole.USER,
-    },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: "role"}, 
     status: {
       type: String,
       enum: ["active", "suspended", "blocked"],

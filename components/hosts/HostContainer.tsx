@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Card,
   CardContent,
@@ -19,17 +18,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import AddEvent from "../event/AddEvent";
+import EventTable from "../event/EventTable";
 import TablePagination from "../common/TablePagination";
-// import AddUser from "./AddUser"
-import InviteStaff from "./InviteStaff";
-import StaffTable from "./StaffTable";
-const StaffContainer = () => {
+import { EventInterfaceType, IUser } from "@/lib/types";
+
+interface EvenContainerProps {
+  page: number;
+  isPreviousPage: boolean | undefined;
+  isNextPage: boolean | undefined;
+  totalCount: number | undefined;
+  search: string | undefined;
+  users: IUser[];
+}
+
+const HostContainer: React.FC<EvenContainerProps> = ({
+  page,
+  isPreviousPage,
+  isNextPage,
+  totalCount,
+  search,
+  users,
+}) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Manage Staffs</CardTitle>
+        <CardTitle>Event Management</CardTitle>
         <CardDescription>
-          Manage staffs, View, Invite or Block Staffs
+          Manage your events, create, update, and delete them.
         </CardDescription>
       </CardHeader>
 
@@ -38,7 +54,7 @@ const StaffContainer = () => {
           <div className="  items-center  justify-between gap-5  flex mt-5  max-md:flex-wrap  ">
             <SearchComponent
               page={1}
-              placeholder="Search staffs by name, email, or role"
+              placeholder="Search Employee by date, status, checkIn and checkOut date"
             />
             <div className="flex items-center gap-3">
               <DropdownMenu>
@@ -65,24 +81,31 @@ const StaffContainer = () => {
                 </span>
                 <CloudUpload className="h-5 w-5 ml-3 " />
               </Button>
-              <InviteStaff />
+              <AddEvent />
             </div>
+
+            {/* <DatePickerWithRange
+              datefrom={datefrom}
+              dateto={dateto}
+              page={page}
+            /> */}
           </div>
-          <StaffTable />
+
+          <EventTable events={users as unknown as EventInterfaceType[]} />
         </div>
       </CardContent>
       <CardFooter>
         <TablePagination
           limit={10}
-          page={1}
-          // isPreviousPage={false}
-          isNextPage={false}
-          totalCount={10}
-          search={"search"}
+          page={page}
+          // isPreviousPage={isPreviousPage}
+          isNextPage={isNextPage}
+          totalCount={totalCount}
+          search={search}
         />
       </CardFooter>
     </Card>
   );
 };
 
-export default StaffContainer;
+export default HostContainer;

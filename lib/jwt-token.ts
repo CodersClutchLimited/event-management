@@ -26,6 +26,16 @@ export const generateToken = async (
   return jwt.sign(payload, process.env.TOKEN_SECRET!, options); // jwt.io
 };
 
+export const generateInvitationToken = async (
+  payload: { email: string },
+  expiresIn: string | number = "24h"
+) => {
+  const options: SignOptions = {
+    expiresIn: expiresIn as SignOptions["expiresIn"],
+  };
+  return jwt.sign(payload, process.env.TOKEN_SECRET!, options); // jwt.io
+};
+
 export const verifyToken = async (
   token: string
 ): Promise<IPayload | IError> => {

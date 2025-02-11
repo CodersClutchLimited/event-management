@@ -16,11 +16,7 @@ const UserSchema = new mongoose.Schema(
       country: { type: String },
     },
 
-    role: {
-      type: String,
-      enum: [UserRole.USER, UserRole.ADMIN],
-      default: UserRole.USER,
-    },
+    role: {type: mongoose.Schema.Types.ObjectId, ref: "Role"},
     status: {
       type: String,
       enum: ["active", "suspended", "blocked"],

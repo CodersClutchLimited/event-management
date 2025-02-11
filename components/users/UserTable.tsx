@@ -8,6 +8,7 @@ import UserAction from "./UserActions";
 import ProfileComponent from "@/components/common/ProfileComponent";
 import { IUser } from "@/lib/types";
 const UserTable = ({ users }: { users: IUser[] }) => {
+  
   return (
     <div>
       <Table className="mt-5">
@@ -19,10 +20,10 @@ const UserTable = ({ users }: { users: IUser[] }) => {
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <ProfileComponent
-                  firstName={item.firstName}
-                  lastName={item.lastName}
-                  middleName={item.initial}
-                  email={item.email}
+                  firstName={!item?.firstName ? "" : item.firstName}
+                  lastName={!item?.lastName ? "" : item.lastName}
+                  middleName={!item.initial ? "" : item.initial}
+                  email={!item.email ? "" : item.email}
                 />
               </TableCell>
               <TableCell>
@@ -44,8 +45,22 @@ const UserTable = ({ users }: { users: IUser[] }) => {
                   ? "No date"
                   : formatReadableDate(item?.lastLogin)}
               </TableCell>
-              <TableCell>{formatReadableDate(item.createdAt)}</TableCell>
-              <TableCell>{<UserAction item={item} />}</TableCell>
+              
+              <TableCell>
+                {item?.registeredEvents?.length || 0}
+              </TableCell>
+
+              <TableCell>
+                {item?.waitlistedEvents?.length || 0}
+              </TableCell>
+
+
+              <TableCell>
+                {item?.createdAt === undefined || item?.createdAt || undefined
+                  ? "no date"
+                  : formatReadableDate(item.createdAt)}
+              </TableCell>
+              <TableCell>{<UserAction user={item} />}</TableCell>
             </TableRow>
           ))}
         </TableBody>

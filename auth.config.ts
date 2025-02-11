@@ -3,11 +3,10 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 
-import { UserProvider, IUser } from "@/lib/types";
+import { UserProvider, IUser, RoleTypes } from "@/lib/types";
 import { UserRole } from "@/lib/models/types";
 import { SignInValidation } from "./lib/validation/auth";
 import { fetchUserByEmail, signInWithOauth } from "@/lib/api-handler/user";
-
 export default {
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
@@ -38,7 +37,6 @@ export default {
           );
 
           existingUser.password = "";
-
           // console.log({user})
           if (passwordsMatch) return existingUser;
         }
@@ -50,7 +48,7 @@ export default {
   callbacks: {
     async signIn({ account, profile }) {
       // console.log({user})
-      // console.log({account, profile})
+      console.log({ account, profile });
       if (
         account &&
         account?.provider !== UserProvider.CREDENTIALS &&
@@ -58,22 +56,6 @@ export default {
       ) {
         return await signInWithOauth({ account, profile });
       }
-
-      // if (account?.provider === UserProvider.CREDENTIALS && user._id) {
-      //   // const existingUser = await fetchUserById(user._id);
-
-      //   // if (!existingUser?.emailVerified) return false;
-      //   // console.log("hello", { existingUser });
-
-      //   // if (existingUser?.isTwoFactorEnabled) {
-      //   //   const twoFactorConfirmation = await fetchConfirmationByUserId(
-      //   //     existingUser._id
-      //   //   );
-      //   //   if (!twoFactorConfirmation) return false;
-
-      //   //   await deleteConfirmationById(twoFactorConfirmation._id);
-      //   // }
-      // }
 
       return true;
     },
@@ -88,7 +70,9 @@ export default {
 
       // console.log({existingUser})
       token._id = existingUser._id;
-      token.name = existingUser?.firstName;
+      token.firstName = existingUser?.firstName;
+      token.lastName = existingUser?.lastName;
+      token.phoneNumber = existingUser?.phoneNumber;
       token.email = existingUser?.email;
       token.role = existingUser?.role;
       token.provider = existingUser?.provider;
@@ -100,9 +84,9 @@ export default {
       // console.log({session, token})
       if (token._id && session.user) {
         session.user._id = token._id as string;
-        session.user.name = token.name as string;
+        session.user.firstName = token.name as string;
         session.user.email = token.email as string;
-        // session.user.role = token.role as UserRole;
+        session.user.role = token.role as RoleTypes;
         session.user.provider = token.provider as string;
         // session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
